@@ -1,15 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <div class="container mt-3">
-      <h2>Flex</h2>
-      <p>To create a flexbox container and transform direct children into flex items, use the d-flex class:</p>
-      <div class="d-flex p-3 bg-secondary text-white">
-        <div class="p-2 bg-info">Flex item asd1</div>
-        <div class="p-2 bg-warning">Flex item 2</div>
-        <div class="p-2 bg-primary">Flex item 3</div>
-      </div>
-    </div>
+    <!--<img src="./assets/logo.png">-->
     <router-view/>
   </div>
 </template>
@@ -22,11 +13,11 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
+  /*-webkit-font-smoothing: antialiased;*/
+  /*-moz-osx-font-smoothing: grayscale;*/
+  /*text-align: center;*/
+  /*color: #2c3e50;*/
+  /**/
 }
 </style>
