@@ -1,5 +1,8 @@
 <template>
   <div id="MainPage">
+    <div  style="padding-left: 300px">
+
+    </div>
     <div id="demo" class="carousel slide" data-ride="carousel" style="height: 870px">
 
       <!-- Indicators -->
@@ -11,22 +14,17 @@
 
       <!-- The slideshow -->
       <div class="carousel-inner">
-        <div class="carousel-item active" style="background-image: url('https://picsum.photos/1024/480/?image=52');background-size: cover;height: 870px">
-          <!--<img width="100%" src="https://picsum.photos/1024/480/?image=52" alt="Los Angeles">-->
-        </div>
-        <div class="carousel-item">
-          <img width="100%" src="https://picsum.photos/1024/480/?image=54" alt="Chicago">
-        </div>
-        <div class="carousel-item">
-          <img width="100%" src="https://picsum.photos/1024/480/?image=58" alt="New York">
-        </div>
+        <div ref="classes" class="carousel-item " v-for="i,y in slider_data" :class="{active: y === 0}">
+        <img width="100%" :src="i.img" alt="">
+      </div>
       </div>
 
       <div class="carousel-text-list">
         <div class="carousel-text" style="width: 400px;position: absolute;top:30%;transform: translateY(-30%);z-index: 2;left: 70px;">
-          <div v-for="i in 3" class="carousel-event-info" :class="{active: i === 1}" >
-            <h2> KOnferencia pkb {{ i }} </h2><br><br>
-            <h4 class="text-regl" style="margin: 0px">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  </h4>
+          <div v-for="i,y in slider_data" class="carousel-event-info" :class="{active: y === 0}" >
+            <h2> KOnferencia pkb {{ i.text }} </h2><br><br>
+            <h4 class="text-regl" style="margin: 0px">
+            </h4>
             <br>
             <button class="btn btn-brand">Подробнее</button>
           </div>
@@ -41,17 +39,63 @@
       </a>
 
     </div>
-    <!--<div class="MainPageCarousel"-->
-         <!--style="width: 100%;-->
-                <!--background-image: url('https://img00.deviantart.net/54d1/i/2014/109/f/7/deadpool_wallpaper_by_sadorien-d7f5sqp.png');-->
-                <!--height: 870px;-->
-                <!--background-size: cover "-->
-    <!--&gt;-->
-      <!--&lt;!&ndash;<img src="https://img00.deviantart.net/54d1/i/2014/109/f/7/deadpool_wallpaper_by_sadorien-d7f5sqp.png" alt="">&ndash;&gt;-->
-    <!--</div>-->
+
     <div class="MainPageWhiteBack" style="position: absolute;top: 0;display: inline-block;width: 100%;height: 870px;z-index: 1">
       <img width="100%" src="../assets/images/whiteback.png" alt="" style="height: 870px">
+      <button @click="checkClasses">check</button>
+      {{className}} <br>
+      {{classes}}
+      <!--<input type="text" v-for="(person, index) in people" v-model="people[index].age" />-->
     </div>
   </div>
 </template>
+
+<script>
+  export default{
+    data () {
+      return {
+        slider_data: [
+          {
+            img: 'https://picsum.photos/1024/480/?image=54',
+            text: '54 text is image'
+          },
+          {
+            img: 'https://picsum.photos/1024/480/?image=52',
+            text: '52 text of image'
+          },
+          {
+            img: 'https://picsum.photos/1024/480/?image=58',
+            text: '58 text of image'
+          }
+        ],
+        classes: [],
+        className: [],
+        people: [
+          {id: 0, name: 'Bob', age: 2123},
+          {id: 1, name: 'Frank', age: 31},
+          {id: 2, name: 'Joe', age: 123}
+        ]
+      }
+    },
+    methods: {
+      checkClasses() {
+        console.log(this.className);
+      }
+    },
+    created(){
+      setTimeout(() => {
+        this.className = this.$refs.classes;
+        console.log(this.$refs.classes.length)
+        for (var i = 0; i < this.$refs.classes.length; i++) {
+//          var o = {p: 2}
+//          watch( o, ["p"], function(){
+//            alert("p changes!");
+//          });
+
+          console.log(this.$refs.classes[i].classList)
+        }
+      }, 200)
+    }
+  }
+</script>
 
