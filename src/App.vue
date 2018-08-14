@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <div class="fcb-nav">
-        <img src="./assets/images/bitmap.png" alt="">
-    </div>
+    <!--<div class="fcb-nav">-->
+        <!--<img src="./assets/images/bitmap.png" alt="">-->
+    <!--</div>-->
     <router-view/>
     <div class="Footer">
       <div class="container">

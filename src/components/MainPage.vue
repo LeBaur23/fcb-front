@@ -21,7 +21,7 @@
               </div>
 
             </div>
-            <button class="btn btn-brand">Подробнее</button>
+            <button class="btn btn-brand" @click="toEvent(i.title)">Подробнее</button>
           </div>
           <ul class="carousel-indicators d-none d-sm-flex">
             <li data-target="#carousel" data-slide-to="0" class="active"></li>
@@ -92,6 +92,9 @@
       }
     },
     methods: {
+      toEvent(id) {
+        this.$router.push({name: 'EventsMainPage', params: {event_id: id}})
+      },
       next() {
         this.cur_id++
         if (this.cur_id > this.max_id) {
