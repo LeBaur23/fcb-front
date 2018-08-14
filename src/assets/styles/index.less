@@ -1,3 +1,6 @@
+@text-fade: #C0C0C0;
+@text-hover: #7C7C7C;
+@text-dark: #5A5A5A;
 .no-margin{
   margin: 0px !important;
 }
@@ -11,14 +14,50 @@
 .text-left{ text-align: left }
 .text-right{ text-align: right }
 .text-center{ text-align: center }
+.text-fade {
+  color: @text-fade;
+}
+.text-dark {
+  color: @text-dark
+}
 
 .btn.btn-brand{
   color: white;
   background-color: #3CB1F4;
   border-radius: 30px;
-  padding: 5px 25px;
-  font-size: 14px;
+  //padding: 5px 25px;
+  font-size: 20px;
+  width: 227px;
+  height: 55px;
   box-shadow: 0px 5px 30px #3CB1F4;
+}
+.fcb-nav{
+  position: absolute;
+  top: 25px;
+  z-index: 2;
+  left: 70px;
+  @media(max-width: 561px) {
+    width: 100%;
+    top: 0px;
+    padding: 5px 0px;
+    text-align: center;
+    background: linear-gradient( rgba(255,255,255,0.9), rgba(255,255,255,0.4));
+    //background-color: rgba(255,255,255,0.4);
+    left: 50%;
+    transform: translateX(-50%);
+}
+}
+#carousel {
+  height: 870px;
+  @media(max-width: 561px) {
+    height: 470px;
+  }
+  @media(max-width: 769px) and (min-width: 562px){
+    height: 600px;
+  }
+  @media(max-width: 1024px) and (min-width: 770px){
+    height: 600px;
+  }
 }
 .carousel-control-prev, .carousel-control-next {
   z-index: 5;
@@ -45,6 +84,21 @@
   transform: translateX(-500px);
   opacity: 0;
   position: absolute;
+  @media(max-width: 769px) and (min-width: 562px) {
+    .btn-brand{
+      font-size: 14px;
+      width: 150px;
+      height: 45px;
+    }
+  }
+  @media(max-width: 561px) {
+    .btn-brand{
+      background-color: rgba(0,0,0,0.4) !important;
+      box-shadow: none !important;
+      color: white !important;
+      border: 1px solid white;
+    }
+  }
 }
 .carousel-event-info.active{
   transform: translateX(0px);
@@ -54,13 +108,113 @@
 .carousel-item {
   opacity: 0.3;
   transition: opacity 0.1s;
+  height: 800px;
+  background-size: cover;
+  background-position: center center;
+  @media(max-width: 561px) {
+    height: 470px;
+  }
+  @media(max-width: 769px) and (min-width: 562px) {
+    height: 600px;
+  }
+  @media(max-width: 1024px) and (min-width: 770px) {
+    height: 600px;
+  }
   img {
     height: 800px;
+    @media(max-width: 561px) {
+      height: 400px;
+    }
   }
+}
+.carousel-caption{
+  top: 100px;
+  color: white;
+  text-shadow: 0px 2px rgba(0,0,0,0.4) ;
 }
 .carousel-item.active {
   transition: transform 0s ease,-webkit-transform 0s ease, opacity 0.3s;
   opacity: 1 !important;
+}
+.carousel-text-list{
+  width: 400px;
+  position: absolute;
+  top:50%;
+  transform: translateY(-50%);
+  height: 400px;
+  z-index: 2;
+  left: 70px;
+  @media(max-width: 1024px) and (min-width: 770px) {
+    top: 55%;
+    width: 250px;
+    height: 320px;
+  }
+  @media(max-width: 769px) and (min-width: 562px) {
+    top: 55%;
+    width: 250px;
+    height: 320px;
+  }
+  @media(max-width: 561px) {
+    width: 220px;
+    left: 50%;
+    top: 60%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+  .carousel-event-info-text-wrapper {
+    width: 400px;
+    height: 270px;
+    text-align: left;
+    position: relative;
+    margin-bottom: 20px;
+    @media(max-width: 1024px) and (min-width: 770px) {
+      width: 250px;
+      height: 200px;
+    }
+    @media(max-width: 769px) and (min-width: 562px) {
+      width: 250px;
+      height: 200px;
+    }
+    @media(max-width: 561px) {
+      width: 220px;
+    }
+    .carousel-event-info-text{
+      position: absolute;
+      top:50%;
+      transform: translateY(-50%);
+      h3{
+        width: 100%;
+        font-size: 45px;
+        margin-bottom: 20px;
+        @media(max-width: 561px) {
+          font-size: 30px;
+          color: white;
+          text-align: center;
+        }
+        @media(max-width: 769px) and (min-width: 562px) {
+          font-size: 30px;
+        }
+        @media(max-width: 1024px) and (min-width: 770px) {
+          font-size: 30px;
+        }
+      }
+      h4{
+        margin: 0px;
+        width: 100%;
+        font-size: 25px;
+        @media(max-width: 561px) {
+          font-size: 16px;
+          color: white;
+          text-align: center;
+        }
+        @media(max-width: 769px) and (min-width: 562px){
+          font-size: 14px;
+        }
+        @media(max-width: 1024px) and (min-width: 770px){
+          font-size: 14px;
+        }
+      }
+    }
+  }
 }
 .carousel-indicators {
   left: 0;
@@ -79,11 +233,58 @@
   }
 }
 
+.MainPageWhiteBack{
+  position: absolute;
+  top: 0;
+  display: inline-block;
+  width: 100%;
+  z-index: 1;
+  @media(max-width: 561px) {
+    height: 470px;
+    background-color: rgba(0,0,0,0.3);
+  }
+  img {
+    height: 870px;
+    @media(max-width: 769px) and (min-width: 562px) {
+      height: 600px;
+    }
+    @media(max-width: 1024px) and (min-width: 770px) {
+      height: 600px;
+    }
+  }
+}
+
+.main-page-description{
+  .main-page-description-row{
+    padding: 25px;
+  }
+  h1{
+    font-size: 50px;
+    @media(max-width: 561px) {
+      font-size: 31px;
+      text-align: left !important;
+      margin-bottom: 0px;
+    }
+
+  }
+  p{
+    font-size: 25px;
+    margin-top: 20px;
+    @media(max-width: 561px) {
+     font-size: 14px;
+      margin-top: 10px;
+      text-align: left !important;
+    }
+  }
+}
 .videoWrapper {
   position: relative;
+  margin-top: 50px;
   padding-bottom: 56.25%; /* 16:9 */
-  padding-top: 25px;
   height: 0;
+  @media(max-width: 561px) {
+    margin-top: 0px;
+  }
 }
 .videoWrapper object,
 .videoWrapper embed {
@@ -94,7 +295,53 @@
   height: 100%;
 }
 
+
 .Footer{
   margin-top: 20px;
   background-color: #f5f5f5;
+  .container{
+    padding-top: 40px;
+  }
+  .brand_icon{
+    font-size: 35px;
+    display: inline-block;
+    margin-right: 15px;
+    color: @text-fade;
+    @media(max-width: 561px) {
+      font-size: 20px;
+    }
+  }
+  .phone, .mail{
+    color: @text-fade;
+    display: block;
+    margin-bottom: 1rem !important;
+  }
+  .phone:hover , .mail:hover, .brand_icon:hover{
+    color: @text-hover;
+  }
+  .title, .text, .rights{
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.1px;
+  }
+  .title{
+    font-size: 25px;
+    @media(max-width: 561px) {
+      font-size: 17px;
+    }
+  }
+  .text{
+    font-size: 18px;
+    @media(max-width: 561px) {
+      font-size: 12px;
+    }
+  }
+  .rights{
+    font-size: 15px;
+    @media(max-width: 561px) {
+      font-size: 9px;
+    }
+  }
 }
