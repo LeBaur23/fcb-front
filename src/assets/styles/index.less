@@ -31,6 +31,13 @@
   height: 55px;
   box-shadow: 0px 5px 30px #3CB1F4;
 }
+.btn.btn-brand.active{
+  background-color: #d0d0d0;
+}
+.without-box-shadow{
+  box-shadow: none !important;
+}
+
 .fcb-nav{
   position: absolute;
   top: 25px;
@@ -342,6 +349,269 @@
     font-size: 15px;
     @media(max-width: 561px) {
       font-size: 9px;
+    }
+  }
+}
+
+
+#EventsMainPage{
+  .event_conference{
+    font-size: 60px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.1px;
+    margin-bottom: 50px;
+    @media(max-width: 320px) {
+      font-size: 28px !important;
+      margin-bottom: 30px;
+    }
+    @media(max-width: 768px){
+      font-size: 30px;
+      margin-bottom: 30px;
+      //text-align: center;
+    }
+  }
+  .event_archive{
+    font-size: 60px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.1px;
+    margin-bottom: 50px;
+    @media(max-width: 320px) {
+      font-size: 28px !important;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+    @media(max-width: 560px){
+      font-size: 30px;
+      margin-top: 30px;
+      margin-bottom: 25px;
+    }
+    @media(max-width: 768px){
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+  }
+  .event-archive-img{
+    width:90%;
+    box-shadow: 0 30px 30px 0 rgba(201, 201, 201, 0.5);
+    margin-bottom: 55px;
+    border-radius: 15px;
+    background-color: white;
+    overflow: hidden;
+    @media(max-width: 768px) {
+      margin-bottom: 30px;
+      width: 100%;
+      border-radius: 7.8px;
+    }
+    .event-archive-img-description{
+      //background-color: white;
+      padding: 14px 16px;
+      .event-archive-img-description-title{
+        font-size: 30px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: 0.1px;
+        margin-bottom: 10px;
+        @media(max-width: 768px) {
+          font-size: 14.6px;
+        }
+      }
+      .event-archive-img-description-date{
+        font-size: 21px;
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: 0.1px;
+        color: #959595;
+        margin-bottom: 0;
+        @media (max-width: 768px) {
+          font-size: 10.2px;
+        }
+      }
+    }
+  }
+  .col-10{
+    .btn-brand{
+      height: 45px;
+      width: 100%;
+      margin-bottom: 25px;
+      @media(max-width: 768px){
+        margin-bottom: 20px;
+      }
+    }
+  }
+  .event-conference-number{
+    font-size: 100px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.3px;
+    color: #3cb1f4;
+    @media(max-width: 768px){
+      font-size: 52.8px;
+    }
+  }
+  .event-conference-title{
+    width: 228px;
+    padding-top: 17px;
+    font-size: 40px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.1;
+    letter-spacing: 0.1px;
+    @media(max-width: 768px) {
+     font-size: 21.1px;
+      width: 121px;
+      padding-top: 10px;
+    }
+  }
+  .event-conference-description{
+    font-size: 20px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #959595;
+    @media(max-width: 768px) {
+      font-size: 10.6px;
+    }
+  }
+  //digital kz
+  .digital-kz-wrapper{
+    margin-top: 110px;
+    @media(max-width: 768px) {
+      margin-top: 50px;
+    }
+    .digital-kz{
+      font-size: 60px;
+      font-weight: bold;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.2px;
+      text-align: center;
+      color: #000000;
+      @media(max-width: 320px) {
+        font-size: 28px !important;
+        text-align: left;
+      }
+      @media(max-width: 768px) {
+        font-size: 30px;
+        text-align: left;
+      }
+    }
+    .digital-kz-description{
+      font-size: 30px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: #000000;
+      @media(max-width: 320px) {
+        font-size: 12px !important;
+        text-align: left;
+      }
+      @media(max-width: 768px) {
+        font-size: 15px;
+        text-align: left;
+      }
+    }
+  }
+  // participant
+  .participant_wrapper{
+    margin-top: 182px;
+    .col-10{
+      @media(max-width: 768px) {
+        margin-top: 30px !important;
+      }
+    }
+    @media(max-width: 768px) {
+      margin-top: 30px;
+    }
+    .participant_opportunity{
+      font-size: 60px;
+      font-weight: bold;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.2px;
+      text-align: center;
+      color: #000000;
+      @media(max-width: 320px) {
+        font-size: 28px !important;
+        text-align: left;
+      }
+      @media(max-width: 768px) {
+        font-size: 30px;
+        text-align: left;
+      }
+    }
+    .participant-test{
+      @media(max-width: 768px){
+        width: 54px;
+        height: 69px;
+      }
+    }
+    .participant-connection{
+      @media(max-width: 768px){
+        width: 54px;
+        height: 54px;
+      }
+    }
+    .participant-conversation{
+      @media(max-width: 768px){
+        width: 54px;
+        height: 54px;
+      }
+    }
+    .participant-three-test-tubes{
+      @media(max-width: 768px){
+        width: 50px;
+        height: 45px;
+      }
+    }
+    .participant-description-wrapper{
+      margin-top: 138px;
+      @media(max-width: 768px){
+        margin-top: 50px;
+        padding: 0px !important;
+      }
+      .p-1{
+        padding-top: 0px !important;
+        @media(max-width: 768px) {
+          margin-left: 0 !important;
+        }
+      }
+    }
+    .participant-description{
+      font-size: 20px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #959595;
+      @media(max-width: 320px) {
+        font-size: 12px !important;
+        margin-left: 15px;
+      }
+      @media(max-width: 768px) {
+        font-size: 17px;
+        margin-left: 15px;
+      }
     }
   }
 }
