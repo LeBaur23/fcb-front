@@ -301,7 +301,17 @@
   width: 100%;
   height: 100%;
 }
-
+.icon-a{
+  margin-right: 10px;
+  .brand_icon-2{
+    font-size: 25px;
+    display: inline-block;
+    color: @text-fade;
+    @media(max-width: 561px) {
+      font-size: 20px;
+    }
+  }
+}
 
 .Footer{
   margin-top: 20px;
@@ -614,4 +624,197 @@
       }
     }
   }
+}
+
+
+#EventDetailPage{
+  .event-detail-title{
+    font-size: 50px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.1px;
+  }
+  .event-detail-date{
+    font-size: 20px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.1px;
+    color: #aeaeae;
+  }
+  .event-detail-calendar-icon{
+    font-size: 28px
+  }
+  .event-detail-place{
+    margin-left: 50px;font-size: 20px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.1px;
+    color: #aeaeae;
+  }
+  .event-detail-place-icon{
+    font-size: 30px;
+  }
+  .event-detail-share{
+    font-size: 20px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.1px;
+    color: #aeaeae;margin-right: 38px
+  }
+  .schedule-wrapper{
+    padding: 12px 20px;
+    border-radius: 16px;
+    .schedule-time{
+      font-size: 25px;
+      font-weight: 500;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.1px;
+      color: #959595;
+    }
+    .schedule-title{
+      font-size: 20px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.1px;
+      color: #959595;
+    }
+    .schedule-speaker{
+      font-size: 20px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.1px;
+      color: #959595;
+    }
+  }
+  .active{
+    background-color: #3cb1f4;
+    box-shadow: 0 4px 30px 0 #3cb1f4;
+    .actived-now{
+      font-size: 15px;
+      font-weight: normal;
+      margin-left: 10px;
+    }
+    .schedule-time{
+      color: white;
+    }
+    .schedule-title{
+      color: white;
+    }
+    .schedule-speaker{
+      color: white;
+    }
+  }
+  .speaker-title{
+    font-size: 60px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    text-align: center;
+    width: 100%;
+    color: #000000;
+  }
+  .speaker-card-wrapper{
+    width: 20%;
+    margin: 40px 20px;
+    .speaker-card-img{
+      background-color: white;
+      border-radius: 50%;
+      padding-bottom: 100%;
+      box-shadow: 0 0 30px 0 rgba(201, 201, 201, 0.5);
+      //background-image: url('https://i.kinja-img.com/gawker-media/image/upload/s--ErWK-_uT--/c_scale,f_auto,fl_progressive,q_80,w_800/qtwsrkh9cbttfnpqf2vp.jpg');
+      background-position: center center;
+      background-size: cover;
+      margin-bottom: 20px;
+    }
+    .speaker-card-speaker{
+      font-size: 20px;
+      font-weight: 500;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.1px;
+      text-align: center;
+      color: #2e2e2e;
+    }
+    .speaker-card-job{
+      font-size: 18px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.1px;
+      text-align: center;
+      color: #b6b6b6;
+    }
+  }
+  .registration-title{
+    font-size: 60px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    text-align: center;
+    width: 100%;
+    color: #000000;
+  }
+  .registration-description{
+    font-size: 30px;
+    margin-top: 30px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000000;
+  }
+  .registration-form{
+    margin-top: 60px;
+    border-radius: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 0 30px 0 rgba(201, 201, 201, 0.5);
+    padding: 35px 25px;
+    .registration-text{
+      font-size: 17px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.1px;
+      color: #000000;
+      padding-left: 10px;
+    }
+    .registration-input{
+      width: 100%;
+      height: 40px;
+      border-radius: 3px;
+      background-color: #efefef;
+      border-style: none;
+      margin-bottom: 20px;
+      padding-left: 10px;
+    }
+    .btn-brand{
+      width: 100%;
+      height: 50px;
+      margin-top: 30px;
+    }
+  }
+
 }

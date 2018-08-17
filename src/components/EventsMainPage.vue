@@ -37,7 +37,7 @@
             <h2 class="event_conference">
               2018
             </h2>
-            <div class="event-archive-img" v-for="i in slider_data">
+            <div class="event-archive-img" v-for="i,y in slider_data"  @click="toEvent(y)">
               <img width="100%" :src="i.img" alt="">
               <div class="event-archive-img-description">
                 <h4 class="event-archive-img-description-title">
@@ -143,6 +143,11 @@
             title: 'ASDASD'
           }
         ]
+      }
+    },
+    methods: {
+      toEvent(id) {
+        this.$router.push({name: 'EventsDetailPage', params: {event_id: this.$route.params.event_id, detail_id: id}})
       }
     }
   }
