@@ -1,5 +1,15 @@
 <template>
   <div id="app">
+    <div class="fcb-nav" style="position: relative;z-index: 2;">
+      <div class="container">
+        <img src="./assets/images/bitmap.png" alt="">
+
+        <!--<div class="row no-margin justify-content-center">-->
+          <!--<div class="col-sm-12">-->
+          <!--</div>-->
+        <!--</div>-->
+      </div>
+    </div>
     <!--<div class="fcb-nav">-->
         <!--<img src="./assets/images/bitmap.png" alt="">-->
     <!--</div>-->
@@ -45,17 +55,17 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+
+    }
+  },watch: {
+      '$route' (to, from) {
+        console.log(to, 'dddddaaaaassss')
+        console.log(from,'asdasdasdasdasdasasdasdasd')
+      }
+  },
 }
 </script>
 
-<style>
-#app {
-  /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
-  /*-webkit-font-smoothing: antialiased;*/
-  /*-moz-osx-font-smoothing: grayscale;*/
-  /*text-align: center;*/
-  /*color: #2c3e50;*/
-  /**/
-}
-</style>

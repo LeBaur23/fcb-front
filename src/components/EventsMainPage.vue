@@ -3,60 +3,62 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-sm-7 col-10">
-          <div class="event-conference-wrapper" v-if="false">
-            <h2 class="event_conference">О Конференциях</h2>
-            <div class="row no-margin">
-              <div class="d-flex mb-3 no-margin">
-                <div class="p-1 "><h1 class="event-conference-number">150</h1></div>
-                <div class="p-1 "><h5 class="event-conference-title">Финансовых организации</h5></div>
+          <transition name="fade">
+            <div class="event-conference-wrapper" v-if="!to_events">
+              <h2 class="event_conference">О Конференциях</h2>
+              <div class="row no-margin">
+                <div class="d-flex mb-3 no-margin">
+                  <div class="p-1 "><h1 class="event-conference-number">150</h1></div>
+                  <div class="p-1 "><h5 class="event-conference-title">Финансовых организации</h5></div>
+                </div>
+                <div class="event-conference-description">
+                  Мы собираем более 300 участников кредитной экосистемы
+                </div>
               </div>
-              <div class="event-conference-description">
-                Мы собираем более 300 участников кредитной экосистемы
+              <div class="row no-margin">
+                <div class="d-flex mb-3 no-margin">
+                  <div class="p-1 "><h1 class="event-conference-number">4</h1></div>
+                  <div class="p-1 "><h5 class="event-conference-title">Цифровые сессии</h5></div>
+                </div>
+                <div class="event-conference-description">
+                  Мы работаем по самым актуальным темам в области цифровизации
+                </div>
               </div>
-            </div>
-            <div class="row no-margin">
-              <div class="d-flex mb-3 no-margin">
-                <div class="p-1 "><h1 class="event-conference-number">4</h1></div>
-                <div class="p-1 "><h5 class="event-conference-title">Цифровые сессии</h5></div>
-              </div>
-              <div class="event-conference-description">
-                Мы работаем по самым актуальным темам в области цифровизации
-              </div>
-            </div>
-            <div class="row no-margin">
-              <div class="d-flex mb-3 no-margin">
-                <div class="p-1 "><h1 class="event-conference-number">20</h1></div>
-                <div class="p-1 "><h5 class="event-conference-title">Цифровые сессии</h5></div>
-              </div>
-              <div class="event-conference-description">
-                Мы работаем паралельно с деловыми СМИ и предостовляем качественный аналитический контент
-              </div>
-            </div>
-          </div>
-          <div class="event-archive-wrapper">
-            <h2 class="event_conference">
-              2018
-            </h2>
-            <div class="event-archive-img" v-for="i,y in slider_data"  @click="toEvent(y)">
-              <img width="100%" :src="i.img" alt="">
-              <div class="event-archive-img-description">
-                <h4 class="event-archive-img-description-title">
-                  {{i.text}}
-                </h4>
-                <p class="event-archive-img-description-date">
-                  21.03.2018
-                </p>
+              <div class="row no-margin">
+                <div class="d-flex mb-3 no-margin">
+                  <div class="p-1 "><h1 class="event-conference-number">20</h1></div>
+                  <div class="p-1 "><h5 class="event-conference-title">Цифровые сессии</h5></div>
+                </div>
+                <div class="event-conference-description">
+                  Мы работаем паралельно с деловыми СМИ и предостовляем качественный аналитический контент
+                </div>
               </div>
             </div>
-          </div>
+            <div class="event-archive-wrapper" v-if="to_events">
+              <h2 class="event_conference">
+                2018
+              </h2>
+              <div class="event-archive-img" v-for="i,y in slider_data"  @click="toEvent(y)">
+                <img width="100%" :src="i.img" alt="">
+                <div class="event-archive-img-description">
+                  <h4 class="event-archive-img-description-title">
+                    {{i.text}}
+                  </h4>
+                  <p class="event-archive-img-description-date">
+                    21.03.2018
+                  </p>
+                </div>
+              </div>
+            </div>
+          </transition>
         </div>
         <div class="col-sm-3 col-10">
           <h2 class="event_archive">Архив</h2>
-          <button class="btn btn-brand without-box-shadow" v-for="i,y in 3" :class="{active: y == 0}">{{2015 + i}}</button>
+          <button class="btn btn-brand without-box-shadow" v-for="i,y in 3" @click="toArchive(y)" :class="{active: y == event_index}">{{2015 + i}}</button>
         </div>
       </div>
     </div>
-    <div v-if="false" class="container digital-kz-wrapper">
+    <div v-if="!to_events" class="container digital-kz-wrapper">
       <div class="row justify-content-center">
         <div class="col-sm-10 col-10">
               <h4 class="digital-kz">
@@ -68,7 +70,7 @@
         </div>
       </div>
     </div>
-    <div v-if="false" class="container participant_wrapper">
+    <div v-if="!to_events" class="container participant_wrapper">
       <div class="row justify-content-center">
         <div class="col-sm-10 col-10">
           <h4 class="participant_opportunity">
@@ -126,6 +128,8 @@
   export default {
     data() {
       return {
+        event_index: null,
+        to_events: false,
         slider_data: [
           {
             img: 'https://picsum.photos/1024/480/?image=54',
@@ -146,6 +150,10 @@
       }
     },
     methods: {
+      toArchive(id) {
+        this.event_index = id
+        this.to_events = true
+      },
       toEvent(id) {
         this.$router.push({name: 'EventsDetailPage', params: {event_id: this.$route.params.event_id, detail_id: id}})
       }

@@ -5,6 +5,9 @@ import App from './App'
 import router from './router'
 
 import BootstrapVue from 'bootstrap-vue'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+Vue.use(VueAwesomeSwiper)
 
 Vue.use(BootstrapVue);
 import 'bootstrap/dist/css/bootstrap.css'
