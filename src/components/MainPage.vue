@@ -2,7 +2,7 @@
   <div id="MainPage">
     <div id="carousel" class="carousel slide" data-interval="false">
       <div class="carousel-inner">
-        <div ref="classes" class="carousel-item " v-for="i,y in slider_data" :class="{active: y === 0,[y]: true}" v-bind:style="{ backgroundImage: 'url(' + i.img + ')' }">
+        <div ref="classes" class="carousel-item " v-for="i,y in slider_data" :class="{active: y === 0,[y]: true}" v-bind:style="{ backgroundImage: 'url(http://localhost:8000/files/' + i.poster + ')' }">
         </div>
       </div>
 
@@ -12,21 +12,19 @@
             <div class="carousel-event-info-text-wrapper">
               <div class="carousel-event-info-text">
                 <h3>
-                  {{ i.title }}
+                  {{ i.name }}
                 </h3>
                 <h4 class="text-regl">
-                  {{ i.text }}
+                  {{ i.description_main }}
                 </h4>
                 <br>
               </div>
 
             </div>
-            <button class="btn btn-brand" @click="toEvent(i.title)">Подробнее</button>
+            <button class="btn btn-brand" @click="toEvent(i.id)">Подробнее</button>
           </div>
           <ul class="carousel-indicators d-none d-sm-flex">
-            <li data-target="#carousel" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel" data-slide-to="1"></li>
-            <li data-target="#carousel" data-slide-to="2"></li>
+            <li data-target="#carousel" v-for="i,y in slider_data" :data-slide-to="y" :class="{active: y == 0}"></li>
           </ul>
         <!--</div>-->
       </div>
@@ -48,11 +46,11 @@
     <div class="container-fluid no-padding main-page-description">
       <div class="row no-margin justify-content-sm-center main-page-description-row">
         <div class="col-sm-12">
-          <h1 class="text-center" >О конференциях</h1>
+          <h1 class="text-center" >{{about_conf.header}}</h1>
         </div>
         <div class="col-sm-10 ">
           <p class="text-center ">
-            Программа охватывает такие аспекты веб-разработок, как архитектуры крупных проектов, базы данных и системы хранения, системное администрирование, нагрузочное тестирование, эксплуатация крупных проектов и другие направления, связанные с высоконагруженными системами.
+            {{about_conf.text}}
           </p>
         </div>
       </div>
@@ -66,29 +64,14 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default{
     data () {
       return {
-        slider_data: [
-          {
-            img: 'https://picsum.photos/1024/480/?image=54',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' +
-            'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            title: 'ASDASD'
-          },
-          {
-            img: 'https://picsum.photos/1024/480/?image=52',
-            text: 'there will be some text wich is smaller',
-            title: 'ASDASD'
-          },
-          {
-            img: 'https://picsum.photos/1024/480/?image=58',
-            text: '2asdasdsadas asd asd asd asd sd dasd asd sd asd as ',
-            title: 'ASDASD'
-          }
-        ],
+        slider_data: [],
+        about_conf: {},
         cur_id: 0,
-        max_id: 2,
+        max_id: 0,
       }
     },
     methods: {
@@ -96,18 +79,35 @@
         this.$router.push({name: 'EventsMainPage', params: {event_id: id}})
       },
       next() {
-        this.cur_id++
-        if (this.cur_id > this.max_id) {
+        if (this.cur_id >= this.max_id) {
           this.cur_id  = 0
         }
-
+        else {
+          this.cur_id++
+        }
       },
       prev() {
-        this.cur_id -= 1
         if (this.cur_id < 0) {
           this.cur_id  = this.max_id
         }
+        else{
+          this.cur_id -= 1
+        }
       }
+    },
+    beforeMount() {
+      axios
+        .get('http://localhost:8000/api/conference_type/')
+        .then((res) => {
+          this.slider_data = res.data
+          this.max_id = res.data.length - 1
+        })
+      axios
+        .get('http://localhost:8000/api/content/key/?key=about')
+        .then((res) => {
+          console.log(res.data)
+          this.about_conf = res.data
+        })
     }
   }
 </script>

@@ -1,13 +1,14 @@
 <template>
   <div id="app">
-    <div class="fcb-nav" style="position: relative;z-index: 2;">
+    <div class="fcb-nav" :class="{active: show_list}" style="position: relative;z-index: 2;">
       <div class="container">
-        <img src="./assets/images/bitmap.png" alt="">
-
-        <!--<div class="row no-margin justify-content-center">-->
-          <!--<div class="col-sm-12">-->
-          <!--</div>-->
-        <!--</div>-->
+        <img @click="toMain()" src="./assets/images/bitmap.png" :class="{'no-padding': no_padding}" alt="" style="display: inline-block;padding: 20px">
+        {{windowWidth}}
+        <ul class="list-inline" style="display: inline-block" v-if="show_list">
+          <li class="list-inline-item" v-for="i,y in slider_data" @click="toEvent(i.id)" :class="{active: i.id == cur_index}">{{i.name}}</li>
+          <!--<li class="list-inline-item"><a class="social-icon text-xs-center" target="_blank" href="#">G+</a></li>-->
+          <!--<li class="list-inline-item"><a class="social-icon text-xs-center" target="_blank" href="#">T</a></li>-->
+        </ul>
       </div>
     </div>
     <!--<div class="fcb-nav">-->
@@ -54,18 +55,67 @@
 </template>
 
 <script>
-export default {
+  import axios from 'axios'
+  export default {
   name: 'App',
   data () {
     return {
-
+      slider_data: [],
+      max_id: 0,
+      cur_index: 0,
+      show_list: false,
+      windowWidth: 0,
+      no_padding: false
     }
   },watch: {
       '$route' (to, from) {
-        console.log(to, 'dddddaaaaassss')
-        console.log(from,'asdasdasdasdasdasasdasdasd')
+//        console.log(to, 'dddddaaaaassss')
+//        console.log(from,'asdasdasdasdasdasasdasdasd')
+//        console.log(to.params)
+        this.cur_index = to.params.event_id
+        if (to.name !== 'MainPage') {
+          this.show_list = true
+        }
+        if (to.name === 'MainPage') {
+          this.show_list = false
+        }
+      },
+      windowWidth (newHeight, oldHeight) {
+        console.log(newHeight, oldHeight)
       }
   },
+  methods: {
+    loadData() {
+
+    },
+    toMain() {
+      this.$router.push('/')
+    },
+    toEvent(id) {
+      console.log(id)
+      this.$router.push({name: 'EventsMainPage', params: {event_id: id}})
+    }
+  },
+    beforeMount() {
+      axios
+        .get('http://localhost:8000/api/conference_type/')
+        .then((res) => {
+          this.slider_data = res.data
+          this.max_id = res.data.length - 1
+        })
+      this.show_list = false
+    },
+    mounted() {
+      this.$nextTick(() => {
+        window.addEventListener('resize', () => {
+          this.windowWidth = window.innerWidth
+        })
+      })
+      this.windowWidth = window.innerWidth
+      if ( this.windowWidth < 769) {
+        this.no_padding = true
+      }
+    }
 }
 </script>
 

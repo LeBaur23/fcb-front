@@ -4,65 +4,49 @@
       <div class="row no-margin justify-content-center">
         <div class="col-sm-10">
           <h4 class="event-detail-title" style="">
-            Профессиональная конференция разработчиков высоконагруженных систем
+            {{ description }}
           </h4>
         </div>
         <div class="col-sm-10">
-          <div class="row no-margin d-block d-sm-block d-md-block d-md-block d-lg-none">
-            <div class="col-12">
-              <span class="event-detail-date">
-              <i class="fa fa-calendar-o event-detail-calendar-icon" aria-hidden="true" ></i>
-              18 июля
-              </span>
-              <span class="event-detail-place">
-              <i class="fa fa-map-marker event-detail-place-icon"  aria-hidden="true"></i>
-              Алматы
-              </span>
-            </div>
-            <div class="row no-margin" style="margin-top: 20px !important;">
-              <div class="col-4">
-                <h4 class="event-detail-share">Поделиться</h4>
-              </div>
-              <div class="col-8 no-padding">
-                <div class="row no-margin float-right">
-                  <a class="icon-a" href="" style="background-color: black;border-radius: 50%;padding: 7px 12px">
-                    <i class="fa fa-facebook brand_icon-2" style="color: white" aria-hidden="true"></i>
-                  </a>
-                  <a class="icon-a" href="" style="background-color: black;border-radius: 50%;padding: 7px">
-                    <i class="fa fa-vk brand_icon-2" style="color: white" aria-hidden="true"></i>
-                  </a>
-                  <a class="icon-a" href="">
-                    <i class="fa fa-telegram brand_icon-2" style="color: black;font-size: 38px" aria-hidden="true"></i>
-                  </a>
+          <div class="share-wrapper " style="margin-top: 20px">
+            <div class="row no-margin">
+              <div class="col-sm-6">
+                <div class="row no-margin">
+                  <div class="col-sm-4 no-padding">
+                 <span class="event-detail-date">
+                    <i class="fa fa-calendar-o event-detail-calendar-icon" aria-hidden="true" ></i>
+                    18 июля
+                  </span>
+                  </div>
+                  <div class="col-sm-8 no-padding">
+                <span class="event-detail-place">
+                  <i class="fa fa-map-marker event-detail-place-icon"  aria-hidden="true"></i>
+                  {{ where }}
+                </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="share-wrapper d-none d-sm-none d-md-none  d-lg-flex">
-            <div class="p-2 mr-auto">
-              <span class="event-detail-date">
-                <i class="fa fa-calendar-o event-detail-calendar-icon" aria-hidden="true" ></i>
-                18 июля
-              </span>
-              <span class="event-detail-place">
-                <i class="fa fa-map-marker event-detail-place-icon"  aria-hidden="true"></i>
-                Алматы
-              </span>
-            </div>
-            <div class="p-2">
-              <h4 class="event-detail-share">Поделиться</h4>
-            </div>
-            <div class="">
-              <div class="row no-margin">
-                <a class="icon-a" href="" style="background-color: black;border-radius: 50%;padding: 10px 17px">
-                  <i class="fa fa-facebook brand_icon-2" style="color: white" aria-hidden="true"></i>
-                </a>
-                <a class="icon-a" href="" style="background-color: black;border-radius: 50%;padding: 10px">
-                  <i class="fa fa-vk brand_icon-2" style="color: white" aria-hidden="true"></i>
-                </a>
-                <a class="icon-a" href="">
-                  <i class="fa fa-telegram brand_icon-2" style="color: black;font-size: 47px" aria-hidden="true"></i>
-                </a>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-12 d-none d-sm-block no-padding">
+                    <h4 class="event-detail-share">Поделиться</h4>
+                  </div>
+                  <div class="col-sm-12 d-none d-sm-block  no-padding">
+                    <div class="row no-margin">
+                      <a v-for="i in socials" :href="i.link">
+                        <img width="35px" height="35px" style="border-radius: 50%" :src="'http://localhost:8000/files/'+ i.logo" :alt="i.name" :title="i.name">
+                      </a>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 d-block d-sm-none" style="margin-top: 20px">
+                    <h4 class="event-detail-share">Поделиться</h4>
+                    <div class="row no-margin">
+                      <a v-for="i in socials" :href="i.link">
+                        <img width="35px" height="35px" style="border-radius: 50%" :src="'http://localhost:8000/files/'+ i.logo" :alt="i.name" :title="i.name">
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -72,30 +56,40 @@
          </div>
        </div>
         <div class="col-sm-10">
-          <div class="schedule-wrapper d-block d-md-none" v-for="i in 5" :class="{active: i == 2}">
-            <h4 class="schedule-time">
-              11:00 - 12:00
-              <span class="actived-now" style="margin-left: 5px" v-if="i == 2">
+          <div class="schedule-wrapper d-block d-md-none" v-for="i in schedule_conf"
+               :class="{
+            active: (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&
+                     current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))
+          }">
+            <h4 class="schedule-time" :class="{'text-black' : (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) > current_seconds}">
+              {{i.start_time.substring(0, 5) }} - {{i.end_time.substring(0, 5) }}
+              <span class="actived-now" style="margin-left: 5px" v-if="(parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&
+                     current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))">
                   Сейчас идет
                 </span>
             </h4>
             <h4 class="schedule-title">
-              Церемония открытия
+              {{ i.subject }}
             </h4>
             <h4 class="schedule-speaker text-right">
-              David Coperfield
+              {{ i.speaker.fio }}
             </h4>
           </div>
-          <div class="schedule-wrapper d-none d-md-flex" v-for="i in 5" :class="{active: i == 2}">
+          <div class="schedule-wrapper d-none d-md-flex" v-for="i in schedule_conf"
+               :class="{
+            active: (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&
+                     current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))
+          }">
             <div class="p-2 mr-auto">
-              <h4 class="schedule-time">
-                11:00 - 12:00
-                <span class="actived-now" v-if="i == 2">
+              <h4 class="schedule-time" :class="{'text-black' : (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) > current_seconds}">
+                {{i.start_time.substring(0, 5) }} - {{i.end_time.substring(0, 5) }}
+                <span class="actived-now" v-if="(parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&
+                     current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))">
                   Сейчас идет
                 </span>
               </h4>
               <h4 class="schedule-title">
-                Церемония открытия
+                {{ i.subject }}
               </h4>
             </div>
             <div class="p-2">
@@ -103,7 +97,7 @@
                 &nbsp
               </h4>
               <h4 class="schedule-speaker">
-                David Coperfield
+                {{ i.speaker.fio }}
               </h4>
             </div>
           </div>
@@ -113,15 +107,14 @@
             <h4 class="speaker-title">
               Спикеры
             </h4>
-            <div class="speaker-card-wrapper" v-for="i in 7">
-              <div class="speaker-card-img" >
+            <div class="speaker-card-wrapper" v-for="i in speakers">
+              <div class="speaker-card-img" v-bind:style="{ backgroundImage: 'url(http://localhost:8000/files/' + i.photo + ')' }">
               </div>
               <div>
-                <h4 class="speaker-card-speaker">David Coperfield</h4>
+                <h4 class="speaker-card-speaker">{{ i.fio}}</h4>
                 <h5 class="speaker-card-job">
-                  Основатель двух
-                  стартапов «Sprayable»
-                  и «Stream»</h5>
+                  {{ i.position }}
+                </h5>
               </div>
             </div>
           </div>
@@ -160,8 +153,10 @@
             <h4 class="registration-title">
               Нас поддерживают
             </h4>
-            <div class="col-sm-3 col-6" v-for="i in 7" style="margin-bottom: 50px">
-              <img width="100%" src="https://s3.scoopwhoop.com/anj/logos/300977194.jpg" alt="">
+            <div class="col-sm-3 col-6" v-for="i in partners" style="margin-bottom: 50px">
+              <a :href="i.url" :title="i.name">
+                <img width="100%" :src="'http://localhost:8000/files/' + i.logo" :alt="i.name" :title="i.name">
+              </a>
             </div>
           </div>
           <div class="row no-margin justify-content-center">
@@ -170,13 +165,13 @@
             </h4>
             <div class="col-sm-12 slider-wrapper">
               <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
-                <swiper-slide class="slide-1" v-for="i in 7"></swiper-slide>
+                <swiper-slide class="slide-1" v-for="i in photos" v-bind:style="{ backgroundImage: 'url(http://localhost:8000/files/' + i.image + ')' }"></swiper-slide>
                 <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
                 <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
               </swiper>
               <!-- swiper2 Thumbs -->
               <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
-                <swiper-slide class="slide-1" v-for="i in 5"></swiper-slide>
+                <swiper-slide class="slide-1" v-for="i in photos" v-bind:style="{ backgroundImage: 'url(http://localhost:8000/files/' + i.image + ')' }"></swiper-slide>
               </swiper>
             </div>
           </div>
@@ -230,14 +225,17 @@
       </div>
     </div>
     <div class="container-fluid" id="EventsMainPage" style="margin-top: 100px">
-      <div class="row no-margin">
-        <div class="col-sm-4" v-for="i,y in slider_data" @click="toEvent(y)">
+      <div class="row no-margin justify-content-center">
+        <div class="col-sm-4" v-for="i,y in archive_events" @click="toEvent(i.pk)">
           <div class="event-archive-img" style="width: 100%">
-            <img width="100%" :src="i.img" alt="">
+            <div class="event-archive-background-img" style="" v-bind:style="{ backgroundImage: 'url(http://localhost:8000/files/' + i.poster + ')' }"></div>
             <div class="event-archive-img-description">
-              <h4 class="event-archive-img-description-title detail-event-archive-title">
-                {{i.text}}
+              <h4 class="event-archive-img-description-title">
+                {{i.name }}
               </h4>
+              <p class="event-archive-img-description-date">
+                {{ i.start_date}}
+              </p>
             </div>
           </div>
         </div>
@@ -248,26 +246,23 @@
 
 
 <script>
+  import axios from 'axios'
+  import moment from 'moment'
   export default {
     data() {
       return {
-        slider_data: [
-          {
-            img: 'https://picsum.photos/1024/480/?image=54',
-            text: 'Конференция БВУ «WWCVBK»',
-            title: 'ASDASD'
-          },
-          {
-            img: 'https://picsum.photos/1024/480/?image=52',
-            text: 'Конференция МФО «QWE»',
-            title: 'ASDASD'
-          },
-          {
-            img: 'https://picsum.photos/1024/480/?image=58',
-            text: 'Конференция OOO «AAA»',
-            title: 'ASDASD'
-          }
-        ],
+        current_hour: '',
+        current_minute: '',
+        current_seconds: '',
+        description: '',
+        start_date: '',
+        where: '',
+        socials: [],
+        schedule_conf: [],
+        speakers: [],
+        partners: [],
+        photos: [],
+        archive_events: [],
         swiperOptionTop: {
           spaceBetween: 10,
           loop: true,
@@ -287,6 +282,65 @@
         }
       }
     },
+    filters: {
+      HourForm (value) {
+        if (value) {
+          return moment(String(value)).format('Do MMMM')
+        }
+      },
+      EventFrom (value) {
+        if (value) {
+          return moment(String(value)).format('HH')
+        }
+      }
+    },
+    watch: {
+      '$route': function(){
+        this.loadData()
+      }
+    },
+    methods: {
+      loadData() {
+        console.log('I AM HERE FOR YOU')
+        this.current_hour = ''
+        this.current_minute = ''
+        this.current_seconds = ''
+        this.description = ''
+        this.start_date = ''
+        this.where = ''
+        this.socials = []
+        this.schedule_conf = []
+        this.speakers = []
+        this.partners = []
+        this.photos = []
+        this.archive_events = []
+
+        moment.locale('ru')
+        this.current_hour = moment().format('HH')
+        this.current_minute = moment().format('mm')
+        this.current_seconds = (parseInt(this.current_hour * 3600) + parseInt(this.current_minute * 60 ))
+        console.log(moment().format('HH:mm'))
+        axios.get('http://localhost:8000/api/conference/'+ this.$route.params.detail_id + '/').then((res) => {
+          this.description = res.data.description
+          this.start_date = res.data.start_date
+          this.where = res.data.where
+          this.socials = res.data.socials
+          this.schedule_conf = res.data.schedule_conf
+          this.speakers = res.data.speakers
+          this.partners = res.data.partners
+          this.photos = res.data.photos
+          console.log(res.data)
+        })
+        axios.get('http://localhost:8000/api/conference/?year='+ this.$route.params.archive_year+ ' &conf_type=' + this.$route.params.event_id).then((res) => {
+          console.log(res)
+          this.archive_events = res.data
+        })
+      },
+      toEvent(id) {
+        console.log(id)
+        this.$router.replace({name: 'EventsDetailPage', params: {event_id: this.$route.params.event_id, archive_year: this.$route.params.archive_year,detail_id: id}})
+      }
+    },
     mounted() {
       this.$nextTick(() => {
         const swiperTop = this.$refs.swiperTop.swiper
@@ -294,6 +348,9 @@
         swiperTop.controller.control = swiperThumbs
         swiperThumbs.controller.control = swiperTop
       })
+    },
+    beforeMount () {
+      this.loadData()
     }
   }
 </script>
