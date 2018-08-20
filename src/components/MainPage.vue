@@ -55,8 +55,8 @@
         </div>
       </div>
       <div class="videoWrapper">
-        <iframe width="100%" v-for="i in slider_data" v-if="i.live.online !== undefined"  :src="i.live.online">
-        </iframe>
+        <embed v-for="i in slider_data"
+               src="https://www.youtube.com/embed/tgbNymZ7vqY">
       </div>
 
     </div>

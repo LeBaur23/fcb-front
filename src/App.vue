@@ -18,7 +18,7 @@
       <div class="container">
         <div class="row no-margin">
           <div class="col-sm-8">
-            <h4 class="text-dark title">Контакты</h4>
+            <h4 class="text-dark title">Контакты </h4>
             <p class="text-fade text">
               Республика Казахстан, г. Алматы, A25D0B1, Медеуский район, мкр. «Самал-3», дом 25, башня-1, 1 этаж
             </p>
@@ -71,29 +71,21 @@
         this.cur_index = to.params.event_id
         if (to.name !== 'MainPage') {
           this.show_list = true
+          console.log(this.show_list)
           if ( this.windowWidth < 560) {
             this.no_padding = true
-            this.show_list = false
+            this.show_list = true
           }
         }
         if (to.name === 'MainPage') {
           this.show_list = false
+          console.log(this.show_list)
           if ( this.windowWidth < 560) {
             this.no_padding = true
             this.show_list = false
           }
         }
       },
-      windowWidth (newHeight, oldHeight) {
-        if (newHeight < 560) {
-          this.no_padding = true
-          this.show_list = false
-        }
-        else{
-          this.no_padding = false
-          this.show_list = true
-        }
-      }
   },
   methods: {
     loadData() {
@@ -103,12 +95,10 @@
       this.$router.push('/')
     },
     toEvent(id) {
-      console.log(id)
       this.$router.push({name: 'EventsMainPage', params: {event_id: id}})
     }
   },
     beforeMount() {
-//    console.log(this.$route)
       axios
         .get('http://localhost:8000/api/conference_type/')
         .then((res) => {
@@ -120,6 +110,10 @@
         this.show_list = true
         this.cur_index = this.$route.params.event_id
       }
+      if (this.$route.name === 'MainPage') {
+        this.show_list = false
+
+      }
     },
     mounted() {
       this.$nextTick(() => {
@@ -128,6 +122,7 @@
         })
       })
       this.windowWidth = window.innerWidth
+
       if ( this.windowWidth < 560) {
         this.no_padding = true
         this.show_list = false
