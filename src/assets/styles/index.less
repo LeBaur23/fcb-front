@@ -4,6 +4,9 @@
 .no-margin{
   margin: 0px !important;
 }
+.error{
+  border: 1px solid red !important;
+}
 .no-padding{
   padding: 0px !important;
 }
@@ -49,7 +52,7 @@
   }
 }
 .fcb-nav{
-  @media(max-width: 768px) {
+  @media(max-width: 560px) {
     width: 100%;
     padding: 5px 0px;
     text-align: center;
@@ -316,7 +319,7 @@
   }
 }
 .videoWrapper object,
-.videoWrapper embed {
+.videoWrapper iframe {
   position: absolute;
   top: 0;
   left: 0;
@@ -715,7 +718,8 @@
     font-stretch: normal;
     line-height: normal;
     letter-spacing: 0.1px;
-    color: #aeaeae;margin-right: 38px;
+    color: #aeaeae;
+    //margin-right: 38px;
     @media(max-width: 768px) {
       font-size: 15px;
     }

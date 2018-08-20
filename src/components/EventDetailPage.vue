@@ -29,10 +29,10 @@
               <div class="col-sm-6">
                 <div class="row">
                   <div class="col-sm-12 d-none d-sm-block no-padding">
-                    <h4 class="event-detail-share">Поделиться</h4>
+                    <h4 class="event-detail-share text-right">Поделиться</h4>
                   </div>
                   <div class="col-sm-12 d-none d-sm-block  no-padding">
-                    <div class="row no-margin">
+                    <div class="row no-margin float-right">
                       <a v-for="i in socials" :href="i.link">
                         <img width="35px" height="35px" style="border-radius: 50%" :src="'http://localhost:8000/files/'+ i.logo" :alt="i.name" :title="i.name">
                       </a>
@@ -127,26 +127,26 @@
             </h4>
             <div class="col-sm-7 registration-form">
               <h4 class="registration-text">
-                Наименование организации
+                Наименование организации {{$v.registration.company_name.$error}}
               </h4>
-              <input class="registration-input" type="text">
+              <input class="registration-input" type="text" v-on:blur="$v.registration.company_name.$touch()"  v-model.trim="registration.company_name" @input="$v.registration.company_name.$touch()"/>
+              <h4 class="registration-text" >
+                ФИО {{$v.registration.fio.$error}}
+              </h4>
+              <input class="registration-input" type="text"  v-on:blur="$v.registration.fio.$touch()"  v-model.trim="registration.fio" @input="$v.registration.fio.$touch()">
               <h4 class="registration-text">
-                ФИО
+                Должность {{$v.registration.position.$error}}
               </h4>
-              <input class="registration-input" type="text">
+              <input class="registration-input" type="text"  v-on:blur="$v.registration.position.$touch()"  v-model.trim="registration.position" @input="$v.registration.position.$touch()">
               <h4 class="registration-text">
-                Должность
+                Номер телефона {{$v.registration.phone.$error}}
               </h4>
-              <input class="registration-input" type="text">
+              <input  class="registration-input" type="tel"  v-on:blur="$v.registration.phone.$touch()" v-model.trim="registration.phone" @input="$v.registration.phone.$touch()">
               <h4 class="registration-text">
-                Номер телефона
+                Email {{$v.registration.email.$error}}
               </h4>
-              <input class="registration-input" type="text">
-              <h4 class="registration-text">
-                Email
-              </h4>
-              <input class="registration-input" type="text">
-              <button class="btn btn-brand" >Зарегистрироваться</button>
+              <input class="registration-input" type="email"  v-on:blur="$v.registration.email.$touch()" v-model.trim="registration.email" @input="$v.registration.email.$touch()">
+              <button class="btn btn-brand" :disabled="$v.registration.$invalid" @click="register(registration)">Зарегистрироваться</button>
             </div>
           </div>
           <div class="row no-margin justify-content-center">
@@ -182,41 +182,41 @@
             <div class="col-sm-12 registration-form" style="margin-top: 0px">
               <div class="d-block d-md-none">
                 <h4 class="registration-text">
-                  ФИО
+                  ФИО {{$v.call_form.full_name.$error}}
                 </h4>
-                <input class="registration-input" type="text">
+                <input class="registration-input" type="text" :class="{error: $v.call_form.full_name.$error}" v-on:blur="$v.call_form.full_name.$touch()"  v-model.trim="call_form.full_name" @input="$v.call_form.full_name.$touch()">
                 <h4 class="registration-text">
                   Номер телефона
                 </h4>
-                <input class="registration-input" type="text">
+                <input class="registration-input" type="text" v-on:blur="$v.call_form.phone.$touch()"  v-model.trim="call_form.phone" @input="$v.call_form.phone.$touch()">
                 <h4 class="registration-text">
                   Email
                 </h4>
-                <input class="registration-input" type="text">
-                <textarea class=""></textarea>
-                <button class="btn btn-brand" style="width: 100%">Отправить</button>
+                <input class="registration-input" type="text"  v-on:blur="$v.call_form.email.$touch()"  v-model.trim="call_form.email" @input="$v.call_form.email.$touch()">
+                <textarea placeholder="Ваш коментарии" class="" v-on:blur="$v.call_form.comment.$touch()"  v-model.trim="call_form.comment" @input="$v.call_form.comment.$touch()"></textarea>
+                <button :disabled="$v.call_form.$invalid" @click="support(call_form)" class="btn btn-brand" style="width: 100%">Отправить</button>
               </div>
               <div class="d-sm-none d-none d-md-flex">
                 <div class="mr-auto" style="width: 45%">
                   <h4 class="registration-text">
                     ФИО
                   </h4>
-                  <input class="registration-input" type="text">
+                  <input class="registration-input" type="text" v-on:blur="$v.call_form.full_name.$touch()"  v-model.trim="call_form.full_name" @input="$v.call_form.full_name.$touch()">
                   <h4 class="registration-text">
                     Номер телефона
                   </h4>
-                  <input class="registration-input" type="text">
+                  <input class="registration-input" type="text" v-on:blur="$v.call_form.phone.$touch()"  v-model.trim="call_form.phone" @input="$v.call_form.phone.$touch()">
                   <h4 class="registration-text">
                     Email
                   </h4>
-                  <input class="registration-input" type="text">
+                  <input class="registration-input" type="text" v-on:blur="$v.call_form.email.$touch()"  v-model.trim="call_form.email" @input="$v.call_form.email.$touch()">
                 </div>
                 <div class="" style="width: 50%">
                   <h4 class="registration-text">
                  &nbsp
                   </h4>
-                  <textarea class="" id="comment"></textarea>
-                  <button class="btn btn-brand" style="width: 150px;float: right;margin-top: 40px">Отправить</button>
+                  <textarea placeholder="Ваш коментарии" class="" id="comment" v-on:blur="$v.call_form.comment.$touch()"  v-model.trim="call_form.comment" @input="$v.call_form.comment.$touch()"></textarea>
+                  <button :disabled="$v.call_form.$invalid" @click="support(call_form)" class="btn btn-brand" style="width: 150px;float: right;margin-top: 40px">Отправить</button>
                 </div>
               </div>
             </div>
@@ -248,9 +248,24 @@
 <script>
   import axios from 'axios'
   import moment from 'moment'
+  import { required, minLength, email, numeric } from 'vuelidate/lib/validators'
   export default {
     data() {
       return {
+        call_form: {
+          phone: '',
+          email: '',
+          comment: '',
+          full_name: ''
+        },
+        registration:{
+          company_name: '',
+          fio: '',
+          phone: '',
+          email: '',
+          conference: '',
+          position: ''
+        },
         current_hour: '',
         current_minute: '',
         current_seconds: '',
@@ -282,6 +297,41 @@
         }
       }
     },
+    validations: {
+      registration: {
+        company_name: {
+          required
+        },
+        fio : {
+          required
+        },
+        phone : {
+          required,
+          numeric,
+          minLength: minLength(11)
+        },
+        email : {
+          required,
+          email
+        },
+        position : {
+          required
+        }
+      },
+      call_form: {
+        phone: {
+          required,
+          numeric,
+          minLength: minLength(11)
+        },
+        email: {
+          required,
+          email
+        },
+        comment: {required},
+        full_name: {required}
+      },
+    },
     filters: {
       HourForm (value) {
         if (value) {
@@ -300,7 +350,30 @@
       }
     },
     methods: {
+      support (data) {
+        axios.post('http://localhost:8000/api/support/',data).then((res) => {
+          console.log(res)
+          this.call_form.phone = ''
+          this.call_form.email = '',
+            this.call_form.comment = '',
+            this.call_form.full_name = ''
+        }).catch((error) => {
+          this.call_form.phone = ''
+          this.call_form.email = '',
+            this.call_form.comment = '',
+            this.call_form.full_name = ''
+        })
+
+      },
+      register(data) {
+        axios.post('http://localhost:8000/api/person/',data).then((res) => {
+          console.log(res)
+        }).catch((error) => {
+
+        })
+      },
       loadData() {
+        this.registration.conference = this.$route.params.event_id
         console.log('I AM HERE FOR YOU')
         this.current_hour = ''
         this.current_minute = ''

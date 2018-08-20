@@ -3,7 +3,6 @@
     <div class="fcb-nav" :class="{active: show_list}" style="position: relative;z-index: 2;">
       <div class="container">
         <img @click="toMain()" src="./assets/images/bitmap.png" :class="{'no-padding': no_padding}" alt="" style="display: inline-block;padding: 20px">
-        {{windowWidth}}
         <ul class="list-inline" style="display: inline-block" v-if="show_list">
           <li class="list-inline-item" v-for="i,y in slider_data" @click="toEvent(i.id)" :class="{active: i.id == cur_index}">{{i.name}}</li>
           <!--<li class="list-inline-item"><a class="social-icon text-xs-center" target="_blank" href="#">G+</a></li>-->
@@ -69,19 +68,31 @@
     }
   },watch: {
       '$route' (to, from) {
-//        console.log(to, 'dddddaaaaassss')
-//        console.log(from,'asdasdasdasdasdasasdasdasd')
-//        console.log(to.params)
         this.cur_index = to.params.event_id
         if (to.name !== 'MainPage') {
           this.show_list = true
+          if ( this.windowWidth < 560) {
+            this.no_padding = true
+            this.show_list = false
+          }
         }
         if (to.name === 'MainPage') {
           this.show_list = false
+          if ( this.windowWidth < 560) {
+            this.no_padding = true
+            this.show_list = false
+          }
         }
       },
       windowWidth (newHeight, oldHeight) {
-        console.log(newHeight, oldHeight)
+        if (newHeight < 560) {
+          this.no_padding = true
+          this.show_list = false
+        }
+        else{
+          this.no_padding = false
+          this.show_list = true
+        }
       }
   },
   methods: {
@@ -97,6 +108,7 @@
     }
   },
     beforeMount() {
+//    console.log(this.$route)
       axios
         .get('http://localhost:8000/api/conference_type/')
         .then((res) => {
@@ -104,6 +116,10 @@
           this.max_id = res.data.length - 1
         })
       this.show_list = false
+      if (this.$route.name !== 'MainPage') {
+        this.show_list = true
+        this.cur_index = this.$route.params.event_id
+      }
     },
     mounted() {
       this.$nextTick(() => {
@@ -112,8 +128,9 @@
         })
       })
       this.windowWidth = window.innerWidth
-      if ( this.windowWidth < 769) {
+      if ( this.windowWidth < 560) {
         this.no_padding = true
+        this.show_list = false
       }
     }
 }
