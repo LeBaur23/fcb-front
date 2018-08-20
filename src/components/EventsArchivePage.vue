@@ -10,7 +10,7 @@
             {{i.name }}
          </h4>
           <p class="event-archive-img-description-date">
-            {{ i.start_date}}
+            {{ i.start_date | HourForm}}
           </p>
         </div>
     </div>
@@ -26,6 +26,13 @@
         archive_events: [],
         year: ''
       }
+    },
+    filters: {
+      HourForm (value) {
+        if (value) {
+          return moment(String(value)).format('DD.MM.YY')
+        }
+      },
     },
     methods: {
       toEvent(id) {

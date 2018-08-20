@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="fcb-nav" :class="{active: show_list}" style="position: relative;z-index: 2;">
-      <div class="container">
+      <div class="container-fluid">
         <img @click="toMain()" src="./assets/images/bitmap.png" :class="{'no-padding': no_padding}" alt="" style="display: inline-block;padding: 20px">
         <ul class="list-inline" style="display: inline-block" v-if="show_list">
           <li class="list-inline-item" v-for="i,y in slider_data" @click="toEvent(i.id)" :class="{active: i.id == cur_index}">{{i.name}}</li>

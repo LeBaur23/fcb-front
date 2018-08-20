@@ -127,23 +127,23 @@
             </h4>
             <div class="col-sm-7 registration-form">
               <h4 class="registration-text">
-                Наименование организации {{$v.registration.company_name.$error}}
+                Наименование организации
               </h4>
               <input class="registration-input" type="text" v-on:blur="$v.registration.company_name.$touch()"  v-model.trim="registration.company_name" @input="$v.registration.company_name.$touch()"/>
               <h4 class="registration-text" >
-                ФИО {{$v.registration.fio.$error}}
+                ФИО
               </h4>
               <input class="registration-input" type="text"  v-on:blur="$v.registration.fio.$touch()"  v-model.trim="registration.fio" @input="$v.registration.fio.$touch()">
               <h4 class="registration-text">
-                Должность {{$v.registration.position.$error}}
+                Должность
               </h4>
               <input class="registration-input" type="text"  v-on:blur="$v.registration.position.$touch()"  v-model.trim="registration.position" @input="$v.registration.position.$touch()">
               <h4 class="registration-text">
-                Номер телефона {{$v.registration.phone.$error}}
+                Номер телефона
               </h4>
               <input  class="registration-input" type="tel"  v-on:blur="$v.registration.phone.$touch()" v-model.trim="registration.phone" @input="$v.registration.phone.$touch()">
               <h4 class="registration-text">
-                Email {{$v.registration.email.$error}}
+                Email
               </h4>
               <input class="registration-input" type="email"  v-on:blur="$v.registration.email.$touch()" v-model.trim="registration.email" @input="$v.registration.email.$touch()">
               <button class="btn btn-brand" :disabled="$v.registration.$invalid" @click="register(registration)">Зарегистрироваться</button>
@@ -234,7 +234,7 @@
                 {{i.name }}
               </h4>
               <p class="event-archive-img-description-date">
-                {{ i.start_date}}
+                {{ i.start_date | HourDate}}
               </p>
             </div>
           </div>
@@ -336,6 +336,11 @@
       HourForm (value) {
         if (value) {
           return moment(String(value)).format('Do MMMM')
+        }
+      },
+      HourDate (value) {
+        if (value) {
+          return moment(String(value)).format('DD.MM.YY')
         }
       },
       EventFrom (value) {

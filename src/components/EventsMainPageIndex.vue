@@ -6,8 +6,10 @@
         <div class="p-1 "><h1 class="event-conference-number">{{i.number}}</h1></div>
         <div class="p-1 "><h5 class="event-conference-title">{{i.title}}</h5></div>
       </div>
-      <div class="event-conference-description">
-        {{i.description}}
+      <div class="col-sm-12">
+        <div class="row no-margin  event-conference-description">
+          {{i.description}}
+        </div>
       </div>
     </div>
   </div>
