@@ -208,7 +208,8 @@
             <h4 class="registration-title">
               Краткий релиз
             </h4>
-            <button @click="dowloadAllPdf(links)" class="btn btn-brand">Скачать PDF</button>
+            <a download  v-for="i in links" :href="'http://localhost:8000' + i.src" target="_blank" class="btn btn-brand" style="margin-bottom: 25px;overflow: hidden;margin-right: 20px;text-overflow: ellipsis;height: 45px" >{{i.name}}
+            </a>
           </div>
           <div class="row no-margin justify-content-center">
             <h4 class="registration-title">
@@ -396,21 +397,21 @@
       }
     },
     methods: {
-      dowloadAllPdf(urls) {
-        var link = document.createElement('a');
-
-        link.setAttribute('download', null);
-        link.style.display = 'none';
-
-        document.body.appendChild(link);
-
-        for (var i = 0; i < urls.length; i++) {
-          link.setAttribute('href', urls[i]);
-          link.click();
-        }
-
-        document.body.removeChild(link);
-      },
+//      dowloadAllPdf(urls) {
+//        var link = document.createElement('a');
+//
+//        link.setAttribute('download', null);
+//        link.style.display = 'none';
+//
+//        document.body.appendChild(link);
+//
+//        for (var i = 0; i < urls.length; i++) {
+//          link.setAttribute('href', 'http://localhost:8000' + urls[i].src);
+//          link.click();
+//        }
+//
+//        document.body.removeChild(link);
+//      },
       support (data) {
         axios.post('http://localhost:8000/api/support/',data).then((res) => {
           console.log(res)
@@ -448,7 +449,7 @@
         this.partners = []
         this.photos = []
         this.archive_events = []
-
+        this.links = []
         moment.locale('ru')
         this.current_hour = moment().format('HH')
         this.current_minute = moment().format('mm')
@@ -463,6 +464,7 @@
           this.speakers = res.data.speakers
           this.partners = res.data.partners
           this.photos = res.data.photos
+          this.links = res.data.files_conf
           console.log(res.data)
         })
         axios.get('http://localhost:8000/api/conference/?year='+ this.$route.params.archive_year+ ' &conf_type=' + this.$route.params.event_id).then((res) => {

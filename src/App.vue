@@ -104,7 +104,11 @@
           this.slider_data = res.data
           this.max_id = res.data.length - 1
         })
-      this.show_list = false
+
+      this.windowWidth = window.innerWidth
+      if ( this.windowWidth < 560) {
+        this.no_padding = true
+      }
       if (this.$route.name !== 'MainPage') {
         this.show_list = true
         if ( this.windowWidth < 560) {
@@ -123,20 +127,6 @@
       }
     },
     mounted() {
-      this.$nextTick(() => {
-        window.addEventListener('resize', () => {
-          this.windowWidth = window.innerWidth
-        })
-      })
-      this.windowWidth = window.innerWidth
-
-      if ( this.windowWidth < 560) {
-        this.no_padding = true
-        this.show_list = false
-      }
-      if ( this.windowWidth > 560) {
-        this.show_list = true
-      }
     }
 }
 </script>

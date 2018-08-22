@@ -55,8 +55,9 @@
         </div>
       </div>
       <div class="videoWrapper">
-        <embed v-for="i in slider_data"
-               src="https://www.youtube.com/embed/tgbNymZ7vqY">
+        <iframe width="100%" height="315"
+                :src="live">
+        </iframe>
       </div>
 
     </div>
@@ -68,6 +69,7 @@
   export default{
     data () {
       return {
+        live: '',
         slider_data: [],
         about_conf: {},
         cur_id: 0,
@@ -101,6 +103,14 @@
         .then((res) => {
           this.slider_data = res.data
           this.max_id = res.data.length - 1
+          if (this.slider_data.length !== 0) {
+            for (var i = 0; i < this.slider_data.length; i++){
+              if (this.slider_data[i].live.online !== undefined) {
+                this.live = this.slider_data[i].live.online.replace("watch?v=", "embed/");
+                console.log(this.slider_data[i].live.online)
+              }
+            }
+          }
         })
       axios
         .get('http://localhost:8000/api/content/key/?key=about')
