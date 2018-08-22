@@ -204,6 +204,12 @@
               </swiper>
             </div>
           </div>
+          <div v-if="links.length !== 0" class="row no-margin justify-content-center">
+            <h4 class="registration-title">
+              Краткий релиз
+            </h4>
+            <button @click="dowloadAllPdf(links)" class="btn btn-brand">Скачать PDF</button>
+          </div>
           <div class="row no-margin justify-content-center">
             <h4 class="registration-title">
               Связаться с организаторами
@@ -281,6 +287,8 @@
   export default {
     data() {
       return {
+        links: [
+        ],
         oferta_show: false,
         checked: true,
         oferta: true,
@@ -388,6 +396,21 @@
       }
     },
     methods: {
+      dowloadAllPdf(urls) {
+        var link = document.createElement('a');
+
+        link.setAttribute('download', null);
+        link.style.display = 'none';
+
+        document.body.appendChild(link);
+
+        for (var i = 0; i < urls.length; i++) {
+          link.setAttribute('href', urls[i]);
+          link.click();
+        }
+
+        document.body.removeChild(link);
+      },
       support (data) {
         axios.post('http://localhost:8000/api/support/',data).then((res) => {
           console.log(res)
