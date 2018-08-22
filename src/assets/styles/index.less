@@ -962,3 +962,166 @@
 .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
   opacity: 0;
 }
+.custom-file-label::after{
+  //display: none;
+  content: '\f07b';
+  height: 100%;
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #3cb1f4;
+  color: white;
+  margin:0px 0px 0px 10px;
+  text-decoration:none;
+}
+.custom-file-input.is-invalid ~ .custom-file-label, .custom-file-input.is-valid ~ .custom-file-label{
+  border: none;
+}
+.custom-file-label{
+  border: none;
+  background-color: #efefef;
+}
+.custom-file {
+  margin-bottom: 30px;
+}
+.checkbox-wrapper {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  font-size: 14px;
+  margin-bottom: 13px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-wrapper input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  border: 1px solid black;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-wrapper:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-wrapper input:checked ~ .checkmark:after {
+  left: 9px;
+  top: 3px;
+  width: 7px;
+  height: 14px;
+  border: solid green;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-wrapper input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.luna-response-wrapper{
+  h4{
+    color: #ff5656;
+    font-size: 14px;
+    margin-top: -20px;
+    margin-bottom: 30px;
+  }
+  h5{
+    color: #21d371;
+    font-size: 14px;
+    margin-top: -20px;
+    margin-bottom: 30px;
+  }
+  .loader {
+    margin: 0 auto;
+    border: 2px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 2px solid #3498db;
+    width: 25px;
+    height: 25px;
+    margin-bottom: 30px;
+    -webkit-animation: spin 1s linear infinite; /* Safari */
+    animation: spin 1s linear infinite;
+  }
+
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}
+.oferta-wrapper{
+  top: 0;
+  left: 0;
+  z-index: 5;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .oferta-inner{
+    background-color: white;
+    padding: 20px 30px;
+    h4{
+      font-size: 60px;
+      font-weight: bold;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.2px;
+      text-align: center;
+      color: #000000;
+      @media (max-width: 560px) {
+        font-size: 30px;
+      }
+    }
+  }
+  .oferta-inner-description{
+    overflow-x: hidden;
+    height: 400px;
+    margin-bottom: 20px;
+    font-size: 30px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #000000;
+    @media (max-width: 560px) {
+      font-size: 15px;
+      height: 320px;
+    }
+  }
+}

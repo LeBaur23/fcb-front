@@ -4,7 +4,7 @@
       <div class="row justify-content-center">
         <div class="col-sm-7 col-10">
           <transition name="fade">
-            <router-view :digital_data="digital_data">
+            <router-view :digital_data="digital_data" :headline="headline" :description="description">
             </router-view>
           </transition>
         </div>
@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <div v-if="!to_events" class="container digital-kz-wrapper">
+    <div v-if="!to_events && digital_data.length !== 0" class="container digital-kz-wrapper">
       <div class="row justify-content-center">
         <div class="col-sm-10 col-10">
               <h4 class="digital-kz">

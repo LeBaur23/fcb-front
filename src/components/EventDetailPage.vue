@@ -135,7 +135,7 @@
               </h4>
               <input class="registration-input" type="text"  v-on:blur="$v.registration.fio.$touch()"  v-model.trim="registration.fio" @input="$v.registration.fio.$touch()">
               <h4 class="registration-text">
-                Должность
+                ИИН
               </h4>
               <input class="registration-input" type="text"  v-on:blur="$v.registration.position.$touch()"  v-model.trim="registration.position" @input="$v.registration.position.$touch()">
               <h4 class="registration-text">
@@ -145,7 +145,36 @@
               <h4 class="registration-text">
                 Email
               </h4>
-              <input class="registration-input" type="email"  v-on:blur="$v.registration.email.$touch()" v-model.trim="registration.email" @input="$v.registration.email.$touch()">
+              <input  class="registration-input" type="tel"  v-on:blur="$v.registration.phone.$touch()" v-model.trim="registration.phone" @input="$v.registration.phone.$touch()">
+              <h4 class="registration-text">
+                Фотография
+              </h4>
+              <b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file..."></b-form-file>
+              <div class="col-12 no-padding luna-response-wrapper">
+                <div class="loader"></div>
+                <h4>изображение не правильное, используйте другое фото</h4>
+                <h5>верификация прошла успешно</h5>
+              </div>
+              <!--<div class="mt-3">Selected file: {{file && file.name}}</div>-->
+              <label class="checkbox-wrapper">Подписаться на ежемесячную рассылку новостей
+                <input v-model="checked" type="checkbox" :checked="checked">
+                <span class="checkmark"></span>
+              </label>
+              <label class="checkbox-wrapper">Согласен с правилами <a @click="oferta_show = true" style="color: #3cb1f4;">оферты</a>
+                <input v-model="oferta" type="checkbox" :checked="oferta">
+                <span class="checkmark"></span>
+              </label>
+              <div class="oferta-wrapper" v-if="oferta_show">
+                <div class="oferta-inner col-11 col-sm-10">
+                  <h4>Оферта</h4>
+                  <div class="oferta-inner-description">
+                    Мы собрали всю информацию, которая может вам пригодиться на конференции, в одну большую новость: начиная от того, как добраться до места проведения мероприятия и где перекусить, заканчивая вопросами бухгалтерии и командировочных. 	Мы собрали всю информацию, которая может вам пригодиться на конференции, в одну большую новость: начиная от того, как добраться до места проведения мероприятия и где перекусить, заканчивая вопросами бухгалтерии и командировочных. 	Мы собрали всю информацию, которая может вам пригодиться на конференции, в одну большую новость: начиная от того, как добраться до места проведения мероприятия и где перекусить, заканчивая вопросами бухгалтерии и командировочных. 	Мы собрали всю информацию, которая может вам пригодиться на конференции, в одну большую новость: начиная от того, как добраться до места проведения мероприятия и где перекусить, заканчивая вопросами бухгалтерии и командировочных.
+                  </div>
+                  <div class="row no-margin justify-content-center">
+                    <button @click="oferta_show = false" class="btn btn-brand" style="width: 180px;margin: 0 auto">Закрыть</button>
+                  </div>
+                </div>
+              </div>
               <button class="btn btn-brand" :disabled="$v.registration.$invalid" @click="register(registration)">Зарегистрироваться</button>
             </div>
           </div>
@@ -182,7 +211,7 @@
             <div class="col-sm-12 registration-form" style="margin-top: 0px">
               <div class="d-block d-md-none">
                 <h4 class="registration-text">
-                  ФИО {{$v.call_form.full_name.$error}}
+                  ФИО
                 </h4>
                 <input class="registration-input" type="text" :class="{error: $v.call_form.full_name.$error}" v-on:blur="$v.call_form.full_name.$touch()"  v-model.trim="call_form.full_name" @input="$v.call_form.full_name.$touch()">
                 <h4 class="registration-text">
@@ -252,6 +281,10 @@
   export default {
     data() {
       return {
+        oferta_show: false,
+        checked: true,
+        oferta: true,
+        file: '',
         call_form: {
           phone: '',
           email: '',

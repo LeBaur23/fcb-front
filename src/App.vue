@@ -71,10 +71,9 @@
         this.cur_index = to.params.event_id
         if (to.name !== 'MainPage') {
           this.show_list = true
-          console.log(this.show_list)
           if ( this.windowWidth < 560) {
             this.no_padding = true
-            this.show_list = true
+            this.show_list = false
           }
         }
         if (to.name === 'MainPage') {
@@ -108,11 +107,19 @@
       this.show_list = false
       if (this.$route.name !== 'MainPage') {
         this.show_list = true
+        if ( this.windowWidth < 560) {
+          this.show_list = false
+        }
+        else {
+          this.show_list = true
+        }
         this.cur_index = this.$route.params.event_id
       }
       if (this.$route.name === 'MainPage') {
         this.show_list = false
-
+        if ( this.windowWidth < 560) {
+          this.show_list = false
+        }
       }
     },
     mounted() {
@@ -126,6 +133,9 @@
       if ( this.windowWidth < 560) {
         this.no_padding = true
         this.show_list = false
+      }
+      if ( this.windowWidth > 560) {
+        this.show_list = true
       }
     }
 }
