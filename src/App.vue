@@ -55,6 +55,7 @@
 
 <script>
   import axios from 'axios'
+  import flag from './request'
   export default {
   name: 'App',
   data () {
@@ -99,7 +100,7 @@
   },
     beforeMount() {
       axios
-        .get('http://localhost:8000/api/conference_type/')
+        .get(flag.backurl + '/conference_type/')
         .then((res) => {
           this.slider_data = res.data
           this.max_id = res.data.length - 1
