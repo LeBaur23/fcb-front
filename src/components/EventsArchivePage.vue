@@ -4,7 +4,7 @@
       {{ year }}
     </h2>
     <div class="event-archive-img" v-for="i,y in archive_events" @click="toEvent(i.pk)">
-        <div class="event-archive-background-img" style="" v-bind:style="{ backgroundImage: 'url(http://localhost:8000/files/' + i.poster + ')' }"></div>
+        <div class="event-archive-background-img" style="" v-bind:style="{ backgroundImage: 'url(' + backreq + i.poster + ')' }"></div>
         <div class="event-archive-img-description">
          <h4 class="event-archive-img-description-title">
             {{i.name }}
@@ -20,9 +20,12 @@
 <script>
   import axios from 'axios'
   import moment from 'moment'
+  import flag from '../request'
   export default {
     data () {
       return {
+        backreq: flag.back,
+        back_files: flag.back_files,
         archive_events: [],
         year: ''
       }
@@ -41,7 +44,7 @@
     },
     beforeMount () {
       this.year = this.$route.params.archive_year
-      axios.get('http://localhost:8000/api/conference/?year=' +this.$route.params.archive_year + '&conf_type=' + this.$route.params.event_id).then((res) => {
+      axios.get( flag.backurl + '/conference/?year=' +this.$route.params.archive_year + '&conf_type=' + this.$route.params.event_id).then((res) => {
         console.log(res)
         this.archive_events = res.data
       })

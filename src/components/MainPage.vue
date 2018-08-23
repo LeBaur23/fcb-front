@@ -2,7 +2,7 @@
   <div id="MainPage">
     <div id="carousel" class="carousel slide" data-interval="false">
       <div class="carousel-inner">
-        <div ref="classes" class="carousel-item " v-for="i,y in slider_data" :class="{active: y === 0,[y]: true}" v-bind:style="{ backgroundImage: 'url(http://localhost:8000/files/' + i.poster + ')' }">
+        <div ref="classes" class="carousel-item " v-for="i,y in slider_data" :class="{active: y === 0,[y]: true}" v-bind:style="{ backgroundImage: 'url(' + backreq + i.poster + ')' }">
         </div>
       </div>
 
@@ -66,9 +66,12 @@
 
 <script>
   import axios from 'axios'
+  import flag from '../request'
   export default{
     data () {
       return {
+        backreq: flag.back,
+        back_files: flag.back_files,
         live: '',
         slider_data: [],
         about_conf: {},
@@ -99,7 +102,7 @@
     },
     beforeMount() {
       axios
-        .get('http://localhost:8000/api/conference_type/')
+        .get(flag.backurl +'/conference_type/')
         .then((res) => {
           this.slider_data = res.data
           this.max_id = res.data.length - 1
@@ -113,7 +116,7 @@
           }
         })
       axios
-        .get('http://localhost:8000/api/content/key/?key=about')
+        .get(flag.backurl +  '/content/key/?key=about')
         .then((res) => {
           console.log(res.data)
           this.about_conf = res.data

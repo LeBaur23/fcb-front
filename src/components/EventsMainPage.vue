@@ -38,7 +38,7 @@
         <div class="col-sm-5 col-10 participant-description-wrapper" v-for="i in permissions">
           <div class="d-flex mb-3 no-margin">
             <div class="p-1 no-padding">
-              <img width="120px" class="participant-test" :src="'http://localhost:8000/files/'+ i.logo" alt="">
+              <img width="120px" class="participant-test" :src="backreq+ i.logo" alt="">
             </div>
             <div class="p-1 " style="margin-left: 36px">
               <h5 class="participant-description" ><span style="color: #000000;">{{i.name}}</span> {{i.description}}</h5>
@@ -53,9 +53,12 @@
 <script>
   import axios from 'axios'
   import moment from 'moment'
+  import flag from '../request'
   export default {
     data() {
       return {
+        backreq: flag.back,
+        back_files: flag.back_files,
         event_index: null,
         headline: '',
         description: '',
@@ -98,7 +101,7 @@
       loadData() {
         this.to_events = false
         axios
-          .get('http://localhost:8000/api/conference_type/' + this.$route.params.event_id + '/')
+          .get(flag.backurl + '/conference_type/' + this.$route.params.event_id + '/')
           .then((res) => {
             this.headline = res.data.headline
             this.description = res.data.description

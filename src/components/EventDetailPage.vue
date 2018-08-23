@@ -34,7 +34,7 @@
                   <div class="col-sm-12 d-none d-sm-block  no-padding">
                     <div class="row no-margin float-right">
                       <a v-for="i in socials" :href="i.link">
-                        <img width="35px" height="35px" style="border-radius: 50%" :src="'http://localhost:8000/files/'+ i.logo" :alt="i.name" :title="i.name">
+                        <img width="35px" height="35px" style="border-radius: 50%" :src="backreq+ i.logo" :alt="i.name" :title="i.name">
                       </a>
                     </div>
                   </div>
@@ -42,7 +42,7 @@
                     <h4 class="event-detail-share">Поделиться</h4>
                     <div class="row no-margin">
                       <a v-for="i in socials" :href="i.link">
-                        <img width="35px" height="35px" style="border-radius: 50%" :src="'http://localhost:8000/files/'+ i.logo" :alt="i.name" :title="i.name">
+                        <img width="35px" height="35px" style="border-radius: 50%" :src="backreq+ i.logo" :alt="i.name" :title="i.name">
                       </a>
                     </div>
                   </div>
@@ -108,7 +108,7 @@
               Спикеры
             </h4>
             <div class="speaker-card-wrapper" v-for="i in speakers">
-              <div class="speaker-card-img" v-bind:style="{ backgroundImage: 'url(http://localhost:8000/files/' + i.photo + ')' }">
+              <div class="speaker-card-img" v-bind:style="{ backgroundImage: 'url(' + backreq + i.photo + ')' }">
               </div>
               <div>
                 <h4 class="speaker-card-speaker">{{ i.fio}}</h4>
@@ -208,7 +208,7 @@
             <h4 class="registration-title">
               Краткий релиз
             </h4>
-            <a download  v-for="i in links" :href="'http://localhost:8000' + i.src" target="_blank" class="btn btn-brand" style="margin-bottom: 25px;overflow: hidden;margin-right: 20px;text-overflow: ellipsis;height: 45px" >{{i.name}}
+            <a download  v-for="i in links" :href="back_files + i.src" target="_blank" class="btn btn-brand" style="margin-bottom: 25px;overflow: hidden;margin-right: 20px;text-overflow: ellipsis;height: 45px" >{{i.name}}
             </a>
           </div>
           <div class="row no-margin justify-content-center">
@@ -264,7 +264,7 @@
       <div class="row no-margin justify-content-center">
         <div class="col-sm-4" v-for="i,y in archive_events" @click="toEvent(i.pk)">
           <div class="event-archive-img" style="width: 100%">
-            <div class="event-archive-background-img" style="" v-bind:style="{ backgroundImage: 'url(http://localhost:8000/files/' + i.poster + ')' }"></div>
+            <div class="event-archive-background-img" style="" v-bind:style="{ backgroundImage: 'url(' + backreq + i.poster + ')' }"></div>
             <div class="event-archive-img-description">
               <h4 class="event-archive-img-description-title">
                 {{i.name }}
@@ -284,10 +284,13 @@
 <script>
   import axios from 'axios'
   import moment from 'moment'
+  import flag from '../request'
   import { required, minLength, email, numeric } from 'vuelidate/lib/validators'
   export default {
     data() {
       return {
+        backreq: flag.back,
+        back_files: flag.back_files,
         links: [
         ],
         oferta_show: false,
@@ -397,23 +400,8 @@
       }
     },
     methods: {
-//      dowloadAllPdf(urls) {
-//        var link = document.createElement('a');
-//
-//        link.setAttribute('download', null);
-//        link.style.display = 'none';
-//
-//        document.body.appendChild(link);
-//
-//        for (var i = 0; i < urls.length; i++) {
-//          link.setAttribute('href', 'http://localhost:8000' + urls[i].src);
-//          link.click();
-//        }
-//
-//        document.body.removeChild(link);
-//      },
       support (data) {
-        axios.post('http://localhost:8000/api/support/',data).then((res) => {
+        axios.post(flag.backurl + '/support/',data).then((res) => {
           console.log(res)
           this.call_form.phone = ''
           this.call_form.email = '',
@@ -428,7 +416,7 @@
 
       },
       register(data) {
-        axios.post('http://localhost:8000/api/person/',data).then((res) => {
+        axios.post(flag.backurl + '/person/',data).then((res) => {
           console.log(res)
         }).catch((error) => {
 
@@ -455,7 +443,7 @@
         this.current_minute = moment().format('mm')
         this.current_seconds = (parseInt(this.current_hour * 3600) + parseInt(this.current_minute * 60 ))
         console.log(moment().format('HH:mm'))
-        axios.get('http://localhost:8000/api/conference/'+ this.$route.params.detail_id + '/').then((res) => {
+        axios.get(flag.backurl + '/conference/'+ this.$route.params.detail_id + '/').then((res) => {
           this.description = res.data.description
           this.start_date = res.data.start_date
           this.where = res.data.where
@@ -467,7 +455,7 @@
           this.links = res.data.files_conf
           console.log(res.data)
         })
-        axios.get('http://localhost:8000/api/conference/?year='+ this.$route.params.archive_year+ ' &conf_type=' + this.$route.params.event_id).then((res) => {
+        axios.get(flag.backurl + '/conference/?year='+ this.$route.params.archive_year+ ' &conf_type=' + this.$route.params.event_id).then((res) => {
           console.log(res)
           this.archive_events = res.data
         })
