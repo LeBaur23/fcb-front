@@ -4,7 +4,7 @@
       <div class="row justify-content-center">
         <div class="col-sm-7 col-10">
           <transition name="fade">
-            <router-view :digital_data="digital_data" :headline="headline" :description="description">
+            <router-view :digital_data="digital_data" :headline="headline" :description="description" :key_name="key">
             </router-view>
           </transition>
         </div>
@@ -30,7 +30,7 @@
       <div class="row justify-content-center">
         <div class="col-sm-10 col-10">
           <h4 class="participant_opportunity">
-            Возможности на конференции для участников
+            Возможности <span v-if="key !== 'mdkb'"> на конференции</span> для участников
           </h4>
         </div>
       </div>
@@ -57,6 +57,7 @@
   export default {
     data() {
       return {
+        key: '',
         backreq: flag.back,
         back_files: flag.back_files,
         event_index: null,
@@ -87,6 +88,12 @@
     },
     watch: {
       '$route': function(){
+        this.to_events = false
+//        console.log(this.$route.name)
+        if (this.$route.name === 'EventsArchivePage') {
+          this.to_events = true
+        }
+
         this.loadData()
       }
     },
@@ -99,7 +106,7 @@
     },
     methods: {
       loadData() {
-        this.to_events = false
+//        this.to_events = false
         axios
           .get(flag.backurl + '/conference_type/' + this.$route.params.event_id + '/')
           .then((res) => {
@@ -108,6 +115,7 @@
             this.permissions = res.data.permissions
             this.digital_data = res.data.digital_data
             this.archive = res.data.archive
+            this.key = res.data.key
           })
       },
       toArchive(id) {
@@ -120,6 +128,10 @@
       }
     },
     beforeMount() {
+      this.to_events = false
+      if (this.$route.name === 'EventsArchivePage') {
+        this.to_events = true
+      }
       this.loadData()
     }
   }

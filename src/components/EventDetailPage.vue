@@ -55,6 +55,11 @@
          <div class="row no-margin" style="border-bottom: 1px solid #f2f2f2;padding-bottom: 25px ">
          </div>
        </div>
+        <div class="col-sm-10" v-if="short_description!== ''">
+          <h4 class="short-description">
+            {{ short_description }}
+          </h4>
+        </div>
         <div class="col-sm-10">
           <div class="schedule-wrapper d-block d-md-none" v-for="i in schedule_conf"
                :class="{
@@ -103,7 +108,7 @@
           </div>
         </div>
         <div class="col-sm-10">
-          <div class="row no-margin justify-content-center">
+          <div class="row no-margin justify-content-center" v-if="speakers.length !== 0">
             <h4 class="speaker-title">
               Спикеры
             </h4>
@@ -113,7 +118,7 @@
               <div>
                 <h4 class="speaker-card-speaker">{{ i.fio}}</h4>
                 <h5 class="speaker-card-job">
-                  {{ i.position }}
+                  {{ i.iin }}
                 </h5>
               </div>
             </div>
@@ -125,7 +130,30 @@
             <h4 class="registration-description">
               Мы собрали всю информацию, которая может вам пригодиться на конференции, в одну большую новость: начиная от того, как добраться до места проведения мероприятия и где перекусить, заканчивая вопросами бухгалтерии и командировочных.
             </h4>
-            <div class="col-sm-7 registration-form">
+            <div class="col-sm-7 registration-form" v-if="key === 'press'">
+              <h4 class="registration-text" >
+                Наименование организации
+              </h4>
+              <input class="registration-input" type="text" v-on:blur="$v.smi.company_name.$touch()"  v-model.trim="smi.company_name" @input="$v.smi.company_name.$touch()"/>
+              <h4 class="registration-text" >
+                ФИО
+              </h4>
+              <input class="registration-input" type="text"  v-on:blur="$v.smi.fio.$touch()"  v-model.trim="smi.fio" @input="$v.smi.fio.$touch()">
+              <h4 class="registration-text">
+                ИИН
+              </h4>
+              <input class="registration-input" type="text"  v-on:blur="$v.smi.iin.$touch()"  v-model.trim="smi.iin" @input="$v.smi.iin.$touch()">
+              <h4 class="registration-text">
+                Номер телефона
+              </h4>
+              <input  class="registration-input" type="tel"  v-on:blur="$v.smi.phone.$touch()" v-model.trim="smi.phone" @input="$v.smi.phone.$touch()">
+              <h4 class="registration-text">
+                Email
+              </h4>
+              <input  class="registration-input" type="tel"  v-on:blur="$v.smi.email.$touch()" v-model.trim="smi.email" @input="$v.smi.email.$touch()">
+              <button class="btn btn-brand" :disabled="$v.smi.$invalid" @click="register(registration)">Зарегистрироваться</button>
+            </div>
+            <div class="col-sm-7 registration-form" v-if="key !== 'press'">
               <h4 class="registration-text">
                 Наименование организации
               </h4>
@@ -137,7 +165,7 @@
               <h4 class="registration-text">
                 ИИН
               </h4>
-              <input class="registration-input" type="text"  v-on:blur="$v.registration.position.$touch()"  v-model.trim="registration.position" @input="$v.registration.position.$touch()">
+              <input class="registration-input" type="text"  v-on:blur="$v.registration.iin.$touch()"  v-model.trim="registration.iin" @input="$v.registration.iin.$touch()">
               <h4 class="registration-text">
                 Номер телефона
               </h4>
@@ -145,22 +173,23 @@
               <h4 class="registration-text">
                 Email
               </h4>
-              <input  class="registration-input" type="tel"  v-on:blur="$v.registration.phone.$touch()" v-model.trim="registration.phone" @input="$v.registration.phone.$touch()">
+              <input  class="registration-input"  type="tel"  v-on:blur="$v.registration.email.$touch()" v-model.trim="registration.email" @input="$v.registration.email.$touch()">
               <h4 class="registration-text">
                 Фотография
               </h4>
-              <b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file..."></b-form-file>
+              <b-form-file accept=".jpeg" @change="onFileChange" v-model="registration.photo" placeholder="Choose a file..."></b-form-file>
+              {{registration.photo && registration.photo.size}}
               <div class="col-12 no-padding luna-response-wrapper">
                 <div class="loader"></div>
                 <h4>изображение не правильное, используйте другое фото</h4>
                 <h5>верификация прошла успешно</h5>
               </div>
               <!--<div class="mt-3">Selected file: {{file && file.name}}</div>-->
-              <label class="checkbox-wrapper">Подписаться на ежемесячную рассылку новостей
-                <input v-model="checked" type="checkbox" :checked="checked">
+              <label class="checkbox-wrapper">Подписаться на ежемесячную рассылку новостей {{registration.subs}}
+                <input v-model="registration.subs" type="checkbox" :checked="registration.subs">
                 <span class="checkmark"></span>
               </label>
-              <label class="checkbox-wrapper">Согласен с правилами <a @click="oferta_show = true" style="color: #3cb1f4;">оферты</a>
+              <label class="checkbox-wrapper">Согласен с правилами <a @click="oferta_show = true" style="color: #3cb1f4;">оферты {{oferta}}</a>
                 <input v-model="oferta" type="checkbox" :checked="oferta">
                 <span class="checkmark"></span>
               </label>
@@ -175,43 +204,51 @@
                   </div>
                 </div>
               </div>
-              <button class="btn btn-brand" :disabled="$v.registration.$invalid" @click="register(registration)">Зарегистрироваться</button>
+              <button class="btn btn-brand" :disabled="$v.registration.$invalid || registration.photo === null || oferta === false" @click="register(registration)">Зарегистрироваться</button>
             </div>
           </div>
-          <div class="row no-margin justify-content-center">
+          <div class="row no-margin justify-content-center" v-if="key !== 'press' && partners.length !== 0">
             <h4 class="registration-title">
               Нас поддерживают
             </h4>
             <div class="col-sm-3 col-6" v-for="i in partners" style="margin-bottom: 50px">
               <a :href="i.url" :title="i.name">
-                <img width="100%" :src="'http://localhost:8000/files/' + i.logo" :alt="i.name" :title="i.name">
+                <img width="100%" :src="backreq + i.logo" :alt="i.name" :title="i.name">
               </a>
             </div>
           </div>
-          <div class="row no-margin justify-content-center">
+          <div class="row no-margin justify-content-center" v-if="photos.length !== 0">
             <h4 class="registration-title">
               Фотоотчет
             </h4>
             <div class="col-sm-12 slider-wrapper">
               <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
-                <swiper-slide class="slide-1" v-for="i in photos" v-bind:style="{ backgroundImage: 'url(http://localhost:8000/files/' + i.image + ')' }"></swiper-slide>
+                <swiper-slide class="slide-1" v-for="i in photos" v-bind:style="{ backgroundImage: 'url('+ backreq + i.image + ')' }"></swiper-slide>
                 <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
                 <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
               </swiper>
               <!-- swiper2 Thumbs -->
               <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
-                <swiper-slide class="slide-1" v-for="i in photos" v-bind:style="{ backgroundImage: 'url(http://localhost:8000/files/' + i.image + ')' }"></swiper-slide>
+                <swiper-slide class="slide-1" v-for="i in photos" v-bind:style="{ backgroundImage: 'url(' + backreq + i.image + ')' }"></swiper-slide>
               </swiper>
             </div>
           </div>
           <div v-if="links.length !== 0" class="row no-margin justify-content-center">
-            <h4 class="registration-title">
+            <h4 class="registration-title" v-if="key === 'press'">
               Краткий релиз
             </h4>
-            <a download  v-for="i in links" :href="back_files + i.src" target="_blank" class="btn btn-brand" style="margin-bottom: 25px;overflow: hidden;margin-right: 20px;text-overflow: ellipsis;height: 45px" >{{i.name}}
-            </a>
+            <h4 class="registration-title"  v-if="key === 'pkb'">
+              Материалы конференции
+            </h4>
+            <div class="row no-margin">
+              <div class="col-12" v-for="i in links" style="text-align: center">
+                <a download   :href="back_files + i.src" target="_blank" class="btn btn-brand" style="margin-bottom: 25px;width: auto;margin-right: 20px;text-overflow: ellipsis;height: 45px;display: inline-block;padding: 5px 20px" >{{i.name}}
+                </a>
+              </div>
+            </div>
+
           </div>
-          <div class="row no-margin justify-content-center">
+          <div class="row no-margin justify-content-center" v-if="key !== 'press'">
             <h4 class="registration-title">
               Связаться с организаторами
             </h4>
@@ -289,6 +326,8 @@
   export default {
     data() {
       return {
+        key: '',
+        short_description: '',
         backreq: flag.back,
         back_files: flag.back_files,
         links: [
@@ -296,12 +335,19 @@
         oferta_show: false,
         checked: true,
         oferta: true,
-        file: '',
+        file: null,
         call_form: {
           phone: '',
           email: '',
           comment: '',
           full_name: ''
+        },
+        smi: {
+          company_name: '',
+          fio: '',
+          phone: '',
+          email: '',
+          iin: '',
         },
         registration:{
           company_name: '',
@@ -309,7 +355,9 @@
           phone: '',
           email: '',
           conference: '',
-          position: ''
+          iin: '',
+          photo: null,
+          subs: true
         },
         current_hour: '',
         current_minute: '',
@@ -359,8 +407,30 @@
           required,
           email
         },
-        position : {
+        iin : {
+          required,
+          minLength: minLength(12)
+        }
+      },
+      smi: {
+        company_name: {
           required
+        },
+        fio : {
+          required
+        },
+        phone : {
+          required,
+          numeric,
+          minLength: minLength(11)
+        },
+        email : {
+          required,
+          email
+        },
+        iin : {
+          required,
+          minLength: minLength(12)
         }
       },
       call_form: {
@@ -400,6 +470,12 @@
       }
     },
     methods: {
+      onFileChange () {
+        setTimeout( () => {
+          console.log(this.registration.photo)
+        }, 200)
+
+      },
       support (data) {
         axios.post(flag.backurl + '/support/',data).then((res) => {
           console.log(res)
@@ -424,7 +500,7 @@
       },
       loadData() {
         this.registration.conference = this.$route.params.event_id
-        console.log('I AM HERE FOR YOU')
+//        console.log('I AM HERE FOR YOU')
         this.current_hour = ''
         this.current_minute = ''
         this.current_seconds = ''
@@ -442,7 +518,7 @@
         this.current_hour = moment().format('HH')
         this.current_minute = moment().format('mm')
         this.current_seconds = (parseInt(this.current_hour * 3600) + parseInt(this.current_minute * 60 ))
-        console.log(moment().format('HH:mm'))
+//        console.log(moment().format('HH:mm'))
         axios.get(flag.backurl + '/conference/'+ this.$route.params.detail_id + '/').then((res) => {
           this.description = res.data.description
           this.start_date = res.data.start_date
@@ -453,10 +529,12 @@
           this.partners = res.data.partners
           this.photos = res.data.photos
           this.links = res.data.files_conf
-          console.log(res.data)
+          this.key = res.data.key
+          this.short_description = res.data.main_description
+//          console.log(res.data)
         })
         axios.get(flag.backurl + '/conference/?year='+ this.$route.params.archive_year+ ' &conf_type=' + this.$route.params.event_id).then((res) => {
-          console.log(res)
+//          console.log(res)
           this.archive_events = res.data
         })
       },

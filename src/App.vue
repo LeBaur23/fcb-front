@@ -60,6 +60,7 @@
   name: 'App',
   data () {
     return {
+      key_from_app: '',
       slider_data: [],
       max_id: 0,
       cur_index: 0,

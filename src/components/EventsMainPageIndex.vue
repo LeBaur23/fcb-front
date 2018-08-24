@@ -1,13 +1,13 @@
 <template>
   <div class="event-conference-wrapper">
-    <h2 class="event_conference">О Конференциях</h2>
+    <h2 class="event_conference" v-if="key_name !== 'mdkb'">О Конференциях</h2>
     <div class="container digital-kz-wrapper no-margin">
       <div class="row justify-content-center" v-if="digital_data.length === 0">
         <div class="col-12 no-padding">
-          <h4 class="digital-kz" v-if="headline !== '' ">
+          <h4 class="digital-kz" v-if="headline !== '' " style="text-align: left">
             {{ headline }}
           </h4>
-          <h4 class="digital-kz-description">
+          <h4 class="digital-kz-description" style="text-align: left">
             {{ description }}
           </h4>
         </div>
@@ -28,6 +28,6 @@
 </template>
 <script>
   export default {
-    props: ['digital_data', 'headline', 'description']
+    props: ['digital_data', 'headline', 'description', 'key_name']
   }
 </script>

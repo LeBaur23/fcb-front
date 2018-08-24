@@ -45,7 +45,6 @@
     beforeMount () {
       this.year = this.$route.params.archive_year
       axios.get( flag.backurl + '/conference/?year=' +this.$route.params.archive_year + '&conf_type=' + this.$route.params.event_id).then((res) => {
-        console.log(res)
         this.archive_events = res.data
       })
     }
