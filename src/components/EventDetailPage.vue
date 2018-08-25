@@ -595,7 +595,7 @@
         })
       },
       loadData() {
-        this.registration.conference = this.$route.params.event_id
+        this.registration.conference = this.$route.params.detail_id
 //        console.log('I AM HERE FOR YOU')
         this.current_hour = ''
         this.current_minute = ''
