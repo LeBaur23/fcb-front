@@ -58,6 +58,7 @@
         <iframe width="100%" height="315"
                 :src="live">
         </iframe>
+        <iframe v-if="live === ''" src="https://www.youtube.com/embed/b7G5h2SdSbA" frameborder="0"></iframe>
       </div>
 
     </div>
@@ -92,11 +93,9 @@
         }
       },
       prev() {
-        if (this.cur_id < 0) {
-          this.cur_id  = this.max_id
-        }
-        else{
-          this.cur_id -= 1
+        this.cur_id -= 1
+        if (this.cur_id <= 0) {
+          this.cur_id = this.max_id
         }
       }
     },

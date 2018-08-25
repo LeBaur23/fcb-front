@@ -123,7 +123,7 @@
               </div>
             </div>
           </div>
-          <div class="row no-margin justify-content-center">
+          <div class="row no-margin justify-content-center"  v-if="key === 'pkb' || key === 'press'">
             <h4 class="registration-title">
               Регистрация
             </h4>
@@ -151,9 +151,18 @@
                 Email
               </h4>
               <input  class="registration-input" type="tel"  v-on:blur="$v.smi.email.$touch()" v-model.trim="smi.email" @input="$v.smi.email.$touch()">
-              <button class="btn btn-brand" :disabled="$v.smi.$invalid" @click="register(registration)">Зарегистрироваться</button>
+              <button class="btn btn-brand" :disabled="$v.smi.$invalid" @click="smi_data(smi)">Зарегистрироваться</button>
             </div>
-            <div class="col-sm-7 registration-form" v-if="key !== 'press'">
+            <div class="image-check" v-if="image_check">
+              <div class="row luna justify-content-center no-margin">
+                <div class="col-10 col-sm-6 luna-response-wrapper">
+                  <div v-if="luna_pending" class="loader"></div>
+                  <h4 v-if="luna_error" class="text-center">изображение не правильное, используйте другое фото</h4>
+                  <h5 v-if="luna_success" class="text-center">верификация прошла успешно</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-7 registration-form" v-if="key === 'pkb'">
               <h4 class="registration-text">
                 Наименование организации
               </h4>
@@ -178,18 +187,12 @@
                 Фотография
               </h4>
               <b-form-file accept=".jpeg" @change="onFileChange" v-model="registration.photo" placeholder="Choose a file..."></b-form-file>
-              {{registration.photo && registration.photo.size}}
-              <div class="col-12 no-padding luna-response-wrapper">
-                <div class="loader"></div>
-                <h4>изображение не правильное, используйте другое фото</h4>
-                <h5>верификация прошла успешно</h5>
-              </div>
               <!--<div class="mt-3">Selected file: {{file && file.name}}</div>-->
-              <label class="checkbox-wrapper">Подписаться на ежемесячную рассылку новостей {{registration.subs}}
+              <label class="checkbox-wrapper">Подписаться на ежемесячную рассылку новостей
                 <input v-model="registration.subs" type="checkbox" :checked="registration.subs">
                 <span class="checkmark"></span>
               </label>
-              <label class="checkbox-wrapper">Согласен с правилами <a @click="oferta_show = true" style="color: #3cb1f4;">оферты {{oferta}}</a>
+              <label class="checkbox-wrapper">Я даю <a @click="oferta_show = true" style="color: #3cb1f4;">согласие</a>  на сбор/обработку персональных данных
                 <input v-model="oferta" type="checkbox" :checked="oferta">
                 <span class="checkmark"></span>
               </label>
@@ -197,17 +200,18 @@
                 <div class="oferta-inner col-11 col-sm-10">
                   <h4>Оферта</h4>
                   <div class="oferta-inner-description">
-                    Мы собрали всю информацию, которая может вам пригодиться на конференции, в одну большую новость: начиная от того, как добраться до места проведения мероприятия и где перекусить, заканчивая вопросами бухгалтерии и командировочных. 	Мы собрали всю информацию, которая может вам пригодиться на конференции, в одну большую новость: начиная от того, как добраться до места проведения мероприятия и где перекусить, заканчивая вопросами бухгалтерии и командировочных. 	Мы собрали всю информацию, которая может вам пригодиться на конференции, в одну большую новость: начиная от того, как добраться до места проведения мероприятия и где перекусить, заканчивая вопросами бухгалтерии и командировочных. 	Мы собрали всю информацию, которая может вам пригодиться на конференции, в одну большую новость: начиная от того, как добраться до места проведения мероприятия и где перекусить, заканчивая вопросами бухгалтерии и командировочных.
+                    Настоящим, регистрируясь для участия на конференции, я даю согласие ТОО «Первое кредитное бюро» (далее - ПКБ) на сбор и обработку моих (обо мне) персональных (в том числе биометрических) данных в соответствии с Законом РК «О персональных данных и их защите» для целей проведения указанной конференции и деятельности ПКБ, предусмотренной Законом РК «О кредитных бюро и формировании кредитных историй»
+                    Достоверность сведений гарантирую
                   </div>
                   <div class="row no-margin justify-content-center">
                     <button @click="oferta_show = false" class="btn btn-brand" style="width: 180px;margin: 0 auto">Закрыть</button>
                   </div>
                 </div>
               </div>
-              <button class="btn btn-brand" :disabled="$v.registration.$invalid || registration.photo === null || oferta === false" @click="register(registration)">Зарегистрироваться</button>
+              <button class="btn btn-brand" :disabled="$v.registration.$invalid || image_response || oferta === false" @click="register(registration)">Зарегистрироваться</button>
             </div>
           </div>
-          <div class="row no-margin justify-content-center" v-if="key !== 'press' && partners.length !== 0">
+          <div class="row no-margin justify-content-center" v-if="partners.length !== 0">
             <h4 class="registration-title">
               Нас поддерживают
             </h4>
@@ -220,35 +224,52 @@
           <div class="row no-margin justify-content-center" v-if="photos.length !== 0">
             <h4 class="registration-title">
               Фотоотчет
+              <!--<span style="font-size: 10px">{{photos}}</span>-->
             </h4>
-            <div class="col-sm-12 slider-wrapper">
-              <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
-                <swiper-slide class="slide-1" v-for="i in photos" v-bind:style="{ backgroundImage: 'url('+ backreq + i.image + ')' }"></swiper-slide>
-                <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
-                <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
-              </swiper>
-              <!-- swiper2 Thumbs -->
-              <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
-                <swiper-slide class="slide-1" v-for="i in photos" v-bind:style="{ backgroundImage: 'url(' + backreq + i.image + ')' }"></swiper-slide>
-              </swiper>
+            <div class="col-sm-12 slider-wrapper photo_otchet">
+              <div id="demo" class="carousel slide" data-ride="carousel">
+
+                <!-- Indicators -->
+                <ul class="carousel-indicators" v-if="photos.length !== 1">
+                  <li data-target="#demo" data-slide-to="0" v-for="i,y in photos" :class="{active: y=== 0}"></li>
+                </ul>
+
+                <div class="carousel-inner">
+                  <div class="carousel-item " v-for="i,y in photos" :class="{active: y === 0} " >
+                    <div class="photo_otchet_img" v-bind:style="{ backgroundImage: 'url('+ backreq + i.image + ')' }"></div>
+                  </div>
+                </div>
+
+                <!-- Left and right controls -->
+                <div v-if="photos.length !== 1">
+                  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                  </a>
+                  <a class="carousel-control-next" href="#demo" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                  </a>
+                </div>
+
+              </div>
+
             </div>
           </div>
           <div v-if="links.length !== 0" class="row no-margin justify-content-center">
-            <h4 class="registration-title" v-if="key === 'press'">
-              Краткий релиз
+            <h4 class="registration-title" v-if="key !== 'pkb'">
+              Пресс релиз
             </h4>
             <h4 class="registration-title"  v-if="key === 'pkb'">
               Материалы конференции
             </h4>
             <div class="row no-margin">
               <div class="col-12" v-for="i in links" style="text-align: center">
-                <a download   :href="back_files + i.src" target="_blank" class="btn btn-brand" style="margin-bottom: 25px;width: auto;margin-right: 20px;text-overflow: ellipsis;height: 45px;display: inline-block;padding: 5px 20px" >{{i.name}}
+                <a download   :href="back_files + i.src" target="_blank" class="btn btn-brand" style="margin-bottom: 25px;width: auto;text-overflow: ellipsis;height: 45px;display: inline-block;padding: 5px 20px" >{{i.name}}
                 </a>
               </div>
             </div>
 
           </div>
-          <div class="row no-margin justify-content-center" v-if="key !== 'press'">
+          <div class="row no-margin justify-content-center" v-if="key === 'pkb'">
             <h4 class="registration-title">
               Связаться с организаторами
             </h4>
@@ -326,6 +347,11 @@
   export default {
     data() {
       return {
+        luna_error: false,
+        luna_success: false,
+        luna_pending: false,
+        image_check: false,
+        image_response: true,
         key: '',
         short_description: '',
         backreq: flag.back,
@@ -470,15 +496,72 @@
       }
     },
     methods: {
-      onFileChange () {
+      smi_data (data) {
+        axios.post(flag.backurl + '/person/send_email/',data).then((res) => {
+          console.log(res)
+          alert('Успешно')
+        })
+          .catch((error) => {
+          console.log(error)
+            alert('Ошибка, повторите еще раз')
+
+          })
+      },
+      onFileChange (e) {
+        this.image_check = true
+        this.luna_pending = true
         setTimeout( () => {
           console.log(this.registration.photo)
-        }, 200)
+          var files = e.target.files
+          console.log(files[0])
+          var formData = new FormData();
+          formData.append("photo", files[0]);
+            axios.post(flag.backurl + '/person/image_check/', formData).then((res) => {
+              if (res.data.status === false) {
+                this.luna_pending = false
+                this.luna_error = true
+                console.log(this.luna_error)
+                setTimeout(() => {
+                  this.luna_pending = false
+                  this.image_check = false
+                  this.luna_error = false
+                  this.luna_success = false
+                  this.image_response = true
+                }, 2000)
+              }
+              else {
+                this.luna_pending = false
+                this.luna_success = true
+                console.log('SUCCESS')
+                console.log(this.luna_error)
+                setTimeout(() => {
+                  this.luna_pending = false
+                  this.image_check = false
+                  this.luna_error = false
+                  this.luna_success = false
+                  this.image_response = false
+                }, 2000)
+              }
 
+            }).catch((error) => {
+              console.log('ERROR')
+              this.luna_pending = false
+              this.luna_error = true
+              console.log(this.luna_error)
+              setTimeout(() => {
+                this.luna_pending = false
+                this.image_check = false
+                this.luna_error = false
+                this.luna_success = false
+              }, 2000)
+              console.log(this.luna_error)
+            })
+        }, 200)
       },
       support (data) {
         axios.post(flag.backurl + '/support/',data).then((res) => {
           console.log(res)
+          alert('Успешно')
           this.call_form.phone = ''
           this.call_form.email = '',
             this.call_form.comment = '',
@@ -488,14 +571,27 @@
           this.call_form.email = '',
             this.call_form.comment = '',
             this.call_form.full_name = ''
+          alert('Ошибка, повторите еще раз')
+
         })
 
       },
       register(data) {
-        axios.post(flag.backurl + '/person/',data).then((res) => {
-          console.log(res)
-        }).catch((error) => {
+        var formData = new FormData();
+        formData.append("photo", data.photo);
+        formData.append("company_name", data.company_name);
+        formData.append("fio", data.fio);
+        formData.append("phone", data.phone);
+        formData.append("email", data.email);
+        formData.append("conference", data.conference);
+        formData.append("iin", data.iin);
+        formData.append("subs", data.subs);
 
+        axios.post(flag.backurl + '/person/',formData).then((res) => {
+          console.log(res)
+          alert('Успешно')
+        }).catch((error) => {
+          alert('Ошибка, повторите еще раз')
         })
       },
       loadData() {
@@ -518,7 +614,6 @@
         this.current_hour = moment().format('HH')
         this.current_minute = moment().format('mm')
         this.current_seconds = (parseInt(this.current_hour * 3600) + parseInt(this.current_minute * 60 ))
-//        console.log(moment().format('HH:mm'))
         axios.get(flag.backurl + '/conference/'+ this.$route.params.detail_id + '/').then((res) => {
           this.description = res.data.description
           this.start_date = res.data.start_date
@@ -531,10 +626,8 @@
           this.links = res.data.files_conf
           this.key = res.data.key
           this.short_description = res.data.main_description
-//          console.log(res.data)
         })
         axios.get(flag.backurl + '/conference/?year='+ this.$route.params.archive_year+ ' &conf_type=' + this.$route.params.event_id).then((res) => {
-//          console.log(res)
           this.archive_events = res.data
         })
       },

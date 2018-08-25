@@ -14,6 +14,28 @@
         <!--<img src="./assets/images/bitmap.png" alt="">-->
     <!--</div>-->
     <router-view/>
+    <div class="notification" v-if="slider_data.length !== 0 && slider_data[0].notification.speaker !== undefined && opened">
+      <div class="modal-back"  @click="closeModal()">
+
+      </div>
+      <div class="col-11 col-sm-6 col-md-6 col-lg-4 notification-inner" >
+          <img src="./assets/images/notification.png" width="250px" alt="">
+          <h5>
+            Хей-хей
+          </h5>
+          <h4 >
+             <span v-if="slider_data[0].notification.is_now === false">Не пропустите выступление</span> <span v-if="slider_data[0].notification.is_now === true">Сейчас выступает</span>
+            <br>
+             <span class="speaker">{{slider_data[0].notification.speaker}}</span> <b>в {{slider_data[0].notification.time.substring(0,5)}}</b>
+          </h4>
+        <button class="btn btn-brand" @click="toEvent_detail(slider_data[0].notification.id_conf,slider_data[0].id)">Перейти</button>
+      </div>
+    </div>
+    <div class="to-top" v-if="show_top">
+      <div class="to-top-button" @click="toTop()">
+        <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+      </div>
+    </div>
     <div class="Footer">
       <div class="container">
         <div class="row no-margin">
@@ -29,13 +51,13 @@
             <h4 class="text-dark title" >Социальные сети</h4>
 
             <div class="row no-margin">
-              <a href="">
+              <a href="https://www.facebook.com/1cb.kz/">
                 <i class="fa fa-facebook brand_icon" aria-hidden="true"></i>
               </a>
-              <a href="">
+              <a href="https://vk.com/firstcreditbureau">
                 <i class="fa fa-vk brand_icon" aria-hidden="true"></i>
               </a>
-              <a href="">
+              <a href="https://t.me/FCBKbot">
                 <i class="fa fa-telegram brand_icon" aria-hidden="true"></i>
               </a>
             </div>
@@ -56,14 +78,19 @@
 <script>
   import axios from 'axios'
   import flag from './request'
+  import moment from 'moment'
   export default {
   name: 'App',
   data () {
     return {
+      show_top: false,
+      opened: true,
+      notification: '',
       key_from_app: '',
       slider_data: [],
       max_id: 0,
       cur_index: 0,
+      year: '',
       show_list: false,
       windowWidth: 0,
       no_padding: false
@@ -89,21 +116,52 @@
       },
   },
   methods: {
+    closeModal () {
+      this.opened = false
+    },
     loadData() {
 
+    },
+    toTop() {
+      var timeout
+      if (document.documentElement.scrollTop !== 0 || document.body.scrollTop !== 0) {
+          window.scrollBy(0, -50);
+          timeout = setTimeout(this.toTop, 10)
+      }
+      else {
+        clearTimeout (timeout)
+      }
+//        document.body.scrollTop = 0;
+//        document.documentElement.scrollTop = 0;
     },
     toMain() {
       this.$router.push('/')
     },
     toEvent(id) {
       this.$router.push({name: 'EventsMainPage', params: {event_id: id}})
+    },
+    toEvent_detail(event_id, id ) {
+      console.log(event_id, id)
+      this.$router.push({name: 'EventsDetailPage', params: {event_id: id, archive_year: this.year, detail_id: event_id}})
+      this.opened = false
     }
   },
     beforeMount() {
+      var top = this
+      window.onscroll = function() {
+        if (document.documentElement.scrollTop > 200 ) {
+          top.show_top = true
+        }
+        else {
+          top.show_top = false
+        }
+      };
+
       axios
         .get(flag.backurl + '/conference_type/')
         .then((res) => {
           this.slider_data = res.data
+          console.log(res)
           this.max_id = res.data.length - 1
         })
 
@@ -129,6 +187,8 @@
       }
     },
     mounted() {
+    this.year = moment().format('YYYY')
+//    console.log())
     }
 }
 </script>
