@@ -564,13 +564,13 @@
           alert('Успешно')
           this.call_form.phone = ''
           this.call_form.email = '',
-            this.call_form.comment = '',
-            this.call_form.full_name = ''
+          this.call_form.comment = '',
+          this.call_form.full_name = ''
         }).catch((error) => {
           this.call_form.phone = ''
           this.call_form.email = '',
-            this.call_form.comment = '',
-            this.call_form.full_name = ''
+          this.call_form.comment = '',
+          this.call_form.full_name = ''
           alert('Ошибка, повторите еще раз')
 
         })
@@ -586,10 +586,17 @@
         formData.append("conference", data.conference);
         formData.append("iin", data.iin);
         formData.append("subs", data.subs);
-
         axios.post(flag.backurl + '/person/',formData).then((res) => {
           console.log(res)
           alert('Успешно')
+          this.registration.company_name = ''
+          this.registration.fio = ''
+          this.registration.phone = ''
+          this.registration.email = ''
+          this.registration.conference = ''
+          this.registration.iin = ''
+          this.registration.photo = null
+          this.registration.subs = null
         }).catch((error) => {
           alert('Ошибка, повторите еще раз')
         })
