@@ -161,7 +161,7 @@
         .get(flag.backurl + '/conference_type/')
         .then((res) => {
           this.slider_data = res.data
-          console.log(res)
+//          console.log(res)
           this.max_id = res.data.length - 1
         })
 
