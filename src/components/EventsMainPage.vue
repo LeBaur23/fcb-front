@@ -30,7 +30,7 @@
       <div class="row justify-content-center">
         <div class="col-sm-10 col-10">
           <h4 class="participant_opportunity">
-            Возможности <span v-if="key !== 'mdkb'"> на конференции</span> для участников
+            Возможности <span v-if="key === 'pkb'"> на конференции</span> для участников
           </h4>
         </div>
       </div>
