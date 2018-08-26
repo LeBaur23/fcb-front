@@ -30,6 +30,14 @@
         year: ''
       }
     },
+    watch: {
+      '$route' (to, from) {
+        this.year = this.$route.params.archive_year
+        axios.get( flag.backurl + '/conference/?year=' +this.$route.params.archive_year + '&conf_type=' + this.$route.params.event_id).then((res) => {
+          this.archive_events = res.data
+        })
+      }
+    },
     filters: {
       HourForm (value) {
         if (value) {

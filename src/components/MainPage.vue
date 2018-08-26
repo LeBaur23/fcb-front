@@ -94,7 +94,7 @@
       },
       prev() {
         this.cur_id -= 1
-        if (this.cur_id <= 0) {
+        if (this.cur_id < 0) {
           this.cur_id = this.max_id
         }
       }

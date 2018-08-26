@@ -1,6 +1,6 @@
 <template>
   <div class="event-conference-wrapper">
-    <h2 class="event_conference" v-if="key_name !== 'mdkb'">О Конференциях</h2>
+    <h2 class="event_conference" v-if="key_name === 'pkb'">О Конференциях</h2>
     <div class="container digital-kz-wrapper no-margin">
       <div class="row justify-content-center" v-if="digital_data.length === 0">
         <div class="col-12 no-padding">

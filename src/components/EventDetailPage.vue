@@ -12,13 +12,13 @@
             <div class="row no-margin">
               <div class="col-sm-6">
                 <div class="row no-margin">
-                  <div class="col-sm-4 no-padding">
+                  <div class="col-sm-5 no-padding">
                  <span class="event-detail-date">
                     <i class="fa fa-calendar-o event-detail-calendar-icon" aria-hidden="true" ></i>
-                    18 июля
+                    {{start_date | HourForm}}
                   </span>
                   </div>
-                  <div class="col-sm-8 no-padding">
+                  <div class="col-sm-7 no-padding">
                 <span class="event-detail-place">
                   <i class="fa fa-map-marker event-detail-place-icon"  aria-hidden="true"></i>
                   {{ where }}
@@ -61,26 +61,52 @@
           </h4>
         </div>
         <div class="col-sm-10">
-          <div class="schedule-wrapper d-block d-md-none" v-for="i in schedule_conf"
-               :class="{
-            active: (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&
-                     current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))
-          }">
-            <h4 class="schedule-time" :class="{'text-black' : (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) > current_seconds}">
-              {{i.start_time.substring(0, 5) }} - {{i.end_time.substring(0, 5) }}
-              <span class="actived-now" style="margin-left: 5px" v-if="(parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&
-                     current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))">
-                  Сейчас идет
-                </span>
-            </h4>
-            <h4 class="schedule-title">
-              {{ i.subject }}
-            </h4>
-            <h4 class="schedule-speaker text-right">
-              {{ i.speaker.fio }}
-            </h4>
+          <!--{{schedule_conf}}-->
+          <div class=""  v-for="i,y in schedule_conf">
+            {{object_keys[y]}}
+            <div class="schedule-wrapper" v-for="a in i[object_keys[y]]"
+                 :class="{
+            active: (today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) <= current_seconds &&
+                     current_seconds <= (parseInt(a.end_time.substring(0, 2) * 3600) + parseInt(a.end_time.substring(3, 5) * 60 )))
+            }"
+
+            >
+              {{a}}
+              <h4 class="schedule-time" :class="{'text-black' : (today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) > current_seconds)}">
+              {{a.start_time.substring(0, 5) }} - {{a.end_time.substring(0, 5) }}
+              <span class="actived-now" style="margin-left: 5px" v-if="(today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) <= current_seconds &&
+              current_seconds <= (parseInt(a.end_time.substring(0, 2) * 3600) + parseInt(a.end_time.substring(3, 5) * 60 )))">
+              Сейчас идет
+              </span>
+              </h4>
+              <h4 class="schedule-title">
+              {{ a.subject }}
+              </h4>
+              <h4 class="schedule-speaker text-right">
+              {{ a.speaker.fio }}
+              </h4>
+            </div>
           </div>
-          <div class="schedule-wrapper d-none d-md-flex" v-for="i in schedule_conf"
+          <!--<div class="schedule-wrapper d-block d-md-none" v-for="i in schedule_conf"-->
+               <!--:class="{-->
+            <!--active: (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&-->
+                     <!--current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))-->
+          <!--}">-->
+            <!--<h4 class="schedule-time" :class="{'text-black' : (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) > current_seconds}">-->
+              <!--{{i.start_time.substring(0, 5) }} - {{i.end_time.substring(0, 5) }}-->
+              <!--<span class="actived-now" style="margin-left: 5px" v-if="(parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&-->
+                     <!--current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))">-->
+                  <!--Сейчас идет-->
+                <!--</span>-->
+            <!--</h4>-->
+            <!--<h4 class="schedule-title">-->
+              <!--{{ i.subject }}-->
+            <!--</h4>-->
+            <!--<h4 class="schedule-speaker text-right">-->
+              <!--{{ i.speaker.fio }}-->
+            <!--</h4>-->
+          <!--</div>-->
+          <div v-if="false" class="schedule-wrapper d-none d-md-flex" v-for="i in schedule_conf"
                :class="{
             active: (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&
                      current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))
@@ -227,31 +253,20 @@
               <!--<span style="font-size: 10px">{{photos}}</span>-->
             </h4>
             <div class="col-sm-12 slider-wrapper photo_otchet">
-              <div id="demo" class="carousel slide" data-ride="carousel">
+              <slick class="asdasd" ref="slick" :options="slickMainOptions">
+                <div class="main_slick_inner"  v-for="i in photos"  >
+                  <div class="main_slick_inner_img" v-bind:style="{ backgroundImage: 'url('+ backreq + i.image + ')' }">
 
-                <!-- Indicators -->
-                <ul class="carousel-indicators" v-if="photos.length !== 1">
-                  <li data-target="#demo" data-slide-to="0" v-for="i,y in photos" :class="{active: y=== 0}"></li>
-                </ul>
-
-                <div class="carousel-inner">
-                  <div class="carousel-item " v-for="i,y in photos" :class="{active: y === 0} " >
-                    <div class="photo_otchet_img" v-bind:style="{ backgroundImage: 'url('+ backreq + i.image + ')' }"></div>
                   </div>
                 </div>
+              </slick>
+              <slick class="asd" ref="slick" :options="slickOptions">
+                <div class="sub_slick_inner" v-for="i in photos" >
+                  <div class="sub_slick_inner_img" v-bind:style="{ backgroundImage: 'url('+ backreq + i.image + ')' }" >
 
-                <!-- Left and right controls -->
-                <div v-if="photos.length !== 1">
-                  <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                  </a>
-                  <a class="carousel-control-next" href="#demo" data-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                  </a>
+                  </div>
                 </div>
-
-              </div>
-
+              </slick>
             </div>
           </div>
           <div v-if="links.length !== 0" class="row no-margin justify-content-center">
@@ -343,10 +358,27 @@
   import axios from 'axios'
   import moment from 'moment'
   import flag from '../request'
+  import $ from "jquery"
   import { required, minLength, email, numeric } from 'vuelidate/lib/validators'
+  import Slick from 'vue-slick'
   export default {
     data() {
       return {
+        today: '',
+        slickMainOptions: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          fade: true,
+          asNavFor: '.asd'
+        },
+        slickOptions: {
+          slidesToShow: 4,
+          focusOnSelect: true,
+          arrows: false,
+          asNavFor: '.asdasd'
+          // Any other options that can be got from plugin documentation
+        },
+        object_keys: [],
         luna_error: false,
         luna_success: false,
         luna_pending: false,
@@ -473,10 +505,11 @@
         full_name: {required}
       },
     },
+    components: { Slick },
     filters: {
       HourForm (value) {
         if (value) {
-          return moment(String(value)).format('Do MMMM')
+          return moment(String(value)).format('Do MMM')
         }
       },
       HourDate (value) {
@@ -496,6 +529,53 @@
       }
     },
     methods: {
+      next() {
+        this.$refs.slick.next();
+      },
+
+      prev() {
+        this.$refs.slick.prev();
+      },
+
+      reInit() {
+        // Helpful if you have to deal with v-for to update dynamic lists
+        this.$nextTick(() => {
+          this.$refs.slick.reSlick();
+        });
+      },
+      handleAfterChange(event, slick, currentSlide) {
+        console.log('handleAfterChange', event, slick, currentSlide);
+      },
+      handleBeforeChange(event, slick, currentSlide, nextSlide) {
+        console.log('handleBeforeChange', event, slick, currentSlide, nextSlide);
+      },
+      handleBreakpoint(event, slick, breakpoint) {
+        console.log('handleBreakpoint', event, slick, breakpoint);
+      },
+      handleDestroy(event, slick) {
+        console.log('handleDestroy', event, slick);
+      },
+      handleEdge(event, slick, direction) {
+        console.log('handleEdge', event, slick, direction);
+      },
+      handleInit(event, slick) {
+        console.log('handleInit', event, slick);
+      },
+      handleReInit(event, slick) {
+        console.log('handleReInit', event, slick);
+      },
+      handleSetPosition(event, slick) {
+        console.log('handleSetPosition', event, slick);
+      },
+      handleSwipe(event, slick, direction) {
+        console.log('handleSwipe', event, slick, direction);
+      },
+      handleLazyLoaded(event, slick, image, imageSource) {
+        console.log('handleLazyLoaded', event, slick, image, imageSource);
+      },
+      handleLazeLoadError(event, slick, image, imageSource) {
+        console.log('handleLazeLoadError', event, slick, image, imageSource);
+      },
       smi_data (data) {
         axios.post(flag.backurl + '/person/send_email/',data).then((res) => {
           console.log(res)
@@ -602,6 +682,8 @@
         })
       },
       loadData() {
+        this.today = moment().format('YYYY-MM-DD')
+        console.log(moment().format('YYYY-MM-DD'))
         this.registration.conference = this.$route.params.detail_id
 //        console.log('I AM HERE FOR YOU')
         this.current_hour = ''
@@ -626,7 +708,22 @@
           this.start_date = res.data.start_date
           this.where = res.data.where
           this.socials = res.data.socials
-          this.schedule_conf = res.data.schedule_conf
+//          this.schedule_conf = res.data.schedule_conf
+          var datas = []
+          var days = {}
+          var keys = []
+//          console.log(res.data.schedule_conf)
+          for (var key in res.data.schedule_conf) {
+            keys.push(key)
+            days[key] = res.data.schedule_conf[key]
+            datas.push(days)
+            days = {}
+          }
+          this.object_keys = keys
+//          console.log(this.object_keys)
+//          console.log(datas)
+          this.schedule_conf = datas
+          console.log(this.schedule_conf)
           this.speakers = res.data.speakers
           this.partners = res.data.partners
           this.photos = res.data.photos
@@ -642,8 +739,6 @@
         console.log(id)
         this.$router.replace({name: 'EventsDetailPage', params: {event_id: this.$route.params.event_id, archive_year: this.$route.params.archive_year,detail_id: id}})
       }
-    },
-    mounted() {
     },
     beforeMount () {
       this.loadData()

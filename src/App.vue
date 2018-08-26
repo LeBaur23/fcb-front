@@ -162,7 +162,7 @@
         .then((res) => {
           this.slider_data = res.data
 //          console.log(res)
-          this.max_id = res.data.length - 1
+          this.max_id = res.data.length
         })
 
       this.windowWidth = window.innerWidth

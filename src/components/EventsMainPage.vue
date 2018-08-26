@@ -10,7 +10,7 @@
         </div>
         <div class="col-sm-3 col-10">
           <h2 class="event_archive">Архив</h2>
-          <button class="btn btn-brand without-box-shadow" v-for="i,y in archive" @click="toArchive(i)" :class="{active: y == event_index}">{{i | YearFilter}}</button>
+          <button class="btn btn-brand without-box-shadow" v-for="i,y in archive" @click="toArchive(i, y)" :class="{active: y == event_index}">{{i | YearFilter}}</button>
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@
           </h4>
         </div>
       </div>
-      <div class="row justify-content-center no-margin">
+      <div class="row justify-content-center no-margin" v-if="permissions.length !== 0">
         <div class="col-sm-5 col-10 participant-description-wrapper" v-for="i in permissions">
           <div class="d-flex mb-3 no-margin">
             <div class="p-1 no-padding">
@@ -106,7 +106,6 @@
     },
     methods: {
       loadData() {
-//        this.to_events = false
         axios
           .get(flag.backurl + '/conference_type/' + this.$route.params.event_id + '/')
           .then((res) => {
@@ -118,8 +117,8 @@
             this.key = res.data.key
           })
       },
-      toArchive(id) {
-        this.event_index = id
+      toArchive(id, y) {
+        this.event_index = y
         this.to_events = true
         this.$router.push({name: 'EventsArchivePage', params: {archive_year: this.$options.filters.YearFilter(id)}})
       },
