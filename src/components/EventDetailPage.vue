@@ -62,8 +62,10 @@
         </div>
         <div class="col-sm-10">
           <!--{{schedule_conf}}-->
-          <div class=""  v-for="i,y in schedule_conf">
-            {{object_keys[y]}}
+          <div class="d-block d-sm-block d-md-none"  v-for="i,y in schedule_conf">
+            <div class="row">
+              <h4 style="margin-top: 20px;margin-bottom: 10px">{{object_keys[y]}}</h4>
+            </div>
             <div class="schedule-wrapper" v-for="a in i[object_keys[y]]"
                  :class="{
             active: (today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) <= current_seconds &&
@@ -71,7 +73,6 @@
             }"
 
             >
-              {{a}}
               <h4 class="schedule-time" :class="{'text-black' : (today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) > current_seconds)}">
               {{a.start_time.substring(0, 5) }} - {{a.end_time.substring(0, 5) }}
               <span class="actived-now" style="margin-left: 5px" v-if="(today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) <= current_seconds &&
@@ -87,40 +88,29 @@
               </h4>
             </div>
           </div>
-          <!--<div class="schedule-wrapper d-block d-md-none" v-for="i in schedule_conf"-->
-               <!--:class="{-->
-            <!--active: (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&-->
-                     <!--current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))-->
-          <!--}">-->
-            <!--<h4 class="schedule-time" :class="{'text-black' : (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) > current_seconds}">-->
-              <!--{{i.start_time.substring(0, 5) }} - {{i.end_time.substring(0, 5) }}-->
-              <!--<span class="actived-now" style="margin-left: 5px" v-if="(parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&-->
-                     <!--current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))">-->
-                  <!--Сейчас идет-->
-                <!--</span>-->
-            <!--</h4>-->
-            <!--<h4 class="schedule-title">-->
-              <!--{{ i.subject }}-->
-            <!--</h4>-->
-            <!--<h4 class="schedule-speaker text-right">-->
-              <!--{{ i.speaker.fio }}-->
-            <!--</h4>-->
-          <!--</div>-->
-          <div v-if="false" class="schedule-wrapper d-none d-md-flex" v-for="i in schedule_conf"
-               :class="{
-            active: (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&
-                     current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))
-          }">
+
+
+          <div class="d-none d-md-block" v-for="i,y in schedule_conf">
+            <div class="row">
+              <h4 style="margin-top: 20px;margin-bottom: 10px">{{object_keys[y]}}</h4>
+            </div>
+            <div class="schedule-wrapper d-none d-md-flex" v-for="a in i[object_keys[y]]"
+                 :class="{
+            active: (today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) <= current_seconds &&
+                     current_seconds <= (parseInt(a.end_time.substring(0, 2) * 3600) + parseInt(a.end_time.substring(3, 5) * 60 )))
+            }">
+
+
             <div class="p-2 mr-auto">
-              <h4 class="schedule-time" :class="{'text-black' : (parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) > current_seconds}">
-                {{i.start_time.substring(0, 5) }} - {{i.end_time.substring(0, 5) }}
-                <span class="actived-now" v-if="(parseInt(i.start_time.substring(0, 2) * 3600) + parseInt(i.start_time.substring(3, 5) * 60 )) <= current_seconds &&
-                     current_seconds <= (parseInt(i.end_time.substring(0, 2) * 3600) + parseInt(i.end_time.substring(3, 5) * 60 ))">
+              <h4 class="schedule-time" :class="{'text-black' : (today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) > current_seconds)}">
+                {{a.start_time.substring(0, 5) }} - {{a.end_time.substring(0, 5) }}
+                <span class="actived-now" v-if="(today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) <= current_seconds &&
+              current_seconds <= (parseInt(a.end_time.substring(0, 2) * 3600) + parseInt(a.end_time.substring(3, 5) * 60 )))">
                   Сейчас идет
                 </span>
               </h4>
               <h4 class="schedule-title">
-                {{ i.subject }}
+                {{ a.subject }}
               </h4>
             </div>
             <div class="p-2">
@@ -128,10 +118,12 @@
                 &nbsp
               </h4>
               <h4 class="schedule-speaker">
-                {{ i.speaker.fio }}
+                {{ a.speaker.fio }}
               </h4>
             </div>
           </div>
+          </div>
+
         </div>
         <div class="col-sm-10">
           <div class="row no-margin justify-content-center" v-if="speakers.length !== 0">
