@@ -14,6 +14,7 @@
         </div>
       </div>
     </div>
+
     <div v-if="!to_events && digital_data.length !== 0" class="container digital-kz-wrapper">
       <div class="row justify-content-center">
         <div class="col-sm-10 col-10">
@@ -23,6 +24,18 @@
               <h4 class="digital-kz-description">
                 {{ description}}
               </h4>
+        </div>
+      </div>
+    </div>
+    <div v-if="!to_events && main_desc.header !== '' &&  main_desc.header !== null" class="container digital-kz-wrapper">
+      <div class="row justify-content-center">
+        <div class="col-sm-10 col-10">
+          <h4 class="digital-kz">
+            {{ main_desc.header }}
+          </h4>
+          <h4 class="digital-kz-description">
+            {{ main_desc.text}}
+          </h4>
         </div>
       </div>
     </div>
@@ -61,6 +74,7 @@
     data() {
       return {
         key: '',
+        main_desc: '',
         backreq: flag.back,
         back_files: flag.back_files,
         event_index: null,
@@ -109,6 +123,12 @@
     },
     methods: {
       loadData() {
+        axios
+          .get(flag.backurl +  '/content/key/?key=main_page')
+          .then((res) => {
+            console.log(res.data)
+            this.main_desc = res.data
+          })
         axios
           .get(flag.backurl + '/conference_type/' + this.$route.params.event_id + '/')
           .then((res) => {

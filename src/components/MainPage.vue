@@ -54,6 +54,17 @@
           </p>
         </div>
       </div>
+
+      <div class="row no-margin justify-content-sm-center main-page-description-row" v-if="main_desc.header !== '' && main_desc.header !== null">
+        <div class="col-sm-12">
+          <h1 class="text-center" >{{main_desc.header}}</h1>
+        </div>
+        <div class="col-sm-10 ">
+          <p class="text-center ">
+            {{main_desc.text}}
+          </p>
+        </div>
+      </div>
       <div class="videoWrapper">
         <iframe width="100%" height="315"
                 :src="live">
@@ -78,6 +89,7 @@
         about_conf: {},
         cur_id: 0,
         max_id: 0,
+        main_desc: '',
       }
     },
     methods: {
@@ -109,7 +121,7 @@
             for (var i = 0; i < this.slider_data.length; i++){
               if (this.slider_data[i].live.online !== undefined) {
                 this.live = this.slider_data[i].live.online.replace("watch?v=", "embed/");
-                console.log(this.slider_data[i].live.online)
+//                console.log(this.slider_data[i].live.online)
               }
             }
           }
@@ -117,8 +129,14 @@
       axios
         .get(flag.backurl +  '/content/key/?key=about')
         .then((res) => {
-          console.log(res.data)
+//          console.log(res.data)
           this.about_conf = res.data
+        })
+      axios
+        .get(flag.backurl +  '/content/key/?key=main_page')
+        .then((res) => {
+          console.log(res.data)
+          this.main_desc = res.data
         })
     }
   }
