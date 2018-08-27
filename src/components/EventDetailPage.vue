@@ -142,14 +142,14 @@
             </div>
           </div>
           <div class="row no-margin justify-content-center"  v-if="key === 'pkb' || key === 'press'">
-            <h4 class="registration-title" v-if="key === 'pkb' || custom_registration === null">
-              Регистрация
+            <h4 class="registration-title" v-if="key === 'pkb'">
+              {{ custom_registration_pkb.header }}
             </h4>
             <h4 class="registration-title" v-if="key === 'press'">
               {{ custom_registration.header }}
             </h4>
-            <h4 class="registration-description" v-if="key === 'pkb' || custom_registration === null">
-              Мы собрали всю информацию, которая может вам пригодиться на конференции, в одну большую новость: начиная от того, как добраться до места проведения мероприятия и где перекусить, заканчивая вопросами бухгалтерии и командировочных.
+            <h4 class="registration-description" v-if="key === 'pkb'">
+              {{ custom_registration_pkb.text }}
             </h4>
             <h4 class="registration-description" v-if="key === 'press' ">
               {{ custom_registration.text }}
@@ -364,6 +364,7 @@
         today: '',
         dddd: null,
         custom_registration: null,
+        custom_registration_pkb: null,
         slickMainOptions: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -684,6 +685,12 @@
           .get(flag.backurl +  '/content/key/?key=reg_press')
           .then((res) => {
             this.custom_registration = res.data
+            console.log(res.data)
+          })
+        axios
+          .get(flag.backurl +  '/content/key/?key=reg_pkb')
+          .then((res) => {
+            this.custom_registration_pkb = res.data
             console.log(res.data)
           })
         this.today = moment().format('YYYY-MM-DD')
