@@ -142,11 +142,17 @@
             </div>
           </div>
           <div class="row no-margin justify-content-center"  v-if="key === 'pkb' || key === 'press'">
-            <h4 class="registration-title">
+            <h4 class="registration-title" v-if="key === 'pkb' || custom_registration === null">
               Регистрация
             </h4>
-            <h4 class="registration-description">
+            <h4 class="registration-title" v-if="key === 'press'">
+              {{ custom_registration.header }}
+            </h4>
+            <h4 class="registration-description" v-if="key === 'pkb' || custom_registration === null">
               Мы собрали всю информацию, которая может вам пригодиться на конференции, в одну большую новость: начиная от того, как добраться до места проведения мероприятия и где перекусить, заканчивая вопросами бухгалтерии и командировочных.
+            </h4>
+            <h4 class="registration-description" v-if="key === 'press' ">
+              {{ custom_registration.text }}
             </h4>
             <div class="col-sm-7 registration-form" v-if="key === 'press'">
               <h4 class="registration-text" >
@@ -350,13 +356,14 @@
   import axios from 'axios'
   import moment from 'moment'
   import flag from '../request'
-  import $ from "jquery"
   import { required, minLength, email, numeric } from 'vuelidate/lib/validators'
   import Slick from 'vue-slick'
   export default {
     data() {
       return {
         today: '',
+        dddd: null,
+        custom_registration: null,
         slickMainOptions: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -659,7 +666,6 @@
         formData.append("iin", data.iin);
         formData.append("subs", data.subs);
         axios.post(flag.backurl + '/person/',formData).then((res) => {
-          console.log(res)
           alert('Успешно')
           this.registration.company_name = ''
           this.registration.fio = ''
@@ -674,8 +680,13 @@
         })
       },
       loadData() {
+        axios
+          .get(flag.backurl +  '/content/key/?key=reg_press')
+          .then((res) => {
+            this.custom_registration = res.data
+            console.log(res.data)
+          })
         this.today = moment().format('YYYY-MM-DD')
-        console.log(moment().format('YYYY-MM-DD'))
         this.registration.conference = this.$route.params.detail_id
 //        console.log('I AM HERE FOR YOU')
         this.current_hour = ''
@@ -712,10 +723,7 @@
             days = {}
           }
           this.object_keys = keys
-//          console.log(this.object_keys)
-//          console.log(datas)
           this.schedule_conf = datas
-          console.log(this.schedule_conf)
           this.speakers = res.data.speakers
           this.partners = res.data.partners
           this.photos = res.data.photos
