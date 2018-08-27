@@ -83,8 +83,8 @@
               <h4 class="schedule-title">
               {{ a.subject }}
               </h4>
-              <h4 class="schedule-speaker text-right">
-              {{ a.speaker }}
+              <h4 class="schedule-speaker text-right" v-if="a.speaker !== null">
+              {{ a.speaker.fio }}
               </h4>
             </div>
           </div>
@@ -117,8 +117,8 @@
               <h4 class="schedule-time">
                 &nbsp
               </h4>
-              <h4 class="schedule-speaker">
-                {{ a.speaker }}
+              <h4 class="schedule-speaker" v-if="a.speaker !== null">
+                {{ a.speaker.fio }}
               </h4>
             </div>
           </div>
@@ -130,7 +130,7 @@
             <h4 class="speaker-title">
               Спикеры
             </h4>
-            <div class="speaker-card-wrapper" v-for="i in speakers">
+            <div class="speaker-card-wrapper" v-for="i in speakers" v-if="i.fio !== ''">
               <div class="speaker-card-img" v-bind:style="{ backgroundImage: 'url(' + backreq + i.photo + ')' }">
               </div>
               <div>
