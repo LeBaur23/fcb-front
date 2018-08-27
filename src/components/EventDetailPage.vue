@@ -84,7 +84,7 @@
               {{ a.subject }}
               </h4>
               <h4 class="schedule-speaker text-right">
-              {{ a.speaker.fio }}
+              {{ a.speaker }}
               </h4>
             </div>
           </div>
@@ -118,7 +118,7 @@
                 &nbsp
               </h4>
               <h4 class="schedule-speaker">
-                {{ a.speaker.fio }}
+                {{ a.speaker }}
               </h4>
             </div>
           </div>
