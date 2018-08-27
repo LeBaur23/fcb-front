@@ -27,25 +27,28 @@
       </div>
     </div>
     <div v-if="!to_events" class="container participant_wrapper">
-      <div class="row justify-content-center">
-        <div class="col-sm-10 col-10">
-          <h4 class="participant_opportunity">
-            Возможности <span v-if="key === 'pkb'"> на конференции</span> для участников
-          </h4>
+      <div>
+        <div class="row justify-content-center" v-if="permissions.length !== 0">
+          <div class="col-sm-10 col-10">
+            <h4 class="participant_opportunity">
+              Возможности <span v-if="key === 'pkb'"> на конференции</span> для участников
+            </h4>
+          </div>
         </div>
-      </div>
-      <div class="row justify-content-center no-margin" v-if="permissions.length !== 0">
-        <div class="col-sm-5 col-10 participant-description-wrapper" v-for="i in permissions">
-          <div class="d-flex mb-3 no-margin">
-            <div class="p-1 no-padding">
-              <img width="120px" class="participant-test" :src="backreq+ i.logo" alt="">
-            </div>
-            <div class="p-1 " style="margin-left: 36px">
-              <h5 class="participant-description" ><span style="color: #000000;">{{i.name}}</span> {{i.description}}</h5>
+        <div class="row justify-content-center no-margin" v-if="permissions.length !== 0">
+          <div class="col-sm-5 col-10 participant-description-wrapper" v-for="i in permissions">
+            <div class="d-flex mb-3 no-margin">
+              <div class="p-1 no-padding">
+                <img width="120px" class="participant-test" :src="backreq+ i.logo" alt="">
+              </div>
+              <div class="p-1 " style="margin-left: 36px">
+                <h5 class="participant-description" ><span style="color: #000000;">{{i.name}}</span> {{i.description}}</h5>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
