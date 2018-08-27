@@ -135,8 +135,8 @@
               </div>
               <div>
                 <h4 class="speaker-card-speaker">{{ i.fio}}</h4>
-                <h5 class="speaker-card-job">
-                  {{ i.iin }}
+                <h5 class="speaker-card-job"  v-if="i.position !== null || i.position !== ''">
+                  {{ i.position }}
                 </h5>
               </div>
             </div>
