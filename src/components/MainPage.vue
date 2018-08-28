@@ -55,7 +55,7 @@
         </div>
       </div>
 
-      <div class="row no-margin justify-content-sm-center main-page-description-row" v-if="main_desc.header !== '' && main_desc.header !== null">
+      <div class="row no-margin justify-content-sm-center main-page-description-row" v-if="main_desc !== '' && main_desc.header !== '' && main_desc.header !== null">
         <div class="col-sm-12">
           <h1 class="text-center" >{{main_desc.header}}</h1>
         </div>

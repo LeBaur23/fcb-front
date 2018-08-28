@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <div v-if="!to_events && main_desc.header !== '' &&  main_desc.header !== null" class="container digital-kz-wrapper">
+    <div v-if="!to_events && main_desc !== '' && main_desc.header !== '' &&  main_desc.header !== null" class="container digital-kz-wrapper">
       <div class="row justify-content-center">
         <div class="col-sm-10 col-10">
           <h4 class="digital-kz">
