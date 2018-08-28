@@ -141,7 +141,7 @@
               </div>
             </div>
           </div>
-          <div class="row no-margin justify-content-center"  v-if="key === 'pkb' || key === 'press'">
+          <div class="row no-margin justify-content-center"  v-if="(key === 'pkb' || key === 'press') && reg_opened">
             <h4 class="registration-title" v-if="key === 'pkb'">
               {{ custom_registration_pkb.header }}
             </h4>
@@ -222,7 +222,7 @@
               </label>
               <div class="oferta-wrapper" v-if="oferta_show">
                 <div class="oferta-inner col-11 col-sm-10">
-                  <h4>Оферта</h4>
+                  <h4>Согласие</h4>
                   <div class="oferta-inner-description">
                     Настоящим, регистрируясь для участия на конференции, я даю согласие ТОО «Первое кредитное бюро» (далее - ПКБ) на сбор и обработку моих (обо мне) персональных (в том числе биометрических) данных в соответствии с Законом РК «О персональных данных и их защите» для целей проведения указанной конференции и деятельности ПКБ, предусмотренной Законом РК «О кредитных бюро и формировании кредитных историй»
                     Достоверность сведений гарантирую
@@ -240,9 +240,12 @@
               Нас поддерживают
             </h4>
             <div class="col-sm-3 col-6" v-for="i in partners" style="margin-bottom: 50px">
-              <a :href="i.url" :title="i.name">
-                <img width="100%" :src="backreq + i.logo" :alt="i.name" :title="i.name">
-              </a>
+              <div class="row no-margin justify-content-center" style="height: 100%;align-items: center">
+                <a :href="i.url" :title="i.name">
+                  <img width="100%" :src="backreq + i.logo" :alt="i.name" :title="i.name">
+                </a>
+              </div>
+
             </div>
           </div>
           <div class="row no-margin justify-content-center" v-if="photos.length !== 0">
@@ -361,6 +364,7 @@
   export default {
     data() {
       return {
+        reg_opened: true,
         today: '',
         dddd: null,
         custom_registration: null,
@@ -736,6 +740,7 @@
           this.photos = res.data.photos
           this.links = res.data.files_conf
           this.key = res.data.key
+          this.reg_opened = res.data.reg_fields
           this.short_description = res.data.main_description
         })
         axios.get(flag.backurl + '/conference/?year='+ this.$route.params.archive_year+ ' &conf_type=' + this.$route.params.event_id).then((res) => {
