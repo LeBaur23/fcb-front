@@ -142,7 +142,7 @@
               </div>
             </div>
           </div>
-          <div class="row no-margin justify-content-center"  v-if="(key === 'pkb' || key === 'press') && reg_opened">
+          <div class="row no-margin justify-content-center"  v-if="(key === 'pkb' || key === 'press')">
             <h4 class="registration-title" v-if="key === 'pkb'">
               {{ custom_registration_pkb.header }}
             </h4>
@@ -187,7 +187,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-7 registration-form" v-if="key === 'pkb'">
+            <div class="col-sm-7 registration-form" v-if="key === 'pkb' && reg_opened">
               <h4 class="registration-text">
                 Наименование организации
               </h4>
