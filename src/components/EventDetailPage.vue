@@ -61,10 +61,11 @@
           </h4>
         </div>
         <div class="col-sm-10">
-          <!--{{schedule_conf}}-->
-          <div class="d-block d-sm-block d-md-none"  v-for="i,y in schedule_conf">
+          <a class="show-hide-button" v-if="!show_schedule" @click="show_schedule = true">ПОКАЗАТЬ РАСПИСАНИЕ</a>
+          <a class="show-hide-button" v-if="show_schedule" @click="show_schedule = false">СКРЫТЬ РАСПИСАНИЕ</a>
+          <div class="hide-schedule d-block d-sm-block d-md-none" :class="{'show-schedule' : show_schedule }"  v-for="i,y in schedule_conf">
             <div class="row">
-              <h4 style="margin-top: 20px;margin-bottom: 10px">{{object_keys[y]}}</h4>
+              <h4 style="margin-top: 20px;margin-bottom: 10px;padding-left: 15px">{{object_keys[y]}}</h4>
             </div>
             <div class="schedule-wrapper" v-for="a in i[object_keys[y]]"
                  :class="{
@@ -89,12 +90,12 @@
             </div>
           </div>
 
+          <div class="hide-schedule d-none d-md-block" :class="{'show-schedule' : show_schedule }" v-for="i,y in schedule_conf">
 
-          <div class="d-none d-md-block" v-for="i,y in schedule_conf">
             <div class="row">
-              <h4 style="margin-top: 20px;margin-bottom: 10px">{{object_keys[y]}}</h4>
+              <h4 style="margin-top: 20px;margin-bottom: 10px;padding-left: 15px">{{object_keys[y]}}</h4>
             </div>
-            <div class="schedule-wrapper d-none d-md-flex" v-for="a in i[object_keys[y]]"
+            <div class="schedule-wrapper d-none d-md-flex " v-for="a in i[object_keys[y]]"
                  :class="{
             active: (today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) <= current_seconds &&
                      current_seconds <= (parseInt(a.end_time.substring(0, 2) * 3600) + parseInt(a.end_time.substring(3, 5) * 60 )))
@@ -123,7 +124,7 @@
             </div>
           </div>
           </div>
-
+          <a class="show-hide-button" v-if="show_schedule" @click="show_schedule = false">СКРЫТЬ РАСПИСАНИЕ</a>
         </div>
         <div class="col-sm-10">
           <div class="row no-margin justify-content-center" v-if="speakers.length !== 0">
@@ -277,10 +278,9 @@
             <h4 class="registration-title"  v-if="key === 'pkb'">
               Материалы конференции
             </h4>
-            <div class="row no-margin">
-              <div class="col-12" v-for="i in links" style="text-align: center">
-                <a download   :href="back_files + i.src" target="_blank" class="btn btn-brand" style="margin-bottom: 25px;width: auto;text-overflow: ellipsis;height: 45px;display: inline-block;padding: 5px 20px" >{{i.name}}
-                </a>
+            <div class="row no-margin justify-content-center">
+              <div class="col-12 col-sm-8 no-padding" v-for="i in links" style="text-align: center">
+                <a download   :href="back_files + i.src" target="_blank" class="btn btn-brand download_button" style="" >{{i.name}}</a>
               </div>
             </div>
 
@@ -364,6 +364,7 @@
   export default {
     data() {
       return {
+        show_schedule: false,
         reg_opened: true,
         today: '',
         dddd: null,
