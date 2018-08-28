@@ -61,8 +61,8 @@
           </h4>
         </div>
         <div class="col-sm-10">
-          <a class="show-hide-button" v-if="!show_schedule" @click="show_schedule = true">ПОКАЗАТЬ РАСПИСАНИЕ</a>
-          <a class="show-hide-button" v-if="show_schedule" @click="show_schedule = false">СКРЫТЬ РАСПИСАНИЕ</a>
+          <a class="show-hide-button" v-if="!show_schedule && object_keys.length !== 0" @click="show_schedule = true">ПОКАЗАТЬ РАСПИСАНИЕ</a>
+          <a class="show-hide-button" v-if="show_schedule && object_keys.length !== 0" @click="show_schedule = false">СКРЫТЬ РАСПИСАНИЕ</a>
           <div class="hide-schedule d-block d-sm-block d-md-none" :class="{'show-schedule' : show_schedule }"  v-for="i,y in schedule_conf">
             <div class="row">
               <h4 style="margin-top: 20px;margin-bottom: 10px;padding-left: 15px">{{object_keys[y]}}</h4>
@@ -124,7 +124,6 @@
             </div>
           </div>
           </div>
-          <a class="show-hide-button" v-if="show_schedule" @click="show_schedule = false">СКРЫТЬ РАСПИСАНИЕ</a>
         </div>
         <div class="col-sm-10">
           <div class="row no-margin justify-content-center" v-if="speakers.length !== 0">
@@ -336,7 +335,7 @@
     </div>
     <div class="container-fluid" id="EventsMainPage" style="margin-top: 100px">
       <div class="row no-margin justify-content-center">
-        <div class="col-sm-4" v-for="i,y in archive_events" @click="toEvent(i.pk)">
+        <div class="col-sm-4" v-for="i,y in conferences" @click="toEvent(i.pk)">
           <div class="event-archive-img" style="width: 100%">
             <div class="event-archive-background-img" style="" v-bind:style="{ backgroundImage: 'url(' + backreq + i.poster + ')' }"></div>
             <div class="event-archive-img-description">
@@ -365,6 +364,7 @@
     data() {
       return {
         show_schedule: false,
+        conferences: [],
         reg_opened: true,
         today: '',
         dddd: null,
@@ -734,6 +734,7 @@
             datas.push(days)
             days = {}
           }
+          this.conferences = res.data.conferences
           this.object_keys = keys
           this.schedule_conf = datas
           this.speakers = res.data.speakers
