@@ -114,10 +114,10 @@
                 {{ a.subject }}
               </h4>
             </div>
-            <div class="p-2">
-              <h4 class="schedule-time">
-                &nbsp
-              </h4>
+            <div class="p-2 schedule-speaker-wrapper">
+              <!--<h4 class="schedule-time">-->
+                <!--&nbsp-->
+              <!--</h4>-->
               <h4 class="schedule-speaker" v-if="a.speaker !== null">
                 {{ a.speaker.fio }}
               </h4>
