@@ -161,7 +161,9 @@
             <h4 class="registration-description" v-if="key === 'press' ">
               {{ custom_registration.text }}
             </h4>
-            <a download :href="back_files + custom_telegram.file" style="margin-top: 20px" target="_blank">Инструкция по регистрации через Телеграм</a>
+              <div v-if="custom_telegram.file !== null && custom_telegram.file !== ''  && custom_telegram.file !== undefined" class="col-12 no-padding text-center" style="margin-top: 20px">
+                <a download :href="back_files + custom_telegram.file"  target="_blank">Инструкция по регистрации через Телеграм</a>
+              </div>
             <h4 class="registration-title" v-if="custom_telegram.header !== undefined && custom_telegram.header !== null && custom_telegram.header !== ''">
               {{ custom_telegram.header }}
             </h4>
