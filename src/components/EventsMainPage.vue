@@ -1,5 +1,12 @@
 <template>
   <div id="EventsMainPage">
+    <div v-if="!(all_responses.length === 2)" class="loading-wrapper">
+      <div class="loading-image-wrapper">
+      </div>
+      <div class="col-">
+        <img width="150px" height="150px" src="../assets/images/bitmap.png" alt="">
+      </div>
+    </div>
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-sm-7 col-10">
@@ -74,6 +81,7 @@
     data() {
       return {
         key: '',
+        all_responses: [],
         main_desc: '',
         backreq: flag.back,
         back_files: flag.back_files,
@@ -121,14 +129,21 @@
         }
       }
     },
+    beforeDestroy() {
+      this.all_responses = []
+    },
     methods: {
       loadData() {
+        this.all_responses = []
         axios
           .get(flag.backurl +  '/content/key/?key=main_page')
           .then((res) => {
             console.log(res.data)
             this.main_desc = res.data
-          })
+            this.all_responses.push('a')
+          }).catch((error) => {
+          this.all_responses.push('a')
+        })
         axios
           .get(flag.backurl + '/conference_type/' + this.$route.params.event_id + '/')
           .then((res) => {
@@ -138,7 +153,15 @@
             this.digital_data = res.data.digital_data
             this.archive = res.data.archive
             this.key = res.data.key
-          })
+            setTimeout(() => {
+              this.all_responses.push('a')
+            },1000)
+
+          }).catch((error) => {
+          setTimeout(() => {
+            this.all_responses.push('a')
+          },1000)
+        })
       },
       toArchive(id, y) {
         this.event_index = y

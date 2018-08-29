@@ -1,5 +1,12 @@
 <template>
   <div id="MainPage">
+    <div v-if="!(all_responses.length === 3)" class="loading-wrapper">
+      <div class="loading-image-wrapper">
+      </div>
+      <div class="col-">
+        <img width="150px" height="150px" src="../assets/images/bitmap.png" alt="">
+      </div>
+    </div>
     <div id="carousel" class="carousel slide" data-interval="false">
       <div class="carousel-inner">
         <div ref="classes" class="carousel-item " v-for="i,y in slider_data" :class="{active: y === 0,[y]: true}" v-bind:style="{ backgroundImage: 'url(' + backreq + i.poster + ')' }">
@@ -37,12 +44,9 @@
       </a>
 
     </div>
-
-
     <div class="MainPageWhiteBack">
       <img class="d-none d-sm-block" width="100%" src="../assets/images/whiteback.png" alt="">
     </div>
-
     <div class="container-fluid no-padding main-page-description">
       <div class="row no-margin justify-content-sm-center main-page-description-row">
         <div class="col-sm-12">
@@ -90,6 +94,7 @@
         cur_id: 0,
         max_id: 0,
         main_desc: '',
+        all_responses: []
       }
     },
     methods: {
@@ -111,7 +116,11 @@
         }
       }
     },
+    beforeDestroy () {
+      this.all_responses = []
+    },
     beforeMount() {
+
       axios
         .get(flag.backurl +'/conference_type/')
         .then((res) => {
@@ -125,19 +134,32 @@
               }
             }
           }
-        })
+          this.all_responses.push('a')
+        }).catch((error) => {
+        this.all_responses.push('a')
+      })
       axios
         .get(flag.backurl +  '/content/key/?key=about')
         .then((res) => {
 //          console.log(res.data)
           this.about_conf = res.data
-        })
+          this.all_responses.push('a')
+        }).catch((error) => {
+        this.all_responses.push('a')
+      })
       axios
         .get(flag.backurl +  '/content/key/?key=main_page')
         .then((res) => {
           console.log(res.data)
           this.main_desc = res.data
-        })
+          setTimeout(() => {
+            this.all_responses.push('a')
+          },1000)
+        }).catch((error) => {
+        setTimeout(() => {
+          this.all_responses.push('a')
+        },1000)
+      })
     }
   }
 </script>

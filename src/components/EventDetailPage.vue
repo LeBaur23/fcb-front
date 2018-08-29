@@ -1,5 +1,12 @@
 <template>
   <div id="EventDetailPage">
+    <div v-if="!(all_responses.length === 5)" class="loading-wrapper">
+      <div class="loading-image-wrapper">
+      </div>
+      <div class="col-">
+        <img width="150px" height="150px" src="../assets/images/bitmap.png" alt="">
+      </div>
+    </div>
     <div class="container">
       <div class="row no-margin justify-content-center">
         <div class="col-sm-10">
@@ -154,6 +161,13 @@
             <h4 class="registration-description" v-if="key === 'press' ">
               {{ custom_registration.text }}
             </h4>
+            <a download :href="back_files + custom_telegram.file" style="margin-top: 20px" target="_blank">Инструкция по регистрации через Телеграм</a>
+            <h4 class="registration-title" v-if="custom_telegram.header !== undefined && custom_telegram.header !== null && custom_telegram.header !== ''">
+              {{ custom_telegram.header }}
+            </h4>
+            <h4 class="registration-description" v-if="custom_telegram.text !== undefined && custom_telegram.text !== null && custom_telegram.text !== ''">
+              {{ custom_telegram.text }}
+            </h4>
             <div class="col-sm-7 registration-form" v-if="key === 'press'">
               <h4 class="registration-text" >
                 Наименование организации
@@ -260,11 +274,23 @@
 
                   </div>
                 </div>
+                <div v-if="cloud_url !== ''" class="main_slick_inner">
+                  <a :href="cloud_url">
+                    <div class="main_slick_inner_img" style="display: flex;justify-content: center;align-items: center">
+                    <h4 style="text-align: center">Посмотреть все фотографии и скачать </h4>
+                  </div>
+                  </a>
+                </div>
               </slick>
               <slick class="asd" ref="slick" :options="slickOptions">
                 <div class="sub_slick_inner" v-for="i in photos" >
                   <div class="sub_slick_inner_img" v-bind:style="{ backgroundImage: 'url('+ backreq + i.image + ')' }" >
 
+                  </div>
+                </div>
+                <div v-if="cloud_url !== ''" class="sub_slick_inner" >
+                  <div class="sub_slick_inner_img"  style="display: flex;justify-content: center;align-items: center">
+                    <h4 class="sub_slick_inner_img_text" style="text-align: center">Посмотреть все фотографии и скачать </h4>
                   </div>
                 </div>
               </slick>
@@ -363,6 +389,9 @@
   export default {
     data() {
       return {
+        cloud_url: '',
+        custom_telegram: '',
+        all_responses: [],
         show_schedule: false,
         conferences: [],
         reg_opened: true,
@@ -687,17 +716,32 @@
       },
       loadData() {
         axios
+          .get(flag.backurl +  '/content/key/?key=telegram')
+          .then((res) => {
+            this.custom_telegram = res.data
+            console.log(res.data)
+            this.all_responses.push('a')
+          }).catch((error) => {
+          this.all_responses.push('a')
+        })
+        axios
           .get(flag.backurl +  '/content/key/?key=reg_press')
           .then((res) => {
             this.custom_registration = res.data
             console.log(res.data)
-          })
+            this.all_responses.push('a')
+          }).catch((error) => {
+          this.all_responses.push('a')
+        })
         axios
           .get(flag.backurl +  '/content/key/?key=reg_pkb')
           .then((res) => {
             this.custom_registration_pkb = res.data
             console.log(res.data)
-          })
+            this.all_responses.push('a')
+          }).catch((error) => {
+          this.all_responses.push('a')
+        })
         this.today = moment().format('YYYY-MM-DD')
         this.registration.conference = this.$route.params.detail_id
 //        console.log('I AM HERE FOR YOU')
@@ -723,6 +767,8 @@
           this.start_date = res.data.start_date
           this.where = res.data.where
           this.socials = res.data.socials
+          this.cloud_url = res.data.cloud_url
+          this.all_responses.push('a')
 //          this.schedule_conf = res.data.schedule_conf
           var datas = []
           var days = {}
@@ -744,13 +790,23 @@
           this.key = res.data.key
           this.reg_opened = res.data.reg_fields
           this.short_description = res.data.main_description
+        }).catch((error) => {
+          this.all_responses.push('a')
         })
         axios.get(flag.backurl + '/conference/?year='+ this.$route.params.archive_year+ ' &conf_type=' + this.$route.params.event_id).then((res) => {
           this.archive_events = res.data
+          setTimeout(() => {
+            this.all_responses.push('a')
+          },1000)
+        }).catch((error) => {
+          setTimeout(() => {
+            this.all_responses.push('a')
+          },1000)
         })
       },
       toEvent(id) {
         console.log(id)
+        document.documentElement.scrollTop = 0
         this.$router.replace({name: 'EventsDetailPage', params: {event_id: this.$route.params.event_id, archive_year: this.$route.params.archive_year,detail_id: id}})
       }
     },
