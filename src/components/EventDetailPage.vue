@@ -91,9 +91,14 @@
               <h4 class="schedule-title">
               {{ a.subject }}
               </h4>
-              <h4 class="schedule-speaker text-right" v-if="a.speaker !== null">
-              {{ a.speaker.fio }}
+              <h4 v-if="a.speaker.length > 0" class="schedule-speaker text-right" >
+                Спикеры:
               </h4>
+              <h4 v-if="a.speaker.length > 0" class="schedule-speaker text-right text-dark" v-for="i in a.speaker ">
+              {{ i.fio }}
+                <br>
+              </h4>
+
             </div>
           </div>
 
@@ -109,7 +114,7 @@
             }">
 
 
-            <div class="p-2 mr-auto">
+            <div class="p-2 mr-auto schedule-description-info">
               <h4 class="schedule-time" :class="{'text-black' : (today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) > current_seconds)}">
                 {{a.start_time.substring(0, 5) }} - {{a.end_time.substring(0, 5) }}
                 <span class="actived-now" v-if="(today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) <= current_seconds &&
@@ -125,9 +130,14 @@
               <!--<h4 class="schedule-time">-->
                 <!--&nbsp-->
               <!--</h4>-->
-              <h4 class="schedule-speaker" v-if="a.speaker !== null">
-                {{ a.speaker.fio }}
+              <h4 v-if="a.speaker.length > 0" class="schedule-speaker text-right" >
+                Спикеры:
               </h4>
+              <h4 v-if="a.speaker.length > 0" class="schedule-speaker text-dark" v-for="i in a.speaker">
+                {{ i.fio }}
+                <br>
+              </h4>
+
             </div>
           </div>
           </div>
