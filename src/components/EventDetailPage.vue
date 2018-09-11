@@ -112,8 +112,6 @@
             active: (today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) <= current_seconds &&
                      current_seconds <= (parseInt(a.end_time.substring(0, 2) * 3600) + parseInt(a.end_time.substring(3, 5) * 60 )))
             }">
-
-
             <div class="p-2 mr-auto schedule-description-info">
               <h4 class="schedule-time" :class="{'text-black' : (today ===  object_keys[y]) && ((parseInt(a.start_time.substring(0, 2) * 3600) + parseInt(a.start_time.substring(3, 5) * 60 )) > current_seconds)}">
                 {{a.start_time.substring(0, 5) }} - {{a.end_time.substring(0, 5) }}
