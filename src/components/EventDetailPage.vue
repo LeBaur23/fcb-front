@@ -91,10 +91,10 @@
               <h4 class="schedule-title">
               {{ a.subject }}
               </h4>
-              <h4 v-if="a.speaker.length > 0" class="schedule-speaker text-right" >
+              <h4 v-if="a.speakers.length > 0" class="schedule-speaker text-right" >
                 Спикеры:
               </h4>
-              <h4 v-if="a.speaker.length > 0" class="schedule-speaker text-right text-dark" v-for="i in a.speaker ">
+              <h4 v-if="a.speakers.length > 0" class="schedule-speaker text-right text-dark" v-for="i in a.speakers ">
               {{ i.fio }}
                 <br>
               </h4>
@@ -130,10 +130,10 @@
               <!--<h4 class="schedule-time">-->
                 <!--&nbsp-->
               <!--</h4>-->
-              <h4 v-if="a.speaker.length > 0" class="schedule-speaker text-right" >
+              <h4 v-if="a.speakers.length > 0" class="schedule-speaker text-right" >
                 Спикеры:
               </h4>
-              <h4 v-if="a.speaker.length > 0" class="schedule-speaker text-dark" v-for="i in a.speaker">
+              <h4 v-if="a.speakers.length > 0" class="schedule-speaker text-dark" v-for="i in a.speakers">
                 {{ i.fio }}
                 <br>
               </h4>
