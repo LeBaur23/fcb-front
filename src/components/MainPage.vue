@@ -53,9 +53,7 @@
           <h1 class="text-center" >{{about_conf.header}}</h1>
         </div>
         <div class="col-sm-10 ">
-          <p class="text-center ">
-            {{about_conf.text}}
-          </p>
+          <div v-html="about_conf.text"></div>
         </div>
       </div>
 
@@ -64,9 +62,9 @@
           <h1 class="text-center" >{{main_desc.header}}</h1>
         </div>
         <div class="col-sm-10 ">
-          <p class="text-center ">
-            {{main_desc.text}}
-          </p>
+          <div v-html="main_desc.text">
+
+          </div>
         </div>
       </div>
       <div class="videoWrapper">
@@ -99,7 +97,8 @@
     },
     methods: {
       toEvent(id) {
-        this.$router.push({name: 'EventsMainPage', params: {event_id: id}})
+        this.$router.push({name: 'EventsDetailPage', params: {event_id: id, archive_year: 2018, detail_id: 3}})
+//        this.$router.push({name: 'EventsMainPage', params: {event_id: id}})
       },
       next() {
         if (this.cur_id >= this.max_id) {

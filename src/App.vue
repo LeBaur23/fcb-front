@@ -13,7 +13,7 @@
     <!--<div class="fcb-nav">-->
         <!--<img src="./assets/images/bitmap.png" alt="">-->
     <!--</div>-->
-    <router-view/>
+    <router-view />
     <div class="notification" v-if="slider_data.length !== 0 && slider_data[0].notification.speaker !== undefined && opened">
       <div class="modal-back"  @click="closeModal()">
 
@@ -138,7 +138,8 @@
       this.$router.push('/')
     },
     toEvent(id) {
-      this.$router.push({name: 'EventsMainPage', params: {event_id: id}})
+      this.$router.push({name: 'EventsDetailPage', params: {event_id: id, archive_year: 2018, detail_id: 3}})
+//      this.$router.push({name: 'EventsMainPage', params: {event_id: id}})
     },
     toEvent_detail(event_id, id ) {
       console.log(event_id, id)

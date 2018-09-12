@@ -1,10 +1,39 @@
 <template>
   <div id="EventDetailPage">
-    <div v-if="!(all_responses.length === 5)" class="loading-wrapper">
+    <div v-if="!(all_responses.length === 6 )" class="loading-wrapper">
       <div class="loading-image-wrapper">
       </div>
       <div class="col-">
         <img width="150px" height="150px" src="../assets/images/bitmap.png" alt="">
+      </div>
+    </div>
+    <div v-if="false" id="MainPage">
+      <div id="carousel" class="carousel slide Detail_cor" data-interval="false" style="margin-top: 100px">
+        <div class="carousel-inner">
+          <div ref="classes" class="carousel-item " id="test-bg" v-for="i,y in slider_data" :class="{active: y === 0,[y]: true}" v-bind:style="{ backgroundImage: 'url(' + backreq + i.poster + ')' }">
+          </div>
+        </div>
+        <div class="carousel-text-list">
+          <!--<div class="carousel-text">-->
+          <div v-for="i,y in slider_data" class="carousel-event-info active" style="background-color: transparent;box-shadow: none" >
+            <div class="carousel-event-info-text-wrapper">
+              <div class="carousel-event-info-text">
+                <h3>
+                  {{ i.name }}
+                </h3>
+                <h4 class="text-regl">
+                  {{ i.description_main }}
+                </h4>
+                <br>
+              </div>
+
+            </div>
+            <button @click="toReg()" class="btn btn-brand">Подать заявку</button>
+          </div>
+        </div>
+      </div>
+      <div class="MainPageWhiteBack" style="margin-top: 100px">
+        <img class="d-none d-sm-block" width="100%" src="../assets/images/whiteback.png" alt="">
       </div>
     </div>
     <div class="container">
@@ -62,14 +91,13 @@
          <div class="row no-margin" style="border-bottom: 1px solid #f2f2f2;padding-bottom: 25px ">
          </div>
        </div>
-        <div class="col-sm-10" v-if="short_description!== ''">
-          <h4 class="short-description">
-            {{ short_description }}
-          </h4>
+        <div class="col-sm-10" v-if="short_description!== '' && key !== 'pkb'">
+          <div v-html="short_description">
+          </div>
         </div>
         <div class="col-sm-10">
-          <a class="show-hide-button" v-if="!show_schedule && object_keys.length !== 0" @click="show_schedule = true">ПОКАЗАТЬ РАСПИСАНИЕ</a>
-          <a class="show-hide-button" v-if="show_schedule && object_keys.length !== 0" @click="show_schedule = false">СКРЫТЬ РАСПИСАНИЕ</a>
+          <a class="show-hide-button" v-if="!show_schedule && object_keys.length !== 0" @click="show_schedule = true">ПРОГРАММА</a>
+          <a class="show-hide-button" v-if="show_schedule && object_keys.length !== 0" @click="show_schedule = false">СКРЫТЬ ПРОГРАММУ</a>
           <div class="hide-schedule d-block d-sm-block d-md-none" :class="{'show-schedule' : show_schedule }"  v-for="i,y in schedule_conf">
             <div class="row">
               <h4 style="margin-top: 20px;margin-bottom: 10px;padding-left: 15px">{{object_keys[y]}}</h4>
@@ -141,6 +169,33 @@
           </div>
         </div>
         <div class="col-sm-10">
+          <div v-for="i in conf_blocks">
+            <h4 class="registration-title break_word">
+              {{i.content.header}}
+            </h4>
+            <div class="break_word" v-html="i.content.text"></div>
+          </div>
+        </div>
+        <div class="col-sm-10" v-if="ex_users.length !== 0" style="margin-top: 60px">
+          <h4 class="registration-title">МОДЕРАТОРЫ</h4>
+          <div style="display: inline-block;width: 100%;margin-bottom: 40px" v-for="i in ex_users" v-if="i.type === 0">
+            <div class="ex_user_img-div" style="width: 20%;display: inline-block">
+              <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.user.photo + ')' }" class="ex_user_img"></div>
+            </div>
+            <div  v-html="i.user.description" class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right">
+            </div>
+          </div>
+          <h4 class="registration-title">ХЕАДЛАЙНЕРЫ</h4>
+          <div style="display: inline-block;width: 100%;margin-bottom: 40px"  v-for="i in ex_users" v-if="i.type === 1">
+            <div class="ex_user_img-div" style="width: 20%;display: inline-block;">
+              <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.user.photo + ')' }"  class="ex_user_img"></div>
+            </div>
+            <div v-html="i.user.description"  class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right">
+
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-10">
           <div class="row no-margin justify-content-center" v-if="speakers.length !== 0">
             <h4 class="speaker-title">
               Спикеры
@@ -156,7 +211,13 @@
               </div>
             </div>
           </div>
-          <div class="row no-margin justify-content-center"  v-if="(key === 'pkb' || key === 'press')">
+          <div class="row no-margin">
+            <div class="col-sm-12 no-padding" v-if="key === 'pkb'">
+              <div class="break_word" v-html="short_description">
+              </div>
+            </div>
+          </div>
+          <div id="registration" class="row no-margin justify-content-center"  v-if="(key === 'pkb' || key === 'press')">
             <h4 class="registration-title" v-if="key === 'pkb'">
               {{ custom_registration_pkb.header }}
             </h4>
@@ -172,12 +233,12 @@
               <div v-if="custom_telegram.file !== null && custom_telegram.file !== ''  && custom_telegram.file !== undefined" class="col-12 no-padding text-center" style="margin-top: 20px">
                 <a download :href="back_files + custom_telegram.file"  target="_blank">Инструкция по регистрации через Телеграм</a>
               </div>
-            <h4 class="registration-title" v-if="custom_telegram.header !== undefined && custom_telegram.header !== null && custom_telegram.header !== ''">
-              {{ custom_telegram.header }}
-            </h4>
-            <h4 class="registration-description" v-if="custom_telegram.text !== undefined && custom_telegram.text !== null && custom_telegram.text !== ''">
-              {{ custom_telegram.text }}
-            </h4>
+            <!--<h4 class="registration-title" v-if="custom_telegram.header !== undefined && custom_telegram.header !== null && custom_telegram.header !== ''">-->
+              <!--{{ custom_telegram.header }}-->
+            <!--</h4>-->
+            <!--<h4 class="registration-description" v-if="custom_telegram.text !== undefined && custom_telegram.text !== null && custom_telegram.text !== ''">-->
+              <!--{{ custom_telegram.text }}-->
+            <!--</h4>-->
             <div class="col-sm-7 registration-form" v-if="key === 'press'">
               <h4 class="registration-text" >
                 Наименование организации
@@ -315,7 +376,8 @@
             </h4>
             <div class="row no-margin justify-content-center">
               <div class="col-12 col-sm-8 no-padding" v-for="i in links" style="text-align: center">
-                <a download   :href="back_files + i.src" target="_blank" class="btn btn-brand download_button" style="" >{{i.name}}</a>
+                <a download  v-if="i.type === 0"  :href="back_files + i.src" target="_blank" class="btn btn-brand download_button" style="" >{{i.name}}</a>
+                <a  v-if="i.type === 1"  :href="i.url" style="background-color: #b50d08!important;box-shadow: 0px 5px 30px #b50d08;" class="btn btn-brand download_button" >{{i.name}}</a>
               </div>
             </div>
 
@@ -399,6 +461,10 @@
   export default {
     data() {
       return {
+        main_page_loaded: false,
+        slider_data: [],
+        ex_users: [],
+        conf_blocks: [],
         cloud_url: '',
         custom_telegram: '',
         all_responses: [],
@@ -573,6 +639,9 @@
       }
     },
     methods: {
+      toReg() {
+        document.getElementById('registration').scrollIntoView();
+      },
       next() {
         this.$refs.slick.next();
       },
@@ -726,6 +795,15 @@
       },
       loadData() {
         axios
+          .get(flag.backurl +'/conference_type/')
+          .then((res) => {
+            this.slider_data = res.data
+            this.max_id = res.data.length - 1
+            this.all_responses.push('a')
+          }).catch((error) => {
+          this.all_responses.push('a')
+        })
+        axios
           .get(flag.backurl +  '/content/key/?key=telegram')
           .then((res) => {
             this.custom_telegram = res.data
@@ -768,6 +846,8 @@
         this.photos = []
         this.archive_events = []
         this.links = []
+        this.conf_blocks = []
+        this.ex_users = []
         moment.locale('ru')
         this.current_hour = moment().format('HH')
         this.current_minute = moment().format('mm')
@@ -775,6 +855,7 @@
         axios.get(flag.backurl + '/conference/'+ this.$route.params.detail_id + '/').then((res) => {
           this.description = res.data.description
           this.start_date = res.data.start_date
+          this.conf_blocks = res.data.conf_blocks
           this.where = res.data.where
           this.socials = res.data.socials
           this.cloud_url = res.data.cloud_url
@@ -799,6 +880,7 @@
           this.links = res.data.files_conf
           this.key = res.data.key
           this.reg_opened = res.data.reg_fields
+          this.ex_users = res.data.ex_users
           this.short_description = res.data.main_description
         }).catch((error) => {
           this.all_responses.push('a')
