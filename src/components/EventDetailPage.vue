@@ -224,12 +224,10 @@
             <h4 class="registration-title" v-if="key === 'press'">
               {{ custom_registration.header }}
             </h4>
-            <h4 class="registration-description" v-if="key === 'pkb'">
-              {{ custom_registration_pkb.text }}
-            </h4>
-            <h4 class="registration-description" v-if="key === 'press' ">
-              {{ custom_registration.text }}
-            </h4>
+            <div v-html="custom_registration_pkb.text" class="registration-description" v-if="key === 'pkb'">
+            </div>
+            <div v-html="custom_registration_pkb.text" class="registration-description" v-if="key === 'press' ">
+            </div>
               <div v-if="custom_telegram.file !== null && custom_telegram.file !== ''  && custom_telegram.file !== undefined" class="col-12 no-padding text-center" style="margin-top: 20px">
                 <a download :href="back_files + custom_telegram.file"  target="_blank">Инструкция по регистрации через Телеграм</a>
               </div>
@@ -431,23 +429,23 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid" id="EventsMainPage" style="margin-top: 100px">
-      <div class="row no-margin justify-content-center">
-        <div class="col-sm-4" v-for="i,y in conferences" @click="toEvent(i.pk)">
-          <div class="event-archive-img" style="width: 100%">
-            <div class="event-archive-background-img" style="" v-bind:style="{ backgroundImage: 'url(' + backreq + i.poster + ')' }"></div>
-            <div class="event-archive-img-description">
-              <h4 class="event-archive-img-description-title">
-                {{i.name }}
-              </h4>
-              <p class="event-archive-img-description-date">
-                {{ i.start_date | HourDate}}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!--<div class="container-fluid" id="EventsMainPage" style="margin-top: 100px">-->
+      <!--<div class="row no-margin justify-content-center">-->
+        <!--<div class="col-sm-4" v-for="i,y in conferences" @click="toEvent(i.pk)">-->
+          <!--<div class="event-archive-img" style="width: 100%">-->
+            <!--<div class="event-archive-background-img" style="" v-bind:style="{ backgroundImage: 'url(' + backreq + i.poster + ')' }"></div>-->
+            <!--<div class="event-archive-img-description">-->
+              <!--<h4 class="event-archive-img-description-title">-->
+                <!--{{i.name }}-->
+              <!--</h4>-->
+              <!--<p class="event-archive-img-description-date">-->
+                <!--{{ i.start_date | HourDate}}-->
+              <!--</p>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
   </div>
 </template>
 
