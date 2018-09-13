@@ -185,7 +185,7 @@
             <div  v-html="i.user.description" class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right">
             </div>
           </div>
-          <h4 class="registration-title">ХЕАДЛАЙНЕРЫ</h4>
+          <h4 class="registration-title">ХЕДЛАЙНЕРЫ</h4>
           <div style="display: inline-block;width: 100%;margin-bottom: 40px"  v-for="i in ex_users" v-if="i.type === 1">
             <div class="ex_user_img-div" style="width: 20%;display: inline-block;">
               <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.user.photo + ')' }"  class="ex_user_img"></div>
