@@ -7,7 +7,7 @@
         <img width="150px" height="150px" src="../assets/images/bitmap.png" alt="">
       </div>
     </div>
-    <div v-if="false" id="MainPage">
+    <div id="MainPage">
       <div id="carousel" class="carousel slide Detail_cor" data-interval="false" style="margin-top: 100px">
         <div class="carousel-inner">
           <div ref="classes" class="carousel-item " id="test-bg" v-for="i,y in slider_data" :class="{active: y === 0,[y]: true}" v-bind:style="{ backgroundImage: 'url(' + backreq + i.poster + ')' }">
