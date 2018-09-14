@@ -7,6 +7,11 @@
         <img width="150px" height="150px" src="../assets/images/bitmap.png" alt="">
       </div>
     </div>
+    <!--<div class="left-bar" style="position: fixed;right: 0;top: 50%;transform: translateY(-50%)">-->
+      <!--<div class="circle-left" style="width: 13px;height: 13px;background-color: rgba(0,0,0,0.4);border-radius: 50%;">-->
+        <!--<div class="circle-description" style="position: absolute;left: 0;transform: translateX(-100%) ;top: 0;background-color: black;color: white;padding: 20px">СПИКЕРЫ</div>-->
+      <!--</div>-->
+    <!--</div>-->
     <div id="MainPage">
       <div id="carousel" class="carousel slide Detail_cor" data-interval="false" style="margin-top: 100px">
         <div class="carousel-inner">
@@ -177,6 +182,14 @@
           </div>
         </div>
         <div class="col-sm-10" v-if="ex_users.length !== 0" style="margin-top: 60px">
+          <h4 class="registration-title">МАСТЕР-КЛАССЫ</h4>
+          <div style="display: inline-block;width: 100%;margin-bottom: 40px" v-for="i in ex_users" v-if="i.type === 2">
+            <div class="ex_user_img-div" style="width: 20%;display: inline-block">
+              <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.photo + ')' }" class="ex_user_img"></div>
+            </div>
+            <div  v-html="i.description" class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right">
+            </div>
+          </div>
           <h4 class="registration-title">МОДЕРАТОРЫ</h4>
           <div style="display: inline-block;width: 100%;margin-bottom: 40px" v-for="i in ex_users" v-if="i.type === 0">
             <div class="ex_user_img-div" style="width: 20%;display: inline-block">
@@ -198,7 +211,7 @@
         <div class="col-sm-10">
           <div class="row no-margin justify-content-center" v-if="speakers.length !== 0">
             <h4 class="speaker-title">
-              Спикеры
+              СПИКЕРЫ
             </h4>
             <div class="speaker-card-wrapper" v-for="i in speakers" v-if="i.fio !== ''">
               <div class="speaker-card-img" v-bind:style="{ backgroundImage: 'url(' + backreq + i.photo + ')' }">
@@ -253,7 +266,7 @@
               <h4 class="registration-text">
                 Номер телефона
               </h4>
-              <input  class="registration-input" type="tel"  v-on:blur="$v.smi.phone.$touch()" v-model.trim="smi.phone" @input="$v.smi.phone.$touch()">
+              <input placeholder="77XXXXXXXXX"  class="registration-input" type="tel"  v-on:blur="$v.smi.phone.$touch()" v-model.trim="smi.phone" @input="$v.smi.phone.$touch()">
               <h4 class="registration-text">
                 Email
               </h4>
@@ -281,11 +294,11 @@
               <h4 class="registration-text">
                 ИИН
               </h4>
-              <input class="registration-input" type="text"  v-on:blur="$v.registration.iin.$touch()"  v-model.trim="registration.iin" @input="$v.registration.iin.$touch()">
+              <input  class="registration-input" type="text"  v-on:blur="$v.registration.iin.$touch()"  v-model.trim="registration.iin" @input="$v.registration.iin.$touch()">
               <h4 class="registration-text">
                 Номер телефона
               </h4>
-              <input  class="registration-input" type="tel"  v-on:blur="$v.registration.phone.$touch()" v-model.trim="registration.phone" @input="$v.registration.phone.$touch()">
+              <input placeholder="77XXXXXXXXX" class="registration-input" type="tel"  v-on:blur="$v.registration.phone.$touch()" v-model.trim="registration.phone" @input="$v.registration.phone.$touch()">
               <h4 class="registration-text">
                 Email
               </h4>
