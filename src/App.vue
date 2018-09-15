@@ -26,7 +26,7 @@
           <h4 >
              <span v-if="slider_data[0].notification.is_now === false">Не пропустите выступление</span> <span v-if="slider_data[0].notification.is_now === true">Сейчас выступает</span>
             <br>
-             <span class="speaker">{{slider_data[0].notification.speaker}}</span> <b>в {{slider_data[0].notification.time.substring(0,5)}}</b>
+             <span class="speaker">{{slider_data[0].notification.speaker[0]}}</span> <b>в {{slider_data[0].notification.time.substring(0,5)}}</b>
           </h4>
         <button class="btn btn-brand" @click="toEvent_detail(slider_data[0].notification.id_conf,slider_data[0].id)">Перейти</button>
       </div>
