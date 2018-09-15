@@ -7,11 +7,32 @@
         <img width="150px" height="150px" src="../assets/images/bitmap.png" alt="">
       </div>
     </div>
-    <!--<div class="left-bar" style="position: fixed;right: 0;top: 50%;transform: translateY(-50%)">-->
-      <!--<div class="circle-left" style="width: 13px;height: 13px;background-color: rgba(0,0,0,0.4);border-radius: 50%;">-->
-        <!--<div class="circle-description" style="position: absolute;left: 0;transform: translateX(-100%) ;top: 0;background-color: black;color: white;padding: 20px">СПИКЕРЫ</div>-->
-      <!--</div>-->
-    <!--</div>-->
+    <div class="left-bar" style="position: fixed;right: 10px;top: 50%;transform: translateY(-50%);z-index: 3">
+      <div class="circle-left" @click="toBlock('toSchedule')" style="width: 13px;height: 13px;background-color: rgba(0,0,0,0.4);border-radius: 50%;position: relative">
+        <div class="circle-description" style="position: absolute;left: 0;transform: translateX(-105%) ;top: -14px;background-color: black;color: white;padding: 10px;border-radius: 30px;white-space: nowrap">ПРОГРАММА</div>
+      </div>
+      <div class="circle-left" @click="toBlock('toMaster')" style="width: 13px;height: 13px;background-color: rgba(0,0,0,0.4);border-radius: 50%;position: relative">
+        <div class="circle-description" style="position: absolute;left: 0;transform: translateX(-105%) ;top: -14px;background-color: black;color: white;padding: 10px;border-radius: 30px;white-space: nowrap">МАСТЕР-КЛАССЫ</div>
+      </div>
+      <div class="circle-left" @click="toBlock('toModerator')" style="width: 13px;height: 13px;background-color: rgba(0,0,0,0.4);border-radius: 50%;position: relative">
+        <div class="circle-description" style="position: absolute;left: 0;transform: translateX(-105%) ;top: -14px;background-color: black;color: white;padding: 10px;border-radius: 30px">МОДЕРАТОРЫ</div>
+      </div>
+      <div class="circle-left" @click="toBlock('toHeadliner')" style="width: 13px;height: 13px;background-color: rgba(0,0,0,0.4);border-radius: 50%;position: relative">
+        <div class="circle-description" style="position: absolute;left: 0;transform: translateX(-105%) ;top: -14px;background-color: black;color: white;padding: 10px;border-radius: 30px">ХЕДЛАЙНЕР</div>
+      </div>
+      <div class="circle-left" @click="toBlock('toSpeaker')" style="width: 13px;height: 13px;background-color: rgba(0,0,0,0.4);border-radius: 50%;position: relative">
+        <div class="circle-description" style="position: absolute;left: 0;transform: translateX(-105%) ;top: -14px;background-color: black;color: white;padding: 10px;border-radius: 30px">СПИКЕРЫ</div>
+      </div>
+      <div class="circle-left" @click="toBlock('registration')" style="width: 13px;height: 13px;background-color: rgba(0,0,0,0.4);border-radius: 50%;position: relative">
+        <div class="circle-description" style="position: absolute;left: 0;transform: translateX(-105%) ;top: -14px;background-color: black;color: white;padding: 10px;border-radius: 30px">Регистрация</div>
+      </div>
+      <div class="circle-left" @click="toBlock('toPartner')" style="width: 13px;height: 13px;background-color: rgba(0,0,0,0.4);border-radius: 50%;position: relative">
+        <div class="circle-description" style="position: absolute;left: 0;transform: translateX(-105%) ;top: -14px;background-color: black;color: white;padding: 10px;border-radius: 30px;white-space: nowrap">Нас поддерживают</div>
+      </div>
+      <div class="circle-left" @click="toBlock('toCall')" style="width: 13px;height: 13px;background-color: rgba(0,0,0,0.4);border-radius: 50%;position: relative;z-index: 2">
+        <div class="circle-description" style="position: absolute;left: 0;transform: translateX(-105%) ;top: -14px;background-color: black;color: white;padding: 10px;border-radius: 30px;white-space: nowrap">Связаться с организаторами</div>
+      </div>
+    </div>
     <div id="MainPage">
       <div id="carousel" class="carousel slide Detail_cor" data-interval="false" style="margin-top: 100px">
         <div class="carousel-inner">
@@ -43,7 +64,7 @@
     </div>
     <div class="container">
       <div class="row no-margin justify-content-center">
-        <div class="col-sm-10">
+        <div id="toSchedule" class="col-sm-10">
           <h4 class="event-detail-title" style="">
             {{ description }}
           </h4>
@@ -181,35 +202,42 @@
             <div class="break_word" v-html="i.content.text"></div>
           </div>
         </div>
-        <div class="col-sm-10" v-if="ex_users.length !== 0" style="margin-top: 60px">
-          <h4 class="registration-title">МАСТЕР-КЛАССЫ</h4>
-          <div style="display: inline-block;width: 100%;margin-bottom: 40px" v-for="i in ex_users" v-if="i.type === 2">
-            <div class="ex_user_img-div" style="width: 20%;display: inline-block">
-              <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.photo + ')' }" class="ex_user_img"></div>
-            </div>
-            <div  v-html="i.description" class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right">
-            </div>
-          </div>
-          <h4 class="registration-title">МОДЕРАТОРЫ</h4>
-          <div style="display: inline-block;width: 100%;margin-bottom: 40px" v-for="i in ex_users" v-if="i.type === 0">
-            <div class="ex_user_img-div" style="width: 20%;display: inline-block">
-              <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.user.photo + ')' }" class="ex_user_img"></div>
-            </div>
-            <div  v-html="i.user.description" class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right">
+        <div class="col-sm-10"  v-if="ex_users.length !== 0" style="margin-top: 60px">
+          <div id="toMaster" style="display: inline-block">
+            <h4 class="registration-title">МАСТЕР-КЛАССЫ</h4>
+            <div style="display: inline-block;width: 100%;margin-bottom: 40px" v-for="i in ex_users" v-if="i.type === 2">
+              <div class="ex_user_img-div" style="width: 20%;display: inline-block">
+                <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.user.photo + ')' }" class="ex_user_img"></div>
+              </div>
+              <div  v-html="i.description" class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right;position: relative;z-index: -1">
+              </div>
             </div>
           </div>
-          <h4 class="registration-title">ХЕДЛАЙНЕРЫ</h4>
-          <div style="display: inline-block;width: 100%;margin-bottom: 40px"  v-for="i in ex_users" v-if="i.type === 1">
-            <div class="ex_user_img-div" style="width: 20%;display: inline-block;">
-              <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.user.photo + ')' }"  class="ex_user_img"></div>
+          <div id="toModerator" style="display: inline-block">
+            <h4  class="registration-title">МОДЕРАТОРЫ</h4>
+            <div style="display: inline-block;width: 100%;margin-bottom: 40px" v-for="i in ex_users" v-if="i.type === 0">
+              <div class="ex_user_img-div" style="width: 20%;display: inline-block">
+                <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.user.photo + ')' }" class="ex_user_img"></div>
+              </div>
+              <div  v-html="i.user.description" class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right;position: relative;z-index: -1">
+              </div>
             </div>
-            <div v-html="i.user.description"  class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right">
+          </div>
+          <div id="toHeadliner" style="display:inline-block;">
+            <h4 class="registration-title">ХЕДЛАЙНЕР</h4>
+            <div style="display: inline-block;width: 100%;margin-bottom: 40px"  v-for="i in ex_users" v-if="i.type === 1">
+              <div class="ex_user_img-div" style="width: 20%;display: inline-block;">
+                <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.user.photo + ')' }"  class="ex_user_img"></div>
+              </div>
+              <div v-html="i.user.description"  class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right;position: relative;z-index: -1">
 
+              </div>
             </div>
           </div>
+
         </div>
         <div class="col-sm-10">
-          <div class="row no-margin justify-content-center" v-if="speakers.length !== 0">
+          <div id="toSpeaker" class="row no-margin justify-content-center" v-if="speakers.length !== 0">
             <h4 class="speaker-title">
               СПИКЕРЫ
             </h4>
@@ -331,11 +359,11 @@
               <button class="btn btn-brand" :disabled="$v.registration.$invalid || image_response || oferta === false" @click="register(registration)">Зарегистрироваться</button>
             </div>
           </div>
-          <div class="row no-margin justify-content-center" v-if="partners.length !== 0">
+          <div id="toPartner" class="row no-margin justify-content-center" v-if="partners.length !== 0">
             <h4 class="registration-title">
               Нас поддерживают
             </h4>
-            <div class="col-sm-3 col-6" v-for="i in partners" style="margin-bottom: 50px">
+            <div class="col-sm-3 col-6 partners" v-for="i in partners" style="margin-bottom: 50px">
               <div class="row no-margin justify-content-center" style="height: 100%;align-items: center">
                 <a :href="i.url" :title="i.name">
                   <img width="100%" :src="backreq + i.logo" :alt="i.name" :title="i.name">
@@ -393,7 +421,7 @@
             </div>
 
           </div>
-          <div class="row no-margin justify-content-center" v-if="key === 'pkb'">
+          <div id="toCall" class="row no-margin justify-content-center" v-if="key === 'pkb'">
             <h4 class="registration-title">
               Связаться с организаторами
             </h4>
@@ -650,6 +678,9 @@
       }
     },
     methods: {
+      toBlock (id) {
+        document.getElementById(id).scrollIntoView();
+      },
       toReg() {
         document.getElementById('registration').scrollIntoView();
       },
