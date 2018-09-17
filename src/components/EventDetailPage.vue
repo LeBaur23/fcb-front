@@ -209,7 +209,7 @@
               <div class="ex_user_img-div" style="width: 20%;display: inline-block">
                 <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.user.photo + ')' }" class="ex_user_img"></div>
               </div>
-              <div  v-html="i.description" class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right;position: relative;z-index: -1">
+              <div  v-html="i.description" class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right;position: relative;">
               </div>
             </div>
           </div>
@@ -219,7 +219,7 @@
               <div class="ex_user_img-div" style="width: 20%;display: inline-block">
                 <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.user.photo + ')' }" class="ex_user_img"></div>
               </div>
-              <div  v-html="i.user.description" class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right;position: relative;z-index: -1">
+              <div  v-html="i.user.description" class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right;position: relative;">
               </div>
             </div>
           </div>
@@ -229,7 +229,7 @@
               <div class="ex_user_img-div" style="width: 20%;display: inline-block;">
                 <div v-bind:style="{ backgroundImage: 'url(' + backreq + i.user.photo + ')' }"  class="ex_user_img"></div>
               </div>
-              <div v-html="i.user.description"  class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right;position: relative;z-index: -1">
+              <div v-html="i.user.description"  class="break_word ex_user_text-div" style="width: 75%;display: inline-block;float: right;position: relative;">
 
               </div>
             </div>
@@ -500,6 +500,9 @@
   export default {
     data() {
       return {
+        cur_param_id: 0,
+        cur_param_year: 0,
+        cur_param_event: 0,
         main_page_loaded: false,
         slider_data: [],
         ex_users: [],
@@ -674,7 +677,10 @@
     },
     watch: {
       '$route': function(){
-        this.loadData()
+//        if (this.$route.params.detail_id !== this.cur_param_id || this.cur_param_year !== this.$route.params.archive_year || this.$route.params.event_id || this.cur_param_event) {
+          this.loadData()
+//        }
+
       }
     },
     methods: {
@@ -945,6 +951,9 @@
       }
     },
     beforeMount () {
+      this.cur_param_id = this.$route.params.detail_id
+      this.cur_param_year = this.$route.params.archive_year
+      this.cur_param_event = this.$route.params.event_id
       this.loadData()
     }
   }
