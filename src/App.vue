@@ -20,9 +20,9 @@
       </div>
       <div class="col-11 col-sm-6 col-md-6 col-lg-4 notification-inner" >
           <img src="./assets/images/notification.png" width="250px" alt="">
-          <h5>
-            Хей-хей
-          </h5>
+          <!--<h5>-->
+            <!--Хей-хей-->
+          <!--</h5>-->
           <h4 >
              <span v-if="slider_data[0].notification.is_now === false">Не пропустите выступление</span> <span v-if="slider_data[0].notification.is_now === true">Сейчас выступает</span>
             <br>
