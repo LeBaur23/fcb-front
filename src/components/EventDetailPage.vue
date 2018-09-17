@@ -954,6 +954,7 @@
       this.loadData()
       setTimeout(() => {
         for (var i = 0; i < document.getElementsByName('feedback').length; i++) {
+          document.getElementsByName('feedback')[i].setAttribute('class', 'btn btn-brand')
           document.getElementsByName('feedback')[i].onclick = function () {
             document.getElementById('toCall').scrollIntoView();
           }
