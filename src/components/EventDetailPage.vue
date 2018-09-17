@@ -951,10 +951,15 @@
       }
     },
     beforeMount () {
-      this.cur_param_id = this.$route.params.detail_id
-      this.cur_param_year = this.$route.params.archive_year
-      this.cur_param_event = this.$route.params.event_id
       this.loadData()
+      setTimeout(() => {
+        for (var i = 0; i < document.getElementsByName('feedback').length; i++) {
+          document.getElementsByName('feedback')[i].onclick = function () {
+            document.getElementById('toCall').scrollIntoView();
+          }
+        }
+
+      },1000)
     }
   }
 </script>
